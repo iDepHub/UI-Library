@@ -2658,7 +2658,7 @@ local function awaitKeyInput()
     ksTextBox.PlaceholderColor3   = T.TextDim
     ksTextBox.TextColor3          = T.Text
     ksTextBox.TextSize            = 14
-    ksTextBox.Font                = Enum.Font.GothamMono
+    ksTextBox.Font                = Enum.Font.Code
     ksTextBox.ClearTextOnFocus    = false
     ksTextBox.ZIndex              = 5
     ksTextBox.Parent              = ksInputBg
