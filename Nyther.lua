@@ -2344,6 +2344,64 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     return container
 end
 
+local function NewNote(parent, text, iconName)
+    local noteFrame = Instance.new("Frame")
+    noteFrame.Size              = UDim2.new(1, 0, 0, 0)
+    noteFrame.AutomaticSize     = Enum.AutomaticSize.Y
+    noteFrame.BackgroundColor3  = Color3.fromRGB(10, 10, 10)
+    noteFrame.BorderSizePixel   = 0
+    noteFrame.LayoutOrder       = nextOrd()
+    noteFrame.Parent            = parent
+    Corner(noteFrame, 4)
+
+    local noteStroke = Instance.new("UIStroke")
+    noteStroke.Color     = Color3.fromRGB(25, 25, 25)
+    noteStroke.Thickness = 1
+    noteStroke.Parent    = noteFrame
+
+    local notePad = Instance.new("UIPadding")
+    notePad.PaddingTop    = UDim.new(0, 8)
+    notePad.PaddingBottom = UDim.new(0, 8)
+    notePad.PaddingLeft   = UDim.new(0, 10)
+    notePad.PaddingRight  = UDim.new(0, 10)
+    notePad.Parent        = noteFrame
+
+    local iconOffset = 0
+    if iconName then
+        local asset = getLucideAsset(iconName)
+        if asset then
+            local img = Instance.new("ImageLabel")
+            img.Size                   = UDim2.new(0, 14, 0, 14)
+            img.Position               = UDim2.new(0, 0, 0, 8)
+            img.BackgroundTransparency = 1
+            img.Image                  = asset.Url
+            img.ImageRectSize          = asset.ImageRectSize
+            img.ImageRectOffset        = asset.ImageRectOffset
+            img.ScaleType              = Enum.ScaleType.Fit
+            img.ImageColor3            = T.Accent
+            img.Parent                 = noteFrame
+            _regAcc(img, "ImageColor3")
+            iconOffset = 20
+        end
+    end
+
+    local noteLbl = Instance.new("TextLabel")
+    noteLbl.Size                   = UDim2.new(1, -iconOffset, 0, 0)
+    noteLbl.Position               = UDim2.new(0, iconOffset, 0, 0)
+    noteLbl.AutomaticSize          = Enum.AutomaticSize.Y
+    noteLbl.BackgroundTransparency = 1
+    noteLbl.Text                   = text or ""
+    noteLbl.TextColor3             = Color3.fromRGB(160, 160, 160)
+    noteLbl.TextSize               = 11
+    noteLbl.Font                   = Enum.Font.Gotham
+    noteLbl.TextXAlignment         = Enum.TextXAlignment.Left
+    noteLbl.TextYAlignment         = Enum.TextYAlignment.Top
+    noteLbl.TextWrapped            = true
+    noteLbl.Parent                 = noteFrame
+
+    return noteFrame
+end
+
 local function createFloatButton(config)
     config = config or {}
 
@@ -2534,6 +2592,7 @@ return {
     NewLabel             = NewLabel,
     NewColorPicker       = NewColorPicker,
     NewBodyPartSelector  = NewBodyPartSelector,
+    NewNote              = NewNote,
     NewSearchPanel       = NewSearchPanel,
     SelectTab            = SelectTab,
     registeredTabs       = registeredTabs,
