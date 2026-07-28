@@ -2579,34 +2579,9 @@ local function createFloatButton(config)
     }
 end
 
-local function SetTitle(text)
-    if titleLabel then
-        titleLabel.Text = text
-    else
-        local newTitle = Instance.new("TextLabel")
-        newTitle.Size = UDim2.new(1, -92, 1, 0)
-        newTitle.Position = UDim2.new(0, 28, 0, 0)
-        newTitle.BackgroundTransparency = 1
-        newTitle.Text = text
-        newTitle.TextColor3 = T.Text
-        newTitle.TextSize = 14
-        newTitle.Font = Enum.Font.GothamSemibold
-        newTitle.TextXAlignment = Enum.TextXAlignment.Left
-        newTitle.ZIndex = 7
-        newTitle.Parent = topBar
-        titleLabel = newTitle
-    end
-end
-
-local function GetTitle()
-    return titleLabel and titleLabel.Text or ""
-end
-
 return {
     titleLabel           = titleLabel,
     setAccentColor       = setAccentColor,
-    SetTitle             = SetTitle,
-    GetTitle             = GetTitle,
     NewTab               = NewTab,
     NewSection           = NewSection,
     NewToggle            = NewToggle,
