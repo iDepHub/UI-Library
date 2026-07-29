@@ -2578,14 +2578,9 @@ local function createFloatButton(config)
         button    = btn,
     }
 end
-local function setTitle(newTitle)
-    if titleLabel then
-        titleLabel.Text = newTitle
-    end
-end
+
 return {
     titleLabel           = titleLabel,
-    setTitle             = setTitle,  -- <--- EXPORTADA
     setAccentColor       = setAccentColor,
     NewTab               = NewTab,
     NewSection           = NewSection,
