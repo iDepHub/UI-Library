@@ -370,7 +370,7 @@ end)
 
 local bodyFrame = Instance.new("Frame")
 bodyFrame.Size              = UDim2.new(1, 0, 1, -60)
-bodyFrame.Position          = UDim2.new(0, 0, 0, 38)
+bodyFrame.Position          = UDim2.new(0, 0, 0, 52)
 bodyFrame.BackgroundTransparency = 1
 bodyFrame.BorderSizePixel   = 0
 bodyFrame.Parent            = mainFrame
@@ -427,7 +427,7 @@ tabLayout.Padding   = UDim.new(0, 3)
 tabLayout.Parent    = sidebar
 
 local sidebarPad = Instance.new("UIPadding")
-sidebarPad.PaddingTop   = UDim.new(0, 8)
+sidebarPad.PaddingTop   = UDim.new(0, 4)
 sidebarPad.PaddingLeft  = UDim.new(0, 6)
 sidebarPad.PaddingRight = UDim.new(0, 6)
 sidebarPad.Parent       = sidebar
@@ -1979,15 +1979,16 @@ task.spawn(function()
     while mainFrame and mainFrame.Parent do
         local dt = game:GetService("RunService").RenderStepped:Wait()
         if LogoWrap and LogoWrap.Parent then
-            LogoWrap.Rotation = (LogoWrap.Rotation + dt * 40) % 360
+            LogoWrap.Rotation = (LogoWrap.Rotation + dt * 24) % 360
         end
         if scanBar and scanBar.Parent then
-            local totalWidth = topBar.AbsoluteSize.X
-            local progress = (os.clock() * 100) % totalWidth
+            local scanWidth = scanBar.AbsoluteSize.X
+            local topBarWidth = topBar.AbsoluteSize.X
+            local progress = ((os.clock() * 60) % (topBarWidth + scanWidth)) - scanWidth
             scanBar.Position = UDim2.new(0, progress, 1, -1)
         end
         if statusDot and statusDot.Parent then
-            statusDot.BackgroundTransparency = math.abs(math.sin(os.clock() * 2)) * 0.4
+            statusDot.BackgroundTransparency = math.abs(math.sin(os.clock() * 3.2)) * 0.45
         end
     end
 end)
