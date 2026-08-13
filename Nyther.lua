@@ -1,7 +1,6 @@
 local TweenService     = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Players          = game:GetService("Players")
-local RunService       = game:GetService("RunService")
 local LocalPlayer      = Players.LocalPlayer
 
 local Lucide = nil
@@ -55,25 +54,6 @@ local function setAccentColor(color)
     for _, fn in ipairs(_customAccentCallbacks) do pcall(fn) end
 end
 
-local function Corner(inst, r)
-    local c = Instance.new("UICorner")
-    c.CornerRadius = UDim.new(0, r or 4)
-    c.Parent = inst
-    return c
-end
-
-local function SafeTween(instance, tweenInfo, properties)
-    if not instance or not instance.Parent then return nil end
-    local ok, tween = pcall(function()
-        return TweenService:Create(instance, tweenInfo, properties)
-    end)
-    if ok and tween then
-        tween:Play()
-        return tween
-    end
-    return nil
-end
-
 local isMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
 
 local playerGui = LocalPlayer:WaitForChild("PlayerGui")
@@ -104,22 +84,6 @@ mainStroke.Thickness = 1.5
 mainStroke.Parent    = mainFrame
 _regAcc(mainStroke, "Color")
 
-local strokeGrad = Instance.new("UIGradient")
-strokeGrad.Rotation = 90
-strokeGrad.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, T.Accent),
-    ColorSequenceKeypoint.new(0.4, T.Border),
-    ColorSequenceKeypoint.new(1, T.Border),
-})
-strokeGrad.Parent = mainStroke
-table.insert(_customAccentCallbacks, function()
-    strokeGrad.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, T.Accent),
-        ColorSequenceKeypoint.new(0.4, T.Border),
-        ColorSequenceKeypoint.new(1, T.Border),
-    })
-end)
-
 local topBar = Instance.new("Frame")
 topBar.Name             = "TopBar"
 topBar.Size             = UDim2.new(1, 0, 0, 38)
@@ -149,114 +113,42 @@ topLine.ZIndex           = 6
 topLine.Parent           = topBar
 _regAcc(topLine, "BackgroundColor3")
 
-local LogoWrap = Instance.new("Frame")
-LogoWrap.Size = UDim2.new(0, 16, 0, 16)
-LogoWrap.Position = UDim2.new(0, 14, 0.5, -8)
-LogoWrap.BackgroundTransparency = 1
-LogoWrap.ZIndex = 7
-LogoWrap.Parent = topBar
-
-local Logo = Instance.new("Frame")
-Logo.Size = UDim2.new(1, 0, 1, 0)
-Logo.BorderSizePixel = 0
-Logo.BackgroundColor3 = T.Accent
-Logo.Parent = LogoWrap
-Corner(Logo, 3)
-_regAcc(Logo, "BackgroundColor3")
+local dot = Instance.new("Frame")
+dot.Size             = UDim2.new(0, 8, 0, 8)
+dot.Position         = UDim2.new(0, 12, 0.5, -4)
+dot.BackgroundColor3 = T.Accent
+dot.BorderSizePixel  = 0
+dot.ZIndex           = 7
+dot.Parent           = topBar
+Instance.new("UICorner", dot).CornerRadius = UDim.new(1, 0)
+_regAcc(dot, "BackgroundColor3")
 
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size               = UDim2.new(1, -92, 1, 0)
-titleLabel.Position           = UDim2.new(0, 40, 0, 0)
+titleLabel.Position           = UDim2.new(0, 28, 0, 0)
 titleLabel.BackgroundTransparency = 1
-titleLabel.Text               = "EMBER - MADE BY FLAME"
+titleLabel.Text               = "UI Library - Nyther"
 titleLabel.TextColor3         = T.Text
-titleLabel.TextSize           = 16
-titleLabel.Font               = Enum.Font.GothamBlack
+titleLabel.TextSize           = 14
+titleLabel.Font               = Enum.Font.GothamSemibold
 titleLabel.TextXAlignment     = Enum.TextXAlignment.Left
-titleLabel.TextYAlignment     = Enum.TextYAlignment.Center
 titleLabel.ZIndex             = 7
 titleLabel.Parent             = topBar
-
-local statusPill = Instance.new("Frame")
-statusPill.Size = UDim2.new(0, 110, 0, 20)
-statusPill.Position = UDim2.new(1, -128, 0.5, -10)
-statusPill.BackgroundColor3 = T.Accent
-statusPill.BorderSizePixel = 0
-statusPill.ZIndex = 7
-statusPill.Parent = topBar
-Corner(statusPill, 10)
-_regAcc(statusPill, "BackgroundColor3")
-
-local pillStroke = Instance.new("UIStroke")
-pillStroke.Color = T.Border
-pillStroke.Thickness = 1
-pillStroke.Parent = statusPill
-_regAcc(pillStroke, "Color")
-
-local statusDot = Instance.new("Frame")
-statusDot.Size = UDim2.new(0, 5, 0, 5)
-statusDot.Position = UDim2.new(0, 9, 0.5, -2.5)
-statusDot.BackgroundColor3 = Color3.fromRGB(128, 224, 134)
-statusDot.BorderSizePixel = 0
-statusDot.ZIndex = 8
-statusDot.Parent = statusPill
-Corner(statusDot, 3)
-
-local statusText = Instance.new("TextLabel")
-statusText.Size = UDim2.new(1, -20, 1, 0)
-statusText.Position = UDim2.new(0, 18, 0, 0)
-statusText.BackgroundTransparency = 1
-statusText.Text = "INTERFACE"
-statusText.TextColor3 = T.Header
-statusText.TextSize = 9
-statusText.Font = Enum.Font.GothamSemibold
-statusText.TextXAlignment = Enum.TextXAlignment.Left
-statusText.ZIndex = 8
-statusText.Parent = statusPill
-
-local scanBar = Instance.new("Frame")
-scanBar.Size = UDim2.new(0, 80, 0, 2)
-scanBar.Position = UDim2.new(0, 0, 1, -2)
-scanBar.BackgroundColor3 = T.Accent
-scanBar.BorderSizePixel = 0
-scanBar.ZIndex = 6
-scanBar.Parent = topBar
-_regAcc(scanBar, "BackgroundColor3")
-
-local scanGrad = Instance.new("UIGradient")
-scanGrad.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, T.Accent),
-    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 178, 72)),
-    ColorSequenceKeypoint.new(1, T.Accent),
-})
-scanGrad.Transparency = NumberSequence.new({
-    NumberSequenceKeypoint.new(0, 1),
-    NumberSequenceKeypoint.new(0.5, 0),
-    NumberSequenceKeypoint.new(1, 1),
-})
-scanGrad.Parent = scanBar
 
 local closeBtn = Instance.new("TextButton")
 closeBtn.Size             = UDim2.new(0, 26, 0, 26)
 closeBtn.Position         = UDim2.new(1, -33, 0.5, -13)
 closeBtn.BackgroundColor3 = T.AccentDark
 closeBtn.BorderSizePixel  = 0
-closeBtn.Text             = "✕"
+closeBtn.Text             = "X"
 closeBtn.TextColor3       = Color3.fromRGB(255, 255, 255)
-closeBtn.TextSize         = 15
-closeBtn.Font             = Enum.Font.GothamBold
+closeBtn.TextSize         = 14
+closeBtn.Font             = Enum.Font.GothamSemibold
 closeBtn.AutoButtonColor  = false
 closeBtn.ZIndex           = 8
 closeBtn.Parent           = topBar
-Corner(closeBtn, 4)
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 4)
 _regDark(closeBtn, "BackgroundColor3")
-
-closeBtn.MouseEnter:Connect(function()
-    SafeTween(closeBtn, TweenInfo.new(0.1), {TextColor3 = Color3.fromRGB(255, 64, 42)})
-end)
-closeBtn.MouseLeave:Connect(function()
-    SafeTween(closeBtn, TweenInfo.new(0.1), {TextColor3 = Color3.fromRGB(255, 255, 255)})
-end)
 
 local eyeGui      = nil
 local eyeFixed    = false
@@ -416,6 +308,12 @@ end
 closeBtn.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
     createEyeIcon()
+end)
+closeBtn.MouseEnter:Connect(function()
+    TweenService:Create(closeBtn, TweenInfo.new(0.1), {BackgroundColor3 = T.Accent}):Play()
+end)
+closeBtn.MouseLeave:Connect(function()
+    TweenService:Create(closeBtn, TweenInfo.new(0.1), {BackgroundColor3 = T.AccentDark}):Play()
 end)
 
 local bodyFrame = Instance.new("Frame")
@@ -648,6 +546,10 @@ local function Stroke(parent, color, thickness)
     local s = Instance.new("UIStroke")
     s.Color = color or T.BorderDim; s.Thickness = thickness or 1; s.Parent = parent
     return s
+end
+
+local function Corner(parent, r)
+    Instance.new("UICorner", parent).CornerRadius = UDim.new(0, r or 4)
 end
 
 local function ElemBase(parent, h)
@@ -2021,22 +1923,6 @@ local function NewSearchPanel(searchTabData, opts)
     searchTabData.onTabSelected = function() BuildList(searchBox.Text) end
 end
 
-local function clampPosition()
-    if not mainFrame or not mainFrame.Parent then return end
-    local vpSize = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
-    local absSize = mainFrame.AbsoluteSize
-    local pos = mainFrame.Position
-    local xMin = 0
-    local yMin = 0
-    local xMax = math.max(0, vpSize.X - absSize.X)
-    local yMax = math.max(0, vpSize.Y - absSize.Y)
-    local newX = math.clamp(pos.X.Offset, xMin, xMax)
-    local newY = math.clamp(pos.Y.Offset, yMin, yMax)
-    if pos.X.Offset ~= newX or pos.Y.Offset ~= newY then
-        mainFrame.Position = UDim2.new(0, newX, 0, newY)
-    end
-end
-
 local isDragging, dragStart, frameStart = false, nil, nil
 
 topBar.InputBegan:Connect(function(inp)
@@ -2056,16 +1942,12 @@ end)
 UserInputService.InputChanged:Connect(function(inp)
     if isDragging and (inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch) then
         local delta = inp.Position - dragStart
-        local newPos = UDim2.new(
+        mainFrame.Position = UDim2.new(
             frameStart.X.Scale, frameStart.X.Offset + delta.X,
             frameStart.Y.Scale, frameStart.Y.Offset + delta.Y
         )
-        mainFrame.Position = newPos
-        clampPosition()
     end
 end)
-
-RunService.RenderStepped:Connect(clampPosition)
 
 local _notifGui = Instance.new("ScreenGui")
 _notifGui.Name            = "iDepHubNotifs"
@@ -2075,6 +1957,7 @@ _notifGui.DisplayOrder    = 1000
 _notifGui.Parent          = playerGui
 
 local _notifOffset = 0
+local _notifSlots  = {}
 
 local function sendNotification(title, text, duration)
     local slotY = -80 - (_notifOffset * 70)
@@ -2695,39 +2578,6 @@ local function createFloatButton(config)
         button    = btn,
     }
 end
-
-local originalSize = mainFrame.Size
-mainFrame.Size = UDim2.new(0, 0, 0, 0)
-SafeTween(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-    Size = originalSize,
-    Position = UDim2.new(0.5, 0, 0.5, 0)
-})
-
-task.spawn(function()
-    while topBar and topBar.Parent do
-        SafeTween(scanBar, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(1, -90, 1, -2) })
-        task.wait(2.6)
-        if not topBar or not topBar.Parent then break end
-        SafeTween(scanBar, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(0, 0, 1, -2) })
-        task.wait(2.6)
-    end
-end)
-
-task.spawn(function()
-    while statusDot and statusDot.Parent do
-        SafeTween(statusDot, TweenInfo.new(0.7, Enum.EasingStyle.Sine), { BackgroundTransparency = 0.55 })
-        task.wait(0.7)
-        if not statusDot or not statusDot.Parent then break end
-        SafeTween(statusDot, TweenInfo.new(0.7, Enum.EasingStyle.Sine), { BackgroundTransparency = 0 })
-        task.wait(0.7)
-    end
-end)
-
-RunService.RenderStepped:Connect(function(dt)
-    if LogoWrap and LogoWrap.Parent then
-        LogoWrap.Rotation = (LogoWrap.Rotation + dt * 24) % 360
-    end
-end)
 
 return {
     titleLabel           = titleLabel,
