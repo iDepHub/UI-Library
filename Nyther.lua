@@ -66,7 +66,7 @@ screenGui.Parent         = playerGui
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Name              = "MainFrame"
-mainFrame.Size              = UDim2.new(0, 446, 0, 394)
+mainFrame.Size              = UDim2.new(0, 446, 0, 402)
 mainFrame.AnchorPoint       = Vector2.new(0.5, 0.5)
 mainFrame.Position          = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.BackgroundColor3  = T.Bg
@@ -86,7 +86,7 @@ _regAcc(mainStroke, "Color")
 
 local topBar = Instance.new("Frame")
 topBar.Name             = "TopBar"
-topBar.Size             = UDim2.new(1, 0, 0, 52)
+topBar.Size             = UDim2.new(1, 0, 0, 60)
 topBar.BackgroundColor3 = T.Header
 topBar.BorderSizePixel  = 0
 topBar.ZIndex           = 5
@@ -179,13 +179,26 @@ statusText.ZIndex = 8
 statusText.Parent = statusPill
 
 local scanBar = Instance.new("Frame")
-scanBar.Size = UDim2.new(0, 70, 0, 1)
-scanBar.Position = UDim2.new(0, 0, 1, -1)
+scanBar.Size = UDim2.new(0, 80, 0, 2)
+scanBar.Position = UDim2.new(0, 0, 1, -2)
 scanBar.BackgroundColor3 = T.Accent
 scanBar.BorderSizePixel = 0
 scanBar.ZIndex = 6
 scanBar.Parent = topBar
 _regAcc(scanBar, "BackgroundColor3")
+
+local scanGrad = Instance.new("UIGradient")
+scanGrad.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, T.Accent),
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 178, 72)),
+    ColorSequenceKeypoint.new(1, T.Accent),
+})
+scanGrad.Transparency = NumberSequence.new({
+    NumberSequenceKeypoint.new(0, 1),
+    NumberSequenceKeypoint.new(0.5, 0),
+    NumberSequenceKeypoint.new(1, 1),
+})
+scanGrad.Parent = scanBar
 
 local closeBtn = Instance.new("TextButton")
 closeBtn.Size             = UDim2.new(0, 26, 0, 26)
@@ -370,7 +383,7 @@ end)
 
 local bodyFrame = Instance.new("Frame")
 bodyFrame.Size              = UDim2.new(1, 0, 1, -60)
-bodyFrame.Position          = UDim2.new(0, 0, 0, 52)
+bodyFrame.Position          = UDim2.new(0, 0, 0, 60)
 bodyFrame.BackgroundTransparency = 1
 bodyFrame.BorderSizePixel   = 0
 bodyFrame.Parent            = mainFrame
@@ -1976,20 +1989,51 @@ local function NewSearchPanel(searchTabData, opts)
 end
 
 task.spawn(function()
-    while mainFrame and mainFrame.Parent do
-        local dt = game:GetService("RunService").RenderStepped:Wait()
-        if LogoWrap and LogoWrap.Parent then
-            LogoWrap.Rotation = (LogoWrap.Rotation + dt * 24) % 360
+    while topBar and topBar.Parent do
+        local tweenInfo = TweenInfo.new(
+            3,
+            Enum.EasingStyle.Linear,
+            Enum.EasingDirection.InOut
+        )
+        if LogoWrap then
+            local tween = TweenService:Create(LogoWrap, tweenInfo, {Rotation = LogoWrap.Rotation + 360})
+            if tween then tween:Play() end
         end
-        if scanBar and scanBar.Parent then
-            local scanWidth = scanBar.AbsoluteSize.X
-            local topBarWidth = topBar.AbsoluteSize.X
-            local progress = ((os.clock() * 60) % (topBarWidth + scanWidth)) - scanWidth
-            scanBar.Position = UDim2.new(0, progress, 1, -1)
+        task.wait(3)
+    end
+end)
+
+task.spawn(function()
+    while statusDot and statusDot.Parent do
+        local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+        if statusDot then
+            local tween = TweenService:Create(statusDot, tweenInfo, {BackgroundTransparency = 0.5})
+            if tween then tween:Play() end
         end
+        task.wait(0.6)
         if statusDot and statusDot.Parent then
-            statusDot.BackgroundTransparency = math.abs(math.sin(os.clock() * 3.2)) * 0.45
+            local tweenInfo2 = TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+            local tween2 = TweenService:Create(statusDot, tweenInfo2, {BackgroundTransparency = 0})
+            if tween2 then tween2:Play() end
         end
+        task.wait(0.6)
+    end
+end)
+
+task.spawn(function()
+    while scanBar and scanBar.Parent do
+        local tweenInfo = TweenInfo.new(2.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+        if scanBar then
+            local tween = TweenService:Create(scanBar, tweenInfo, {Position = UDim2.new(1, -90, 1, -2)})
+            if tween then tween:Play() end
+        end
+        task.wait(2.4)
+        if scanBar and scanBar.Parent then
+            local tweenInfo2 = TweenInfo.new(2.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
+            local tween2 = TweenService:Create(scanBar, tweenInfo2, {Position = UDim2.new(0, 0, 1, -2)})
+            if tween2 then tween2:Play() end
+        end
+        task.wait(2.4)
     end
 end)
 
