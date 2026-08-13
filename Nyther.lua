@@ -84,15 +84,21 @@ mainStroke.Thickness = 1.5
 mainStroke.Parent    = mainFrame
 _regAcc(mainStroke, "Color")
 
-
--- ═══════════════════════════ IMPROVED TOP BAR ═══════════════════════════
 local topBar = Instance.new("Frame")
 topBar.Name             = "TopBar"
-topBar.Size             = UDim2.new(1, 0, 0, 60)
+topBar.Size             = UDim2.new(1, 0, 0, 52)
 topBar.BackgroundColor3 = T.Header
 topBar.BorderSizePixel  = 0
 topBar.ZIndex           = 5
 topBar.Parent           = mainFrame
+
+local topBarFill = Instance.new("Frame")
+topBarFill.Size             = UDim2.new(1, 0, 0.6, 0)
+topBarFill.Position         = UDim2.new(0, 0, 0.4, 0)
+topBarFill.BackgroundColor3 = T.Header
+topBarFill.BorderSizePixel  = 0
+topBarFill.ZIndex           = 5
+topBarFill.Parent           = topBar
 
 local topBarCorner = Instance.new("UICorner")
 topBarCorner.CornerRadius = UDim.new(0, 6)
@@ -107,12 +113,11 @@ topLine.ZIndex           = 6
 topLine.Parent           = topBar
 _regAcc(topLine, "BackgroundColor3")
 
--- ═══════════════════════════ ROTATING LOGO ═══════════════════════════
 local LogoWrap = Instance.new("Frame")
-LogoWrap.Size = UDim2.new(0, 18, 0, 18)
-LogoWrap.Position = UDim2.new(0, 14, 0, 21)
-LogoWrap.Rotation = 45
+LogoWrap.Size = UDim2.new(0, 16, 0, 16)
+LogoWrap.Position = UDim2.new(0, 14, 0.5, -8)
 LogoWrap.BackgroundTransparency = 1
+LogoWrap.ZIndex = 7
 LogoWrap.Parent = topBar
 
 local Logo = Instance.new("Frame")
@@ -120,105 +125,74 @@ Logo.Size = UDim2.new(1, 0, 1, 0)
 Logo.BorderSizePixel = 0
 Logo.BackgroundColor3 = T.Accent
 Logo.Parent = LogoWrap
-Instance.new("UICorner", Logo).CornerRadius = UDim.new(0, 4)
+Instance.new("UICorner", Logo).CornerRadius = UDim.new(0, 3)
 _regAcc(Logo, "BackgroundColor3")
 
-local LogoCore = Instance.new("Frame")
-LogoCore.Size = UDim2.new(0, 8, 0, 8)
-LogoCore.Position = UDim2.new(0.5, -4, 0.5, -4)
-LogoCore.BackgroundColor3 = T.Header
-LogoCore.BorderSizePixel = 0
-LogoCore.Parent = Logo
-Instance.new("UICorner", LogoCore).CornerRadius = UDim.new(0, 2)
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size               = UDim2.new(1, -92, 1, 0)
+titleLabel.Position           = UDim2.new(0, 40, 0, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.Text               = "NYTHER"
+titleLabel.TextColor3         = T.Text
+titleLabel.TextSize           = 18
+titleLabel.Font               = Enum.Font.GothamBlack
+titleLabel.TextXAlignment     = Enum.TextXAlignment.Left
+titleLabel.TextYAlignment     = Enum.TextYAlignment.Center
+titleLabel.ZIndex             = 7
+titleLabel.Parent             = topBar
 
--- ═══════════════════════════ TITLE & SUBTITLE ═══════════════════════════
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(0, 250, 0, 18)
-Title.Position = UDim2.new(0, 46, 0, 10)
-Title.BackgroundTransparency = 1
-Title.Text = "NYTHER"
-Title.TextColor3 = T.Text
-Title.TextSize = 16
-Title.Font = Enum.Font.GothamBlack
-Title.TextXAlignment = Enum.TextXAlignment.Left
-Title.TextTruncate = Enum.TextTruncate.AtEnd
-Title.Parent = topBar
+local statusPill = Instance.new("Frame")
+statusPill.Size = UDim2.new(0, 110, 0, 20)
+statusPill.Position = UDim2.new(1, -128, 0.5, -10)
+statusPill.BackgroundColor3 = T.Accent
+statusPill.BorderSizePixel = 0
+statusPill.ZIndex = 7
+statusPill.Parent = topBar
+Instance.new("UICorner", statusPill).CornerRadius = UDim.new(0, 10)
+_regAcc(statusPill, "BackgroundColor3")
 
-local Subtitle = Instance.new("TextLabel")
-Subtitle.Size = UDim2.new(0, 240, 0, 11)
-Subtitle.Position = UDim2.new(0, 46, 0, 32)
-Subtitle.BackgroundTransparency = 1
-Subtitle.Text = "Modern UI Library - Enhanced Interface"
-Subtitle.TextColor3 = T.TextDim
-Subtitle.TextSize = 8
-Subtitle.Font = Enum.Font.Code
-Subtitle.TextXAlignment = Enum.TextXAlignment.Left
-Subtitle.Parent = topBar
+local pillStroke = Instance.new("UIStroke")
+pillStroke.Color = T.Border
+pillStroke.Thickness = 1
+pillStroke.Parent = statusPill
+_regAcc(pillStroke, "Color")
 
--- ═══════════════════════════ SYSTEM ACTIVE PILL ═══════════════════════════
-local Pill = Instance.new("Frame")
-Pill.Size = UDim2.new(0, 126, 0, 22)
-Pill.Position = UDim2.new(1, -146, 0, 19)
-Pill.BackgroundColor3 = T.Accent
-Pill.BorderSizePixel = 0
-Pill.Parent = topBar
-Instance.new("UICorner", Pill).CornerRadius = UDim.new(0, 11)
-_regAcc(Pill, "BackgroundColor3")
+local statusDot = Instance.new("Frame")
+statusDot.Size = UDim2.new(0, 5, 0, 5)
+statusDot.Position = UDim2.new(0, 9, 0.5, -2.5)
+statusDot.BackgroundColor3 = Color3.fromRGB(128, 224, 134)
+statusDot.BorderSizePixel = 0
+statusDot.ZIndex = 8
+statusDot.Parent = statusPill
+Instance.new("UICorner", statusDot).CornerRadius = UDim.new(1, 0)
 
-local PillStroke = Instance.new("UIStroke")
-PillStroke.Color = T.Border
-PillStroke.Thickness = 1
-PillStroke.Parent = Pill
-_regAcc(PillStroke, "Color")
+local statusText = Instance.new("TextLabel")
+statusText.Size = UDim2.new(1, -20, 1, 0)
+statusText.Position = UDim2.new(0, 18, 0, 0)
+statusText.BackgroundTransparency = 1
+statusText.Text = "SYSTEM ACTIVE"
+statusText.TextColor3 = T.Header
+statusText.TextSize = 9
+statusText.Font = Enum.Font.GothamSemibold
+statusText.TextXAlignment = Enum.TextXAlignment.Left
+statusText.ZIndex = 8
+statusText.Parent = statusPill
 
-local PillDot = Instance.new("Frame")
-PillDot.Size = UDim2.new(0, 6, 0, 6)
-PillDot.Position = UDim2.new(0, 10, 0.5, -3)
-PillDot.BackgroundColor3 = Color3.fromRGB(128, 224, 134)
-PillDot.BorderSizePixel = 0
-PillDot.Parent = Pill
-Instance.new("UICorner", PillDot).CornerRadius = UDim.new(1, 0)
+local scanBar = Instance.new("Frame")
+scanBar.Size = UDim2.new(0, 70, 0, 1)
+scanBar.Position = UDim2.new(0, 0, 1, -1)
+scanBar.BackgroundColor3 = T.Accent
+scanBar.BorderSizePixel = 0
+scanBar.ZIndex = 6
+scanBar.Parent = topBar
+_regAcc(scanBar, "BackgroundColor3")
 
-local PillText = Instance.new("TextLabel")
-PillText.Size = UDim2.new(1, -24, 1, 0)
-PillText.Position = UDim2.new(0, 22, 0, 0)
-PillText.BackgroundTransparency = 1
-PillText.Text = "SYSTEM ACTIVE"
-PillText.TextColor3 = T.Header
-PillText.TextSize = 9
-PillText.Font = Enum.Font.Code
-PillText.TextXAlignment = Enum.TextXAlignment.Left
-PillText.Parent = Pill
-
--- ═══════════════════════════ SCANNING ANIMATION ═══════════════════════════
-local Scan = Instance.new("Frame")
-Scan.Size = UDim2.new(0, 80, 0, 2)
-Scan.Position = UDim2.new(0, 0, 1, -2)
-Scan.BorderSizePixel = 0
-Scan.BackgroundColor3 = T.Accent
-Scan.Parent = topBar
-
-local ScanGrad = Instance.new("UIGradient")
-ScanGrad.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, T.Accent),
-    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 178, 72)),
-    ColorSequenceKeypoint.new(1, T.Accent),
-})
-ScanGrad.Transparency = NumberSequence.new({
-    NumberSequenceKeypoint.new(0, 1),
-    NumberSequenceKeypoint.new(0.5, 0),
-    NumberSequenceKeypoint.new(1, 1),
-})
-ScanGrad.Parent = Scan
-_regAcc(Scan, "BackgroundColor3")
-
--- ═══════════════════════════ CLOSE BUTTON ═══════════════════════════
 local closeBtn = Instance.new("TextButton")
 closeBtn.Size             = UDim2.new(0, 26, 0, 26)
 closeBtn.Position         = UDim2.new(1, -33, 0.5, -13)
 closeBtn.BackgroundColor3 = T.AccentDark
 closeBtn.BorderSizePixel  = 0
-closeBtn.Text             = "✕"
+closeBtn.Text             = "X"
 closeBtn.TextColor3       = Color3.fromRGB(255, 255, 255)
 closeBtn.TextSize         = 14
 closeBtn.Font             = Enum.Font.GothamSemibold
@@ -226,8 +200,6 @@ closeBtn.AutoButtonColor  = false
 closeBtn.ZIndex           = 8
 closeBtn.Parent           = topBar
 Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 4)
-_regDark(closeBtn, "BackgroundColor3")
-
 _regDark(closeBtn, "BackgroundColor3")
 
 local eyeGui      = nil
@@ -397,8 +369,8 @@ closeBtn.MouseLeave:Connect(function()
 end)
 
 local bodyFrame = Instance.new("Frame")
-bodyFrame.Size              = UDim2.new(1, 0, 1, -82)
-bodyFrame.Position          = UDim2.new(0, 0, 0, 60)
+bodyFrame.Size              = UDim2.new(1, 0, 1, -60)
+bodyFrame.Position          = UDim2.new(0, 0, 0, 38)
 bodyFrame.BackgroundTransparency = 1
 bodyFrame.BorderSizePixel   = 0
 bodyFrame.Parent            = mainFrame
@@ -2003,6 +1975,24 @@ local function NewSearchPanel(searchTabData, opts)
     searchTabData.onTabSelected = function() BuildList(searchBox.Text) end
 end
 
+task.spawn(function()
+    while mainFrame and mainFrame.Parent do
+        local dt = game:GetService("RunService").RenderStepped:Wait()
+        if LogoWrap and LogoWrap.Parent then
+            LogoWrap.Rotation = (LogoWrap.Rotation + dt * 40) % 360
+        end
+        if scanBar and scanBar.Parent then
+            local scanWidth = scanBar.AbsoluteSize.X
+            local totalWidth = topBar.AbsoluteSize.X
+            local progress = (os.clock() * 100) % totalWidth
+            scanBar.Position = UDim2.new(0, progress, 1, -1)
+        end
+        if statusDot and statusDot.Parent then
+            statusDot.BackgroundTransparency = math.abs(math.sin(os.clock() * 2)) * 0.4
+        end
+    end
+end)
+
 local isDragging, dragStart, frameStart = false, nil, nil
 
 topBar.InputBegan:Connect(function(inp)
@@ -2658,60 +2648,6 @@ local function createFloatButton(config)
         button    = btn,
     }
 end
-
-
--- ═══════════════════════════ INTERFACE ANIMATIONS ═══════════════════════════
--- Logo rotation animation
-task.spawn(function()
-    while topBar and topBar.Parent do
-        local tweenInfo = TweenInfo.new(
-            3,
-            Enum.EasingStyle.Linear,
-            Enum.EasingDirection.InOut
-        )
-        if LogoWrap then
-            local tween = TweenService:Create(LogoWrap, tweenInfo, {Rotation = LogoWrap.Rotation + 360})
-            if tween then tween:Play() end
-        end
-        task.wait(3)
-    end
-end)
-
--- Pulsing pill dot animation
-task.spawn(function()
-    while PillDot and PillDot.Parent do
-        local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
-        if PillDot then
-            local tween = TweenService:Create(PillDot, tweenInfo, {BackgroundTransparency = 0.5})
-            if tween then tween:Play() end
-        end
-        task.wait(0.6)
-        if PillDot and PillDot.Parent then
-            local tweenInfo2 = TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
-            local tween2 = TweenService:Create(PillDot, tweenInfo2, {BackgroundTransparency = 0})
-            if tween2 then tween2:Play() end
-        end
-        task.wait(0.6)
-    end
-end)
-
--- Scanning animation
-task.spawn(function()
-    while Scan and Scan.Parent do
-        local tweenInfo = TweenInfo.new(2.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
-        if Scan then
-            local tween = TweenService:Create(Scan, tweenInfo, {Position = UDim2.new(1, -90, 1, -2)})
-            if tween then tween:Play() end
-        end
-        task.wait(2.4)
-        if Scan and Scan.Parent then
-            local tweenInfo2 = TweenInfo.new(2.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
-            local tween2 = TweenService:Create(Scan, tweenInfo2, {Position = UDim2.new(0, 0, 1, -2)})
-            if tween2 then tween2:Play() end
-        end
-        task.wait(2.4)
-    end
-end)
 
 return {
     titleLabel           = titleLabel,
