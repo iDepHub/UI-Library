@@ -1,6 +1,7 @@
 local TweenService     = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Players          = game:GetService("Players")
+local RunService       = game:GetService("RunService")
 local LocalPlayer      = Players.LocalPlayer
 
 local Lucide = nil
@@ -54,6 +55,25 @@ local function setAccentColor(color)
     for _, fn in ipairs(_customAccentCallbacks) do pcall(fn) end
 end
 
+local function Corner(inst, r)
+    local c = Instance.new("UICorner")
+    c.CornerRadius = UDim.new(0, r or 4)
+    c.Parent = inst
+    return c
+end
+
+local function SafeTween(instance, tweenInfo, properties)
+    if not instance or not instance.Parent then return nil end
+    local ok, tween = pcall(function()
+        return TweenService:Create(instance, tweenInfo, properties)
+    end)
+    if ok and tween then
+        tween:Play()
+        return tween
+    end
+    return nil
+end
+
 local isMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
 
 local playerGui = LocalPlayer:WaitForChild("PlayerGui")
@@ -66,7 +86,7 @@ screenGui.Parent         = playerGui
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Name              = "MainFrame"
-mainFrame.Size              = UDim2.new(0, 446, 0, 402)
+mainFrame.Size              = UDim2.new(0, 446, 0, 394)
 mainFrame.AnchorPoint       = Vector2.new(0.5, 0.5)
 mainFrame.Position          = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.BackgroundColor3  = T.Bg
@@ -84,9 +104,25 @@ mainStroke.Thickness = 1.5
 mainStroke.Parent    = mainFrame
 _regAcc(mainStroke, "Color")
 
+local strokeGrad = Instance.new("UIGradient")
+strokeGrad.Rotation = 90
+strokeGrad.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, T.Accent),
+    ColorSequenceKeypoint.new(0.4, T.Border),
+    ColorSequenceKeypoint.new(1, T.Border),
+})
+strokeGrad.Parent = mainStroke
+table.insert(_customAccentCallbacks, function()
+    strokeGrad.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, T.Accent),
+        ColorSequenceKeypoint.new(0.4, T.Border),
+        ColorSequenceKeypoint.new(1, T.Border),
+    })
+end)
+
 local topBar = Instance.new("Frame")
 topBar.Name             = "TopBar"
-topBar.Size             = UDim2.new(1, 0, 0, 60)
+topBar.Size             = UDim2.new(1, 0, 0, 38)
 topBar.BackgroundColor3 = T.Header
 topBar.BorderSizePixel  = 0
 topBar.ZIndex           = 5
@@ -125,16 +161,16 @@ Logo.Size = UDim2.new(1, 0, 1, 0)
 Logo.BorderSizePixel = 0
 Logo.BackgroundColor3 = T.Accent
 Logo.Parent = LogoWrap
-Instance.new("UICorner", Logo).CornerRadius = UDim.new(0, 3)
+Corner(Logo, 3)
 _regAcc(Logo, "BackgroundColor3")
 
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size               = UDim2.new(1, -92, 1, 0)
 titleLabel.Position           = UDim2.new(0, 40, 0, 0)
 titleLabel.BackgroundTransparency = 1
-titleLabel.Text               = "NYTHER"
+titleLabel.Text               = "EMBER - MADE BY FLAME"
 titleLabel.TextColor3         = T.Text
-titleLabel.TextSize           = 18
+titleLabel.TextSize           = 16
 titleLabel.Font               = Enum.Font.GothamBlack
 titleLabel.TextXAlignment     = Enum.TextXAlignment.Left
 titleLabel.TextYAlignment     = Enum.TextYAlignment.Center
@@ -148,7 +184,7 @@ statusPill.BackgroundColor3 = T.Accent
 statusPill.BorderSizePixel = 0
 statusPill.ZIndex = 7
 statusPill.Parent = topBar
-Instance.new("UICorner", statusPill).CornerRadius = UDim.new(0, 10)
+Corner(statusPill, 10)
 _regAcc(statusPill, "BackgroundColor3")
 
 local pillStroke = Instance.new("UIStroke")
@@ -164,13 +200,13 @@ statusDot.BackgroundColor3 = Color3.fromRGB(128, 224, 134)
 statusDot.BorderSizePixel = 0
 statusDot.ZIndex = 8
 statusDot.Parent = statusPill
-Instance.new("UICorner", statusDot).CornerRadius = UDim.new(1, 0)
+Corner(statusDot, 3)
 
 local statusText = Instance.new("TextLabel")
 statusText.Size = UDim2.new(1, -20, 1, 0)
 statusText.Position = UDim2.new(0, 18, 0, 0)
 statusText.BackgroundTransparency = 1
-statusText.Text = "SYSTEM ACTIVE"
+statusText.Text = "INTERFACE"
 statusText.TextColor3 = T.Header
 statusText.TextSize = 9
 statusText.Font = Enum.Font.GothamSemibold
@@ -205,15 +241,22 @@ closeBtn.Size             = UDim2.new(0, 26, 0, 26)
 closeBtn.Position         = UDim2.new(1, -33, 0.5, -13)
 closeBtn.BackgroundColor3 = T.AccentDark
 closeBtn.BorderSizePixel  = 0
-closeBtn.Text             = "X"
+closeBtn.Text             = "✕"
 closeBtn.TextColor3       = Color3.fromRGB(255, 255, 255)
-closeBtn.TextSize         = 14
-closeBtn.Font             = Enum.Font.GothamSemibold
+closeBtn.TextSize         = 15
+closeBtn.Font             = Enum.Font.GothamBold
 closeBtn.AutoButtonColor  = false
 closeBtn.ZIndex           = 8
 closeBtn.Parent           = topBar
-Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 4)
+Corner(closeBtn, 4)
 _regDark(closeBtn, "BackgroundColor3")
+
+closeBtn.MouseEnter:Connect(function()
+    SafeTween(closeBtn, TweenInfo.new(0.1), {TextColor3 = Color3.fromRGB(255, 64, 42)})
+end)
+closeBtn.MouseLeave:Connect(function()
+    SafeTween(closeBtn, TweenInfo.new(0.1), {TextColor3 = Color3.fromRGB(255, 255, 255)})
+end)
 
 local eyeGui      = nil
 local eyeFixed    = false
@@ -374,16 +417,10 @@ closeBtn.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
     createEyeIcon()
 end)
-closeBtn.MouseEnter:Connect(function()
-    TweenService:Create(closeBtn, TweenInfo.new(0.1), {BackgroundColor3 = T.Accent}):Play()
-end)
-closeBtn.MouseLeave:Connect(function()
-    TweenService:Create(closeBtn, TweenInfo.new(0.1), {BackgroundColor3 = T.AccentDark}):Play()
-end)
 
 local bodyFrame = Instance.new("Frame")
 bodyFrame.Size              = UDim2.new(1, 0, 1, -60)
-bodyFrame.Position          = UDim2.new(0, 0, 0, 60)
+bodyFrame.Position          = UDim2.new(0, 0, 0, 38)
 bodyFrame.BackgroundTransparency = 1
 bodyFrame.BorderSizePixel   = 0
 bodyFrame.Parent            = mainFrame
@@ -440,7 +477,7 @@ tabLayout.Padding   = UDim.new(0, 3)
 tabLayout.Parent    = sidebar
 
 local sidebarPad = Instance.new("UIPadding")
-sidebarPad.PaddingTop   = UDim.new(0, 4)
+sidebarPad.PaddingTop   = UDim.new(0, 8)
 sidebarPad.PaddingLeft  = UDim.new(0, 6)
 sidebarPad.PaddingRight = UDim.new(0, 6)
 sidebarPad.Parent       = sidebar
@@ -611,10 +648,6 @@ local function Stroke(parent, color, thickness)
     local s = Instance.new("UIStroke")
     s.Color = color or T.BorderDim; s.Thickness = thickness or 1; s.Parent = parent
     return s
-end
-
-local function Corner(parent, r)
-    Instance.new("UICorner", parent).CornerRadius = UDim.new(0, r or 4)
 end
 
 local function ElemBase(parent, h)
@@ -1988,54 +2021,21 @@ local function NewSearchPanel(searchTabData, opts)
     searchTabData.onTabSelected = function() BuildList(searchBox.Text) end
 end
 
-task.spawn(function()
-    while topBar and topBar.Parent do
-        local tweenInfo = TweenInfo.new(
-            3,
-            Enum.EasingStyle.Linear,
-            Enum.EasingDirection.InOut
-        )
-        if LogoWrap then
-            local tween = TweenService:Create(LogoWrap, tweenInfo, {Rotation = LogoWrap.Rotation + 360})
-            if tween then tween:Play() end
-        end
-        task.wait(3)
+local function clampPosition()
+    if not mainFrame or not mainFrame.Parent then return end
+    local vpSize = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
+    local absSize = mainFrame.AbsoluteSize
+    local pos = mainFrame.Position
+    local xMin = 0
+    local yMin = 0
+    local xMax = math.max(0, vpSize.X - absSize.X)
+    local yMax = math.max(0, vpSize.Y - absSize.Y)
+    local newX = math.clamp(pos.X.Offset, xMin, xMax)
+    local newY = math.clamp(pos.Y.Offset, yMin, yMax)
+    if pos.X.Offset ~= newX or pos.Y.Offset ~= newY then
+        mainFrame.Position = UDim2.new(0, newX, 0, newY)
     end
-end)
-
-task.spawn(function()
-    while statusDot and statusDot.Parent do
-        local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
-        if statusDot then
-            local tween = TweenService:Create(statusDot, tweenInfo, {BackgroundTransparency = 0.5})
-            if tween then tween:Play() end
-        end
-        task.wait(0.6)
-        if statusDot and statusDot.Parent then
-            local tweenInfo2 = TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
-            local tween2 = TweenService:Create(statusDot, tweenInfo2, {BackgroundTransparency = 0})
-            if tween2 then tween2:Play() end
-        end
-        task.wait(0.6)
-    end
-end)
-
-task.spawn(function()
-    while scanBar and scanBar.Parent do
-        local tweenInfo = TweenInfo.new(2.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
-        if scanBar then
-            local tween = TweenService:Create(scanBar, tweenInfo, {Position = UDim2.new(1, -90, 1, -2)})
-            if tween then tween:Play() end
-        end
-        task.wait(2.4)
-        if scanBar and scanBar.Parent then
-            local tweenInfo2 = TweenInfo.new(2.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
-            local tween2 = TweenService:Create(scanBar, tweenInfo2, {Position = UDim2.new(0, 0, 1, -2)})
-            if tween2 then tween2:Play() end
-        end
-        task.wait(2.4)
-    end
-end)
+end
 
 local isDragging, dragStart, frameStart = false, nil, nil
 
@@ -2056,12 +2056,16 @@ end)
 UserInputService.InputChanged:Connect(function(inp)
     if isDragging and (inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch) then
         local delta = inp.Position - dragStart
-        mainFrame.Position = UDim2.new(
+        local newPos = UDim2.new(
             frameStart.X.Scale, frameStart.X.Offset + delta.X,
             frameStart.Y.Scale, frameStart.Y.Offset + delta.Y
         )
+        mainFrame.Position = newPos
+        clampPosition()
     end
 end)
+
+RunService.RenderStepped:Connect(clampPosition)
 
 local _notifGui = Instance.new("ScreenGui")
 _notifGui.Name            = "iDepHubNotifs"
@@ -2071,7 +2075,6 @@ _notifGui.DisplayOrder    = 1000
 _notifGui.Parent          = playerGui
 
 local _notifOffset = 0
-local _notifSlots  = {}
 
 local function sendNotification(title, text, duration)
     local slotY = -80 - (_notifOffset * 70)
@@ -2692,6 +2695,39 @@ local function createFloatButton(config)
         button    = btn,
     }
 end
+
+local originalSize = mainFrame.Size
+mainFrame.Size = UDim2.new(0, 0, 0, 0)
+SafeTween(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+    Size = originalSize,
+    Position = UDim2.new(0.5, 0, 0.5, 0)
+})
+
+task.spawn(function()
+    while topBar and topBar.Parent do
+        SafeTween(scanBar, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(1, -90, 1, -2) })
+        task.wait(2.6)
+        if not topBar or not topBar.Parent then break end
+        SafeTween(scanBar, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(0, 0, 1, -2) })
+        task.wait(2.6)
+    end
+end)
+
+task.spawn(function()
+    while statusDot and statusDot.Parent do
+        SafeTween(statusDot, TweenInfo.new(0.7, Enum.EasingStyle.Sine), { BackgroundTransparency = 0.55 })
+        task.wait(0.7)
+        if not statusDot or not statusDot.Parent then break end
+        SafeTween(statusDot, TweenInfo.new(0.7, Enum.EasingStyle.Sine), { BackgroundTransparency = 0 })
+        task.wait(0.7)
+    end
+end)
+
+RunService.RenderStepped:Connect(function(dt)
+    if LogoWrap and LogoWrap.Parent then
+        LogoWrap.Rotation = (LogoWrap.Rotation + dt * 24) % 360
+    end
+end)
 
 return {
     titleLabel           = titleLabel,
