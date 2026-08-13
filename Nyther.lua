@@ -1982,7 +1982,6 @@ task.spawn(function()
             LogoWrap.Rotation = (LogoWrap.Rotation + dt * 40) % 360
         end
         if scanBar and scanBar.Parent then
-            local scanWidth = scanBar.AbsoluteSize.X
             local totalWidth = topBar.AbsoluteSize.X
             local progress = (os.clock() * 100) % totalWidth
             scanBar.Position = UDim2.new(0, progress, 1, -1)
