@@ -397,7 +397,7 @@ closeBtn.MouseLeave:Connect(function()
 end)
 
 local bodyFrame = Instance.new("Frame")
-bodyFrame.Size              = UDim2.new(1, 0, 1, -60)
+bodyFrame.Size              = UDim2.new(1, 0, 1, -82)
 bodyFrame.Position          = UDim2.new(0, 0, 0, 60)
 bodyFrame.BackgroundTransparency = 1
 bodyFrame.BorderSizePixel   = 0
