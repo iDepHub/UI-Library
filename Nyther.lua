@@ -2,6 +2,7 @@ local TweenService     = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Players          = game:GetService("Players")
 local LocalPlayer      = Players.LocalPlayer
+local RunService       = game:GetService("RunService")
 
 local Lucide = nil
 pcall(function()
@@ -20,18 +21,19 @@ local T = {
     Bg          = Color3.fromRGB(0,   0,   0),
     Sidebar     = Color3.fromRGB(0,   0,   0),
     Header      = Color3.fromRGB(3,   3,   3),
-    Accent      = Color3.fromRGB(40,  40,  40),
+    Panel       = Color3.fromRGB(12,  12,  12),
+    Accent      = Color3.fromRGB(41,  255, 244),
     AccentDark  = Color3.fromRGB(20,  20,  20),
     Text        = Color3.fromRGB(230, 230, 230),
     TextRed     = Color3.fromRGB(140, 140, 140),
     TextDim     = Color3.fromRGB(80,  80,  80),
     Elem        = Color3.fromRGB(10,  10,  10),
     ElemHov     = Color3.fromRGB(18,  18,  18),
-    Border      = Color3.fromRGB(40,  40,  40),
+    Border      = Color3.fromRGB(41,  255, 244),
     BorderDim   = Color3.fromRGB(25,  25,  25),
-    SliderFill  = Color3.fromRGB(40,  40,  40),
+    SliderFill  = Color3.fromRGB(41,  255, 244),
     SliderBg    = Color3.fromRGB(18,  18,  18),
-    ToggleOn    = Color3.fromRGB(55,  55,  55),
+    ToggleOn    = Color3.fromRGB(41,  255, 244),
     ToggleOff   = Color3.fromRGB(28,  28,  28),
     TabActive   = Color3.fromRGB(15,  15,  15),
     TabInactive = Color3.fromRGB(6,   6,   6),
@@ -86,19 +88,11 @@ _regAcc(mainStroke, "Color")
 
 local topBar = Instance.new("Frame")
 topBar.Name             = "TopBar"
-topBar.Size             = UDim2.new(1, 0, 0, 38)
-topBar.BackgroundColor3 = T.Header
+topBar.Size             = UDim2.new(1, 0, 0, 54)
+topBar.BackgroundColor3 = T.Panel
 topBar.BorderSizePixel  = 0
 topBar.ZIndex           = 5
 topBar.Parent           = mainFrame
-
-local topBarFill = Instance.new("Frame")
-topBarFill.Size             = UDim2.new(1, 0, 0.6, 0)
-topBarFill.Position         = UDim2.new(0, 0, 0.4, 0)
-topBarFill.BackgroundColor3 = T.Header
-topBarFill.BorderSizePixel  = 0
-topBarFill.ZIndex           = 5
-topBarFill.Parent           = topBar
 
 local topBarCorner = Instance.new("UICorner")
 topBarCorner.CornerRadius = UDim.new(0, 6)
@@ -113,42 +107,141 @@ topLine.ZIndex           = 6
 topLine.Parent           = topBar
 _regAcc(topLine, "BackgroundColor3")
 
-local dot = Instance.new("Frame")
-dot.Size             = UDim2.new(0, 8, 0, 8)
-dot.Position         = UDim2.new(0, 12, 0.5, -4)
-dot.BackgroundColor3 = T.Accent
-dot.BorderSizePixel  = 0
-dot.ZIndex           = 7
-dot.Parent           = topBar
-Instance.new("UICorner", dot).CornerRadius = UDim.new(1, 0)
-_regAcc(dot, "BackgroundColor3")
+local LogoWrap = Instance.new("Frame")
+LogoWrap.Size = UDim2.new(0, 20, 0, 20)
+LogoWrap.Position = UDim2.new(0, 20, 0, 17)
+LogoWrap.Rotation = 45
+LogoWrap.BackgroundTransparency = 1
+LogoWrap.Parent = topBar
+
+local Logo = Instance.new("Frame")
+Logo.Size = UDim2.new(1, 0, 1, 0)
+Logo.BorderSizePixel = 0
+Logo.Parent = LogoWrap
+Instance.new("UICorner", Logo).CornerRadius = UDim.new(0, 5)
+
+local LogoGrad = Instance.new("UIGradient")
+LogoGrad.Color = ColorSequence.new(T.Accent, T.Accent)
+LogoGrad.Rotation = 45
+LogoGrad.Parent = Logo
+
+local LogoCore = Instance.new("Frame")
+LogoCore.Size = UDim2.new(0, 8, 0, 8)
+LogoCore.Position = UDim2.new(0.5, -4, 0.5, -4)
+LogoCore.BackgroundColor3 = T.Panel
+LogoCore.BorderSizePixel = 0
+LogoCore.Parent = Logo
+Instance.new("UICorner", LogoCore).CornerRadius = UDim.new(0, 2)
 
 local titleLabel = Instance.new("TextLabel")
-titleLabel.Size               = UDim2.new(1, -92, 1, 0)
-titleLabel.Position           = UDim2.new(0, 28, 0, 0)
+titleLabel.Size = UDim2.new(0, 260, 0, 20)
+titleLabel.Position = UDim2.new(0, 54, 0, 16)
 titleLabel.BackgroundTransparency = 1
-titleLabel.Text               = "UI Library - Nyther"
-titleLabel.TextColor3         = T.Text
-titleLabel.TextSize           = 14
-titleLabel.Font               = Enum.Font.GothamSemibold
-titleLabel.TextXAlignment     = Enum.TextXAlignment.Left
-titleLabel.ZIndex             = 7
-titleLabel.Parent             = topBar
+titleLabel.Text = "Nyther - UI Library"
+titleLabel.TextColor3 = T.Text
+titleLabel.TextSize = 16
+titleLabel.Font = Enum.Font.GothamBlack
+titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+titleLabel.TextTruncate = Enum.TextTruncate.AtEnd
+titleLabel.Parent = topBar
+
+local Pill = Instance.new("Frame")
+Pill.Size = UDim2.new(0, 116, 0, 22)
+Pill.Position = UDim2.new(1, -172, 0, 16)
+Pill.BackgroundColor3 = T.Elem
+Pill.BorderSizePixel = 0
+Pill.Parent = topBar
+Instance.new("UICorner", Pill).CornerRadius = UDim.new(0, 11)
+
+local PillStroke = Instance.new("UIStroke")
+PillStroke.Color = T.Accent
+PillStroke.Thickness = 0.5
+PillStroke.Parent = Pill
+
+local PillDot = Instance.new("Frame")
+PillDot.Size = UDim2.new(0, 6, 0, 6)
+PillDot.Position = UDim2.new(0, 10, 0.5, -3)
+PillDot.BackgroundColor3 = Color3.fromRGB(128, 224, 134)
+PillDot.BorderSizePixel = 0
+PillDot.Parent = Pill
+Instance.new("UICorner", PillDot).CornerRadius = UDim.new(0, 3)
+
+local PillText = Instance.new("TextLabel")
+PillText.Size = UDim2.new(1, -24, 1, 0)
+PillText.Position = UDim2.new(0, 22, 0, 0)
+PillText.BackgroundTransparency = 1
+PillText.Text = "Activate"
+PillText.TextColor3 = T.Text
+PillText.TextSize = 11
+PillText.Font = Enum.Font.GothamBold
+PillText.TextXAlignment = Enum.TextXAlignment.Left
+PillText.Parent = Pill
+
+local Scan = Instance.new("Frame")
+Scan.Size = UDim2.new(0, 90, 0, 2)
+Scan.Position = UDim2.new(0, 0, 1, -2)
+Scan.BorderSizePixel = 0
+Scan.BackgroundColor3 = T.Accent
+Scan.Parent = topBar
+
+local ScanGrad = Instance.new("UIGradient")
+ScanGrad.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, T.Accent),
+    ColorSequenceKeypoint.new(0.5, T.Accent),
+    ColorSequenceKeypoint.new(1, T.Accent),
+})
+ScanGrad.Transparency = NumberSequence.new({
+    NumberSequenceKeypoint.new(0, 1),
+    NumberSequenceKeypoint.new(0.5, 0),
+    NumberSequenceKeypoint.new(1, 1),
+})
+ScanGrad.Parent = Scan
+
+task.spawn(function()
+    while mainFrame and mainFrame.Parent do
+        TweenService:Create(Scan, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(1, -90, 1, -2) }):Play()
+        task.wait(2.6)
+        if not mainFrame or not mainFrame.Parent then break end
+        TweenService:Create(Scan, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(0, 0, 1, -2) }):Play()
+        task.wait(2.6)
+    end
+end)
+
+task.spawn(function()
+    while mainFrame and mainFrame.Parent and PillDot and PillDot.Parent do
+        TweenService:Create(PillDot, TweenInfo.new(0.7, Enum.EasingStyle.Sine), { BackgroundTransparency = 0.55 }):Play()
+        task.wait(0.7)
+        if not mainFrame or not mainFrame.Parent or not PillDot or not PillDot.Parent then break end
+        TweenService:Create(PillDot, TweenInfo.new(0.7, Enum.EasingStyle.Sine), { BackgroundTransparency = 0 }):Play()
+        task.wait(0.7)
+    end
+end)
+
+RunService.RenderStepped:Connect(function(dt)
+    if LogoWrap and LogoWrap.Parent then
+        LogoWrap.Rotation = (LogoWrap.Rotation + dt * 48) % 360
+    end
+end)
 
 local closeBtn = Instance.new("TextButton")
-closeBtn.Size             = UDim2.new(0, 26, 0, 26)
-closeBtn.Position         = UDim2.new(1, -33, 0.5, -13)
-closeBtn.BackgroundColor3 = T.AccentDark
-closeBtn.BorderSizePixel  = 0
-closeBtn.Text             = "X"
-closeBtn.TextColor3       = Color3.fromRGB(255, 255, 255)
-closeBtn.TextSize         = 14
-closeBtn.Font             = Enum.Font.GothamSemibold
+closeBtn.Size             = UDim2.new(0, 28, 0, 28)
+closeBtn.Position         = UDim2.new(1, -42, 0, 13)
+closeBtn.BackgroundTransparency = 1
+closeBtn.Text             = "✕"
+closeBtn.TextColor3       = T.TextDim
+closeBtn.TextSize         = 15
+closeBtn.Font             = Enum.Font.GothamBold
 closeBtn.AutoButtonColor  = false
 closeBtn.ZIndex           = 8
 closeBtn.Parent           = topBar
-Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 4)
-_regDark(closeBtn, "BackgroundColor3")
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 6)
+
+closeBtn.MouseEnter:Connect(function()
+    TweenService:Create(closeBtn, TweenInfo.new(0.15), { TextColor3 = Color3.fromRGB(255, 64, 42) }):Play()
+end)
+closeBtn.MouseLeave:Connect(function()
+    TweenService:Create(closeBtn, TweenInfo.new(0.15), { TextColor3 = T.TextDim }):Play()
+end)
 
 local eyeGui      = nil
 local eyeFixed    = false
@@ -309,16 +402,10 @@ closeBtn.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
     createEyeIcon()
 end)
-closeBtn.MouseEnter:Connect(function()
-    TweenService:Create(closeBtn, TweenInfo.new(0.1), {BackgroundColor3 = T.Accent}):Play()
-end)
-closeBtn.MouseLeave:Connect(function()
-    TweenService:Create(closeBtn, TweenInfo.new(0.1), {BackgroundColor3 = T.AccentDark}):Play()
-end)
 
 local bodyFrame = Instance.new("Frame")
 bodyFrame.Size              = UDim2.new(1, 0, 1, -60)
-bodyFrame.Position          = UDim2.new(0, 0, 0, 38)
+bodyFrame.Position          = UDim2.new(0, 0, 0, 54)
 bodyFrame.BackgroundTransparency = 1
 bodyFrame.BorderSizePixel   = 0
 bodyFrame.Parent            = mainFrame
