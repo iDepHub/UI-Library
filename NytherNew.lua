@@ -117,6 +117,7 @@ local function Icon(parent, iconName, size, color)
     end
     return img
 end
+
 local Root = Instance.new("ScreenGui")
 Root.Name = "EmberRoot"
 Root.ResetOnSpawn = false
@@ -161,7 +162,6 @@ local function CenterWindow()
     local y = (viewport.Y - winSize.Y.Offset) / 2
     Main.Position = UDim2.new(0, x, 0, y)
 end
-
 
 local TitleBar = Instance.new("Frame")
 TitleBar.Size = UDim2.new(1, 0, 0, 54)
@@ -470,6 +470,7 @@ ContentPadding.PaddingRight = UDim.new(0, 16)
 ContentPadding.PaddingTop = UDim.new(0, 16)
 ContentPadding.PaddingBottom = UDim.new(0, 16)
 ContentPadding.Parent = ContentScroll
+
 local activeConnections = {}
 
 local function ClearContent()
@@ -647,6 +648,7 @@ local function CreateSlider(parent, labelText, minVal, maxVal, defaultVal, callb
         setValue = function(v) setPercent(math.clamp((v - minVal) / (maxVal - minVal), 0, 1)) end,
     }
 end
+
 local function CreateToggle(parent, labelText, defaultState, callback)
     local state = defaultState or false
     local container = Instance.new("Frame")
@@ -1221,7 +1223,6 @@ local function NewColorPicker(parent, labelText, subText, defaultColor, callback
 end
 
 local currentTabId = 0
-
 local function ActivateTab(tabName)
     for name, data in pairs(tabs) do
         if data.isActive then
@@ -1239,10 +1240,13 @@ local function ActivateTab(tabName)
         data.isActive = true
         ClearContent()
         if data.buildFn then
-            currentTabId += 1
-            data.buildFn(ContentScroll)
-            ContentListLayout:ApplyLayout()
-            ContentScroll.CanvasSize = UDim2.new(0, 0, 0, ContentListLayout.AbsoluteContentSize.Y + 20)
+            if type(data.buildFn) == "function" then
+                currentTabId = currentTabId + 1
+                data.buildFn(ContentScroll)
+                RefreshCanvas()
+            else
+                warn("buildFn for tab '" .. tabName .. "' is not a function, it's a " .. type(data.buildFn))
+            end
         end
     end
 end
@@ -1292,6 +1296,9 @@ local function CreateTab(tabName, iconName)
     local tabObj = {
         name     = tabName,
         setBuilder = function(fn)
+            if type(fn) ~= "function" then
+                error("setBuilder expects a function, got " .. type(fn))
+            end
             data.buildFn = fn
         end,
         activate = function()
@@ -1345,21 +1352,21 @@ return {
     Theme          = Theme,
     CreateTab      = CreateTab,
     ActivateTab    = ActivateTab,
-    CreateSlider      = CreateSlider,
-    CreateToggle      = CreateToggle,
-    CreateKeyBind     = CreateKeyBind,
-    CreateButton      = CreateButton,
-    CreateLabel       = CreateLabel,
-    NewColorPicker    = NewColorPicker,
-    Notify            = Notify,
-    Card              = Card,
-    Icon              = Icon,
-    Label             = Label,
-    Corner            = Corner,
-    SafeTween         = SafeTween,
-    Stroke            = Stroke,
-    Root              = Root,
-    Main              = Main,
-    ContentScroll     = ContentScroll,
-    TabScroll         = TabScroll,
+    CreateSlider   = CreateSlider,
+    CreateToggle   = CreateToggle,
+    CreateKeyBind  = CreateKeyBind,
+    CreateButton   = CreateButton,
+    CreateLabel    = CreateLabel,
+    NewColorPicker = NewColorPicker,
+    Notify         = Notify,
+    Card           = Card,
+    Icon           = Icon,
+    Label          = Label,
+    Corner         = Corner,
+    SafeTween      = SafeTween,
+    Stroke         = Stroke,
+    Root           = Root,
+    Main           = Main,
+    ContentScroll  = ContentScroll,
+    TabScroll      = TabScroll,
 }
