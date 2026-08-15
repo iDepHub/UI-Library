@@ -2618,30 +2618,17 @@ local function sendNotification(title, text, duration)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 9)
     corner.Parent       = card
-
     local stroke = Instance.new("UIStroke")
-    stroke.Color        = Theme.Accent
-    stroke.Thickness    = 1.4
-    stroke.Transparency = 0.25
-    stroke.Parent       = card
-    table.insert(_accentObjs, {stroke, "Color"})
-
-    local accent = Instance.new("Frame")
-    accent.Size             = UDim2.new(0, 3, 1, -16)
-    accent.Position         = UDim2.new(0, 8, 0, 8)
-    accent.BackgroundColor3 = Theme.Accent
-    accent.BorderSizePixel  = 0
-    accent.ZIndex           = 101
-    accent.Parent           = card
-    table.insert(_accentObjs, {accent, "BackgroundColor3"})
-    Instance.new("UICorner", accent).CornerRadius = UDim.new(1, 0)
+    stroke.Color     = Theme.Line
+    stroke.Thickness = 0.5
+    stroke.Parent    = card
 
     local titleL = Instance.new("TextLabel")
     titleL.Size               = UDim2.new(1, -26, 0, 24)
-    titleL.Position           = UDim2.new(0, 20, 0, 8)
+    titleL.Position           = UDim2.new(0, 12, 0, 8)
     titleL.BackgroundTransparency = 1
     titleL.Text               = title
-    titleL.TextColor3         = Theme.Text
+    titleL.TextColor3         = Theme.Accent
     titleL.TextSize           = 14
     titleL.Font               = Enum.Font.GothamBold
     titleL.TextXAlignment     = Enum.TextXAlignment.Left
@@ -2650,7 +2637,7 @@ local function sendNotification(title, text, duration)
 
     local textL = Instance.new("TextLabel")
     textL.Size                = UDim2.new(1, -26, 0, 20)
-    textL.Position            = UDim2.new(0, 20, 0, 33)
+    textL.Position            = UDim2.new(0, 12, 0, 33)
     textL.BackgroundTransparency = 1
     textL.Text                = text
     textL.TextColor3          = Theme.Dim
