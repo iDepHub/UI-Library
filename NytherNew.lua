@@ -2231,10 +2231,8 @@ end)
 UserInputService.InputChanged:Connect(function(inp)
     if isDragging and (inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch) then
         local delta = inp.Position - dragStart
-        local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
-        local winSize = mainFrame.AbsoluteSize
-        local newX = math.clamp(frameStart.X.Offset + delta.X, 0, viewport.X - winSize.X)
-        local newY = math.clamp(frameStart.Y.Offset + delta.Y, 0, viewport.Y - winSize.Y)
+        local newX = frameStart.X.Offset + delta.X
+        local newY = frameStart.Y.Offset + delta.Y
         mainFrame.Position = UDim2.new(0, newX, 0, newY)
     end
 end)
