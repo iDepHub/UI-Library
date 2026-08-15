@@ -67,7 +67,7 @@ local WINDOW_SIZE = UDim2.new(0, 480, 0, 420)
 local mainFrame = Instance.new("Frame")
 mainFrame.Name              = "MainFrame"
 mainFrame.Size              = UDim2.new(0, 0, 0, 0)
-mainFrame.AnchorPoint       = Vector2.new(0.5, 0.5)
+mainFrame.AnchorPoint = Vector2.new(0, 0)
 mainFrame.Position          = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.BackgroundColor3  = Theme.Base
 mainFrame.BorderSizePixel   = 0
@@ -80,7 +80,9 @@ mainCorner.Parent = mainFrame
 
 local function CenterWindow()
     local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
-    mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+    local w = WINDOW_SIZE.X.Offset
+    local h = WINDOW_SIZE.Y.Offset
+    mainFrame.Position = UDim2.new(0, (viewport.X - w) / 2, 0, (viewport.Y - h) / 2)
     mainFrame.Size = WINDOW_SIZE
 end
 
@@ -633,11 +635,6 @@ local function NewSection(parent, title, iconName)
 
     return sec
 end
-
--- ============================================================
--- NUEVO ESTILO DE COMPONENTES (basado en NytherNew)
--- ============================================================
-
 local function SafeTween(instance, tweenInfo, properties)
     if not instance or not instance.Parent then return nil end
     local ok, tween = pcall(function()
@@ -680,8 +677,6 @@ local function Icon(parent, iconName, size, color)
     end
     return img
 end
-
--- NewToggle (estilo NytherNew)
 local function NewToggle(parent, label, sub, default, callback, iconName)
     local state = default or false
     local locked = false
@@ -841,8 +836,6 @@ local function NewToggle(parent, label, sub, default, callback, iconName)
 
     return container, setState, setLocked
 end
-
--- NewSlider (estilo NytherNew)
 local function NewSlider(parent, label, sub, minVal, maxVal, default, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 60)
@@ -971,7 +964,6 @@ local function NewSlider(parent, label, sub, minVal, maxVal, default, callback, 
     return container
 end
 
--- NewButton (estilo NytherNew)
 local function NewButton(parent, label, sub, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 46)
@@ -1047,7 +1039,6 @@ local function NewButton(parent, label, sub, callback, iconName)
     return container
 end
 
--- NewKeybind (estilo NytherNew)
 local function NewKeybind(parent, label, sub, defaultKey, callback, iconName)
     local listening = false
     local currentKey = defaultKey or Enum.KeyCode.F
@@ -1162,7 +1153,6 @@ local function NewKeybind(parent, label, sub, defaultKey, callback, iconName)
     return container
 end
 
--- NewLabel (estilo NytherNew)
 local function NewLabel(parent, text, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 30)
@@ -1197,7 +1187,6 @@ local function NewLabel(parent, text, iconName)
     return container
 end
 
--- NewColorPicker (estilo NytherNew)
 local function NewColorPicker(parent, label, sub, defaultColor, callback, iconName)
     defaultColor = defaultColor or Theme.Accent
 
@@ -1605,7 +1594,6 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
     return container
 end
 
--- NewBodyPartSelector (actualizado visualmente)
 local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, defaultParts, extRefreshTable, iconName)
     local RH_ROW  = 30
     local TH_ROW  = 38
@@ -1901,7 +1889,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     return container
 end
 
--- NewNote (actualizado visualmente)
 local function NewNote(parent, text, iconName)
     local noteFrame = Instance.new("Frame")
     noteFrame.Size              = UDim2.new(1, 0, 0, 0)
@@ -1960,7 +1947,6 @@ local function NewNote(parent, text, iconName)
     return noteFrame
 end
 
--- NewSearchPanel (actualizado visualmente)
 local function NewSearchPanel(searchTabData, opts)
     local getWeapons   = opts and opts.getWeapons
     local onSend       = opts and opts.onSend
@@ -2226,15 +2212,12 @@ local function NewSearchPanel(searchTabData, opts)
     searchTabData.onTabSelected = function() BuildList(searchBox.Text) end
 end
 
--- ============================================================
--- DRAG & CLOSE
--- ============================================================
 local isDragging, dragStart, frameStart = false, nil, nil
 
 topBar.InputBegan:Connect(function(inp)
     if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
         isDragging = true
-        dragStart  = inp.Position
+        dragStart = inp.Position
         frameStart = mainFrame.Position
     end
 end)
@@ -2250,8 +2233,8 @@ UserInputService.InputChanged:Connect(function(inp)
         local delta = inp.Position - dragStart
         local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
         local winSize = mainFrame.AbsoluteSize
-        local newX = math.clamp(frameStart.X.Offset + delta.X, 0, math.max(0, viewport.X - winSize.X))
-        local newY = math.clamp(frameStart.Y.Offset + delta.Y, 0, math.max(0, viewport.Y - winSize.Y))
+        local newX = math.clamp(frameStart.X.Offset + delta.X, 0, viewport.X - winSize.X)
+        local newY = math.clamp(frameStart.Y.Offset + delta.Y, 0, viewport.Y - winSize.Y)
         mainFrame.Position = UDim2.new(0, newX, 0, newY)
     end
 end)
@@ -2260,9 +2243,6 @@ closeBtn.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
 end)
 
--- ============================================================
--- EYE ICON (igual que antes)
--- ============================================================
 local eyeGui      = nil
 local eyeFixed    = false
 local eyeHidden   = false
@@ -2400,9 +2380,6 @@ local function createEyeIcon()
     applyEyeVisibility(btn, eyeStroke, eyeHidden)
 end
 
--- ============================================================
--- NOTIFICACIONES (estilo NytherNew)
--- ============================================================
 local _notifGui = Instance.new("ScreenGui")
 _notifGui.Name            = "iDepHubNotifs"
 _notifGui.ResetOnSpawn    = false
@@ -2487,10 +2464,6 @@ local function sendNotification(title, text, duration)
         end)
     end)
 end
-
--- ============================================================
--- FLOAT BUTTON (igual que antes)
--- ============================================================
 local function createFloatButton(config)
     config = config or {}
 
