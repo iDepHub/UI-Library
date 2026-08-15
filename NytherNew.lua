@@ -1444,6 +1444,7 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
         local c = getColor()
         preview.BackgroundColor3 = c
         square.BackgroundColor3 = Color3.fromHSV(H, 1, 1)
+        setAccentColor(c)
         if callback then callback(c) end
     end
 
