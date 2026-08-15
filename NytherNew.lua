@@ -1253,11 +1253,7 @@ local function NewInfoTab(page, tabData)
     _regAcc(orbitStroke, "Color")
 
     local orbitGrad = Instance.new("UIGradient")
-    orbitGrad.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, Theme.Accent),
-    ColorSequenceKeypoint.new(0.1, Theme.Accent),
-    ColorSequenceKeypoint.new(1, Theme.Accent),
-    })
+    orbitGrad.Color = ColorSequence.new(Theme.Accent, Theme.Accent)
     orbitGrad.Transparency = NumberSequence.new({
     NumberSequenceKeypoint.new(0, 1),
     NumberSequenceKeypoint.new(0.04, 0),
@@ -1268,12 +1264,7 @@ local function NewInfoTab(page, tabData)
     orbitGrad.Rotation = 0
     orbitGrad.Parent = orbitStroke
     table.insert(_customAccentCallbacks, function(c)
-        orbitGrad.Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, c),
-            ColorSequenceKeypoint.new(0.1, c),
-            ColorSequenceKeypoint.new(0.11, c),
-            ColorSequenceKeypoint.new(1, c),
-        })
+    orbitGrad.Color = ColorSequence.new(c, c)
     end)
     table.insert(activeConns, RunService.RenderStepped:Connect(function(dt)
         if orbitGrad and orbitStroke and orbitStroke.Parent then
