@@ -1299,7 +1299,7 @@ local function NewInfoTab(page, tabData)
     cardTitle.Size = UDim2.new(0, 220, 0, 20)
     cardTitle.Position = UDim2.new(0, 16, 0, 10)
     cardTitle.BackgroundTransparency = 1
-    cardTitle.Text = "DotShot UI"
+    cardTitle.Text = "UI Actualizada"
     cardTitle.TextColor3 = Theme.Text
     cardTitle.TextSize = 14
     cardTitle.Font = Enum.Font.GothamBlack
@@ -1310,7 +1310,7 @@ local function NewInfoTab(page, tabData)
     cardSub.Size = UDim2.new(0, 280, 0, 18)
     cardSub.Position = UDim2.new(0, 16, 0, 34)
     cardSub.BackgroundTransparency = 1
-    cardSub.Text = "Precisión / Velocidad / Visión"
+    cardSub.Text = "Cualquier Bug, Informarlo"
     cardSub.TextColor3 = Theme.Dim
     cardSub.TextSize = 11
     cardSub.Font = Enum.Font.Gotham
@@ -1321,7 +1321,7 @@ local function NewInfoTab(page, tabData)
     cardVer.Size = UDim2.new(0, 60, 0, 16)
     cardVer.Position = UDim2.new(1, -80, 0, 28)
     cardVer.BackgroundTransparency = 1
-    cardVer.Text = "v 5.0"
+    cardVer.Text = "v 2.0"
     cardVer.TextColor3 = Theme.Accent
     cardVer.TextSize = 9
     cardVer.Font = Enum.Font.GothamBold
