@@ -386,7 +386,7 @@ contentLayout.Padding   = UDim.new(0, 12)
 contentLayout.Parent    = contentScroll
 
 local contentPad = Instance.new("UIPadding")
-contentPad.PaddingLeft   = UDim.new(0, 16)
+contentPad.PaddingLeft   = UDim.new(0, 6)
 contentPad.PaddingRight  = UDim.new(0, 16)
 contentPad.PaddingTop    = UDim.new(0, 16)
 contentPad.PaddingBottom = UDim.new(0, 16)
@@ -1185,6 +1185,215 @@ local function NewLabel(parent, text, iconName)
     lbl.Position = UDim2.new(0, labelOffset, 0, 0)
     lbl.TextWrapped = true
     return container
+end
+
+local function NewInfoTab(page, tabData)
+    local activeConns = {}
+
+    local headerFrame = Instance.new("Frame")
+    headerFrame.Size = UDim2.new(1, 0, 0, 70)
+    headerFrame.BackgroundTransparency = 1
+    headerFrame.Parent = page
+
+    local leftContainer = Instance.new("Frame")
+    leftContainer.Size = UDim2.new(1, -90, 1, 0)
+    leftContainer.BackgroundTransparency = 1
+    leftContainer.Parent = headerFrame
+
+    local greeting = Instance.new("TextLabel")
+    greeting.Size = UDim2.new(1, 0, 0, 32)
+    greeting.Position = UDim2.new(0, 0, 0, 2)
+    greeting.BackgroundTransparency = 1
+    greeting.Text = "Hola" .. LocalPlayer.DisplayName
+    greeting.TextColor3 = Theme.Text
+    greeting.TextSize = 24
+    greeting.Font = Enum.Font.GothamBlack
+    greeting.TextXAlignment = Enum.TextXAlignment.Left
+    greeting.Parent = leftContainer
+
+    local sub = Instance.new("TextLabel")
+    sub.Size = UDim2.new(1, 0, 0, 36)
+    sub.Position = UDim2.new(0, 0, 0, 36)
+    sub.BackgroundTransparency = 1
+    sub.Text = "Todo lo que necesitas\nEn un solo lugar."
+    sub.TextColor3 = Theme.Dim
+    sub.TextSize = 12
+    sub.Font = Enum.Font.Gotham
+    sub.TextXAlignment = Enum.TextXAlignment.Left
+    sub.TextWrapped = true
+    sub.Parent = leftContainer
+
+    local avatarContainer = Instance.new("Frame")
+    avatarContainer.Size = UDim2.new(0, 70, 0, 70)
+    avatarContainer.Position = UDim2.new(1, -70, 0, 0)
+    avatarContainer.BackgroundTransparency = 1
+    avatarContainer.Parent = headerFrame
+
+    local avatarImage = Instance.new("ImageLabel")
+    avatarImage.Size = UDim2.new(1, 0, 1, 0)
+    avatarImage.BackgroundColor3 = Theme.Raised
+    avatarImage.BorderSizePixel = 0
+    avatarImage.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. LocalPlayer.UserId .. "&width=180&height=180&format=png"
+    avatarImage.ScaleType = Enum.ScaleType.Fit
+    avatarImage.Parent = avatarContainer
+    Instance.new("UICorner", avatarImage).CornerRadius = UDim.new(1, 0)
+
+    local orbitStroke = Instance.new("UIStroke")
+    orbitStroke.Color = Theme.Accent
+    orbitStroke.Thickness = 1.5
+    orbitStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    orbitStroke.Parent = avatarImage
+    _regAcc(orbitStroke, "Color")
+
+    local orbitGrad = Instance.new("UIGradient")
+    orbitGrad.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Theme.Accent),
+        ColorSequenceKeypoint.new(0.1, Theme.Accent),
+        ColorSequenceKeypoint.new(0.11, Theme.Accent),
+        ColorSequenceKeypoint.new(1, Theme.Accent),
+    })
+    orbitGrad.Transparency = NumberSequence.new({
+        ColorSequenceKeypoint.new(0, 1),
+        ColorSequenceKeypoint.new(0.04, 0),
+        ColorSequenceKeypoint.new(0.1, 0),
+        ColorSequenceKeypoint.new(0.14, 1),
+        ColorSequenceKeypoint.new(1, 1),
+    })
+    orbitGrad.Rotation = 0
+    orbitGrad.Parent = orbitStroke
+    table.insert(_customAccentCallbacks, function(c)
+        orbitGrad.Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, c),
+            ColorSequenceKeypoint.new(0.1, c),
+            ColorSequenceKeypoint.new(0.11, c),
+            ColorSequenceKeypoint.new(1, c),
+        })
+    end)
+    table.insert(activeConns, RunService.RenderStepped:Connect(function(dt)
+        if orbitGrad and orbitStroke and orbitStroke.Parent then
+            orbitGrad.Rotation = (orbitGrad.Rotation + dt * 90) % 360
+        end
+    end))
+
+    -- Card info
+    local card = Instance.new("Frame")
+    card.Size = UDim2.new(1, 0, 0, 72)
+    card.BackgroundColor3 = Theme.Raised
+    card.BorderSizePixel = 0
+    card.Parent = page
+    Instance.new("UICorner", card).CornerRadius = UDim.new(0, 8)
+    local cardStroke = Instance.new("UIStroke")
+    cardStroke.Color = Theme.Line
+    cardStroke.Thickness = 0.5
+    cardStroke.Parent = card
+
+    local cardTitle = Instance.new("TextLabel")
+    cardTitle.Size = UDim2.new(0, 220, 0, 20)
+    cardTitle.Position = UDim2.new(0, 16, 0, 10)
+    cardTitle.BackgroundTransparency = 1
+    cardTitle.Text = "DotShot UI"
+    cardTitle.TextColor3 = Theme.Text
+    cardTitle.TextSize = 14
+    cardTitle.Font = Enum.Font.GothamBlack
+    cardTitle.TextXAlignment = Enum.TextXAlignment.Left
+    cardTitle.Parent = card
+
+    local cardSub = Instance.new("TextLabel")
+    cardSub.Size = UDim2.new(0, 280, 0, 18)
+    cardSub.Position = UDim2.new(0, 16, 0, 34)
+    cardSub.BackgroundTransparency = 1
+    cardSub.Text = "Precisión / Velocidad / Visión"
+    cardSub.TextColor3 = Theme.Dim
+    cardSub.TextSize = 11
+    cardSub.Font = Enum.Font.Gotham
+    cardSub.TextXAlignment = Enum.TextXAlignment.Left
+    cardSub.Parent = card
+
+    local cardVer = Instance.new("TextLabel")
+    cardVer.Size = UDim2.new(0, 60, 0, 16)
+    cardVer.Position = UDim2.new(1, -80, 0, 28)
+    cardVer.BackgroundTransparency = 1
+    cardVer.Text = "v 5.0"
+    cardVer.TextColor3 = Theme.Accent
+    cardVer.TextSize = 9
+    cardVer.Font = Enum.Font.GothamBold
+    cardVer.TextXAlignment = Enum.TextXAlignment.Right
+    cardVer.Parent = card
+    _regAcc(cardVer, "TextColor3")
+
+    local paletteTitle = Instance.new("TextLabel")
+    paletteTitle.Size = UDim2.new(1, 0, 0, 20)
+    paletteTitle.BackgroundTransparency = 1
+    paletteTitle.Text = "PALETA RÁPIDA"
+    paletteTitle.TextColor3 = Theme.Accent
+    paletteTitle.TextSize = 10
+    paletteTitle.Font = Enum.Font.GothamBold
+    paletteTitle.TextXAlignment = Enum.TextXAlignment.Left
+    paletteTitle.Parent = page
+    _regAcc(paletteTitle, "TextColor3")
+
+    local paletteFrame = Instance.new("Frame")
+    paletteFrame.Size = UDim2.new(1, 0, 0, 48)
+    paletteFrame.BackgroundTransparency = 1
+    paletteFrame.Parent = page
+
+    local paletteLayout = Instance.new("UIListLayout")
+    paletteLayout.FillDirection = Enum.FillDirection.Horizontal
+    paletteLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    paletteLayout.Padding = UDim.new(0, 8)
+    paletteLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+    paletteLayout.Parent = paletteFrame
+
+    local presets = {
+        Color3.fromRGB(41, 255, 244),
+        Color3.fromRGB(120, 80, 255),
+        Color3.fromRGB(255, 80, 120),
+        Color3.fromRGB(255, 160, 40),
+        Color3.fromRGB(80, 200, 120),
+        Color3.fromRGB(255, 255, 80),
+    }
+
+    for i, col in ipairs(presets) do
+        local dot = Instance.new("TextButton")
+        dot.Size = UDim2.new(0, 36, 0, 36)
+        dot.BackgroundColor3 = col
+        dot.BorderSizePixel = 0
+        dot.Text = ""
+        dot.AutoButtonColor = false
+        dot.LayoutOrder = i
+        dot.Parent = paletteFrame
+        Instance.new("UICorner", dot).CornerRadius = UDim.new(1, 0)
+
+        local dotStroke = Instance.new("UIStroke")
+        dotStroke.Color = Color3.fromRGB(60, 54, 48)
+        dotStroke.Thickness = 1.5
+        dotStroke.Parent = dot
+
+        dot.MouseEnter:Connect(function()
+            TweenService:Create(dot, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Size = UDim2.new(0, 40, 0, 40) }):Play()
+            TweenService:Create(dotStroke, TweenInfo.new(0.15), { Color = Theme.Text }):Play()
+        end)
+        dot.MouseLeave:Connect(function()
+            TweenService:Create(dot, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Size = UDim2.new(0, 36, 0, 36) }):Play()
+            TweenService:Create(dotStroke, TweenInfo.new(0.15), { Color = Color3.fromRGB(60, 54, 48) }):Play()
+        end)
+        dot.MouseButton1Click:Connect(function()
+            setAccentColor(col)
+        end)
+    end
+
+    if tabData then
+        tabData.onTabSelected = function()
+            contentLayout:ApplyLayout()
+            contentScroll.CanvasSize = UDim2.new(0, 0, 0, contentLayout.AbsoluteContentSize.Y + 20)
+        end
+    end
+
+    return {
+        destroy = function()
+            for _, c in ipairs(activeConns) do pcall(function() c:Disconnect() end) end
+        end
+    }
 end
 
 local function NewColorPicker(parent, label, sub, defaultColor, callback, iconName)
@@ -2652,6 +2861,7 @@ return {
     NewInput             = NewInput,
     NewKeybind           = NewKeybind,
     NewLabel             = NewLabel,
+    NewInfoTab           = NewInfoTab,
     NewColorPicker       = NewColorPicker,
     NewBodyPartSelector  = NewBodyPartSelector,
     NewNote              = NewNote,
