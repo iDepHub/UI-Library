@@ -240,6 +240,44 @@ closeBtn.MouseLeave:Connect(function()
     SafeTween(closeBtn, TweenInfo.new(0.15), { TextColor3 = T.Dim })
 end)
 
+local Scan = Instance.new("Frame")
+Scan.Size = UDim2.new(0, 90, 0, 2)
+Scan.Position = UDim2.new(0, 0, 1, -2)
+Scan.BorderSizePixel = 0
+Scan.BackgroundColor3 = T.Accent
+Scan.Parent = topBar
+_regAcc(Scan, "BackgroundColor3")
+
+local ScanGrad = Instance.new("UIGradient")
+ScanGrad.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, T.Accent),
+    ColorSequenceKeypoint.new(0.5, T.Accent2),
+    ColorSequenceKeypoint.new(1, T.Accent),
+})
+ScanGrad.Transparency = NumberSequence.new({
+    NumberSequenceKeypoint.new(0, 1),
+    NumberSequenceKeypoint.new(0.5, 0),
+    NumberSequenceKeypoint.new(1, 1),
+})
+ScanGrad.Parent = Scan
+table.insert(_customAccentCallbacks, function(c)
+    ScanGrad.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0,   c),
+        ColorSequenceKeypoint.new(0.5, c),
+        ColorSequenceKeypoint.new(1,   c),
+    })
+end)
+
+task.spawn(function()
+    while mainFrame and mainFrame.Parent do
+        SafeTween(Scan, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(1, -90, 1, -2) })
+        task.wait(2.6)
+        if not mainFrame or not mainFrame.Parent then break end
+        SafeTween(Scan, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(0, 0, 1, -2) })
+        task.wait(2.6)
+    end
+end)
+
 RunService.RenderStepped:Connect(function(dt)
     if LogoWrap and LogoWrap.Parent then
         LogoWrap.Rotation = (LogoWrap.Rotation + dt * 48) % 360
@@ -458,6 +496,44 @@ sidebarLine.BackgroundColor3 = T.Line
 sidebarLine.BorderSizePixel = 0
 sidebarLine.Parent = bodyFrame
 _regAcc(sidebarLine, "BackgroundColor3")
+
+local DividerScan = Instance.new("Frame")
+DividerScan.Size = UDim2.new(0, 2, 0, 90)
+DividerScan.Position = UDim2.new(0, 130, 0, 0)
+DividerScan.BorderSizePixel = 0
+DividerScan.BackgroundColor3 = T.Accent
+local ScanGrad2 = Instance.new("UIGradient")
+ScanGrad2.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, T.Accent),
+    ColorSequenceKeypoint.new(0.5, T.Accent2),
+    ColorSequenceKeypoint.new(1, T.Accent),
+})
+ScanGrad2.Transparency = NumberSequence.new({
+    NumberSequenceKeypoint.new(0, 1),
+    NumberSequenceKeypoint.new(0.5, 0),
+    NumberSequenceKeypoint.new(1, 1),
+})
+ScanGrad2.Rotation = 90
+ScanGrad2.Parent = DividerScan
+DividerScan.Parent = bodyFrame
+_regAcc(DividerScan, "BackgroundColor3")
+table.insert(_customAccentCallbacks, function(c)
+    ScanGrad2.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0,   c),
+        ColorSequenceKeypoint.new(0.5, c),
+        ColorSequenceKeypoint.new(1,   c),
+    })
+end)
+
+task.spawn(function()
+    while mainFrame and mainFrame.Parent and DividerScan and DividerScan.Parent do
+        SafeTween(DividerScan, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(0, 130, 1, -90) })
+        task.wait(2.6)
+        if not mainFrame or not mainFrame.Parent or not DividerScan or not DividerScan.Parent then break end
+        SafeTween(DividerScan, TweenInfo.new(2.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Position = UDim2.new(0, 130, 0, 0) })
+        task.wait(2.6)
+    end
+end)
 
 local tabLayout = Instance.new("UIListLayout")
 tabLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -858,7 +934,7 @@ local function NewToggle(parent, label, sub, default, callback, iconName)
     btn.MouseEnter:Connect(function()
         if locked then return end
         SafeTween(f, TweenInfo.new(0.1), { BackgroundColor3 = T.Hover })
-        SafeTween(stroke, TweenInfo.new(0.1), { Color = Color3.fromRGB(48, 48, 48) })
+        SafeTween(stroke, TweenInfo.new(0.1), { Color = T.Line })
     end)
     btn.MouseLeave:Connect(function()
         if locked then return end
