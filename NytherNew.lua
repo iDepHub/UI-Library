@@ -67,7 +67,8 @@ local WINDOW_SIZE = UDim2.new(0, 480, 0, 420)
 local mainFrame = Instance.new("Frame")
 mainFrame.Name              = "MainFrame"
 mainFrame.Size              = UDim2.new(0, 0, 0, 0)
-mainFrame.Position          = UDim2.new(0, 0, 0, 0)
+mainFrame.AnchorPoint       = Vector2.new(0.5, 0.5)
+mainFrame.Position          = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.BackgroundColor3  = Theme.Base
 mainFrame.BorderSizePixel   = 0
 mainFrame.ClipsDescendants  = true
@@ -77,9 +78,12 @@ local mainCorner = Instance.new("UICorner")
 mainCorner.CornerRadius = UDim.new(0, 8)
 mainCorner.Parent = mainFrame
 
--- ============================================================
--- TOPBAR Y ESTRUCTURA (idéntico a NytherNew)
--- ============================================================
+local function CenterWindow()
+    local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
+    mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+    mainFrame.Size = WINDOW_SIZE
+end
+
 local topBar = Instance.new("Frame")
 topBar.Name             = "TopBar"
 topBar.Size             = UDim2.new(1, 0, 0, 54)
@@ -629,10 +633,6 @@ local function NewSection(parent, title, iconName)
 
     return sec
 end
-
--- ============================================================
--- FUNCIONES DE SEGURIDAD Y UTILIDADES (estilo NytherNew)
--- ============================================================
 local function SafeTween(instance, tweenInfo, properties)
     if not instance or not instance.Parent then return nil end
     local ok, tween = pcall(function()
@@ -676,11 +676,6 @@ local function Icon(parent, iconName, size, color)
     return img
 end
 
--- ============================================================
--- COMPONENTES VISUALES (estilo NytherNew)
--- ============================================================
-
--- NewToggle
 local function NewToggle(parent, label, sub, default, callback, iconName)
     local state = default or false
     local locked = false
@@ -841,7 +836,6 @@ local function NewToggle(parent, label, sub, default, callback, iconName)
     return container, setState, setLocked
 end
 
--- NewSlider
 local function NewSlider(parent, label, sub, minVal, maxVal, default, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 60)
@@ -970,7 +964,6 @@ local function NewSlider(parent, label, sub, minVal, maxVal, default, callback, 
     return container
 end
 
--- NewButton
 local function NewButton(parent, label, sub, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 46)
@@ -1046,7 +1039,6 @@ local function NewButton(parent, label, sub, callback, iconName)
     return container
 end
 
--- NewKeybind
 local function NewKeybind(parent, label, sub, defaultKey, callback, iconName)
     local listening = false
     local currentKey = defaultKey or Enum.KeyCode.F
@@ -1161,7 +1153,6 @@ local function NewKeybind(parent, label, sub, defaultKey, callback, iconName)
     return container
 end
 
--- NewLabel
 local function NewLabel(parent, text, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 30)
@@ -1196,7 +1187,6 @@ local function NewLabel(parent, text, iconName)
     return container
 end
 
--- NewColorPicker
 local function NewColorPicker(parent, label, sub, defaultColor, callback, iconName)
     defaultColor = defaultColor or Theme.Accent
 
@@ -1604,7 +1594,6 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
     return container
 end
 
--- NewBodyPartSelector
 local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, defaultParts, extRefreshTable, iconName)
     local RH_ROW  = 30
     local TH_ROW  = 38
@@ -1900,7 +1889,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     return container
 end
 
--- NewNote
 local function NewNote(parent, text, iconName)
     local noteFrame = Instance.new("Frame")
     noteFrame.Size              = UDim2.new(1, 0, 0, 0)
@@ -1959,7 +1947,6 @@ local function NewNote(parent, text, iconName)
     return noteFrame
 end
 
--- NewSearchPanel
 local function NewSearchPanel(searchTabData, opts)
     local getWeapons   = opts and opts.getWeapons
     local onSend       = opts and opts.onSend
@@ -2225,93 +2212,10 @@ local function NewSearchPanel(searchTabData, opts)
     searchTabData.onTabSelected = function() BuildList(searchBox.Text) end
 end
 
--- NewInput (se mantiene igual, ya era funcional)
-local function NewInput(parent, label, placeholder, callback)
-    local f, stroke = ElemBase(parent, 46)
-
-    local lbl = Instance.new("TextLabel")
-    lbl.Size              = UDim2.new(0.48, -10, 0, 18)
-    lbl.Position          = UDim2.new(0, 10, 0, 7)
-    lbl.BackgroundTransparency = 1
-    lbl.Text              = label
-    lbl.TextColor3        = Theme.Text
-    lbl.TextSize          = 12
-    lbl.Font              = Enum.Font.GothamBold
-    lbl.TextXAlignment    = Enum.TextXAlignment.Left
-    lbl.TextTruncate      = Enum.TextTruncate.AtEnd
-    lbl.Parent            = f
-
-    local subLbl = Instance.new("TextLabel")
-    subLbl.Size              = UDim2.new(0.48, -10, 0, 14)
-    subLbl.Position          = UDim2.new(0, 10, 0, 25)
-    subLbl.BackgroundTransparency = 1
-    subLbl.Text              = "Escribe un valor"
-    subLbl.TextColor3        = Theme.Dim
-    subLbl.TextSize          = 11
-    subLbl.Font              = Enum.Font.Gotham
-    subLbl.TextXAlignment    = Enum.TextXAlignment.Left
-    subLbl.TextTruncate      = Enum.TextTruncate.AtEnd
-    subLbl.Parent            = f
-
-    local boxBg = Instance.new("Frame")
-    boxBg.Size             = UDim2.new(0.52, -14, 0, 28)
-    boxBg.Position         = UDim2.new(0.48, 0, 0.5, -14)
-    boxBg.BackgroundColor3 = Theme.Panel
-    boxBg.BorderSizePixel  = 0
-    boxBg.Parent           = f
-    Corner(boxBg, 4)
-
-    local boxStroke = Stroke(boxBg, Theme.Line, 0.5)
-
-    local textBox = Instance.new("TextBox")
-    textBox.Size                 = UDim2.new(1, -12, 1, 0)
-    textBox.Position             = UDim2.new(0, 6, 0, 0)
-    textBox.BackgroundTransparency = 1
-    textBox.Text                 = ""
-    textBox.PlaceholderText      = placeholder or "..."
-    textBox.PlaceholderColor3    = Theme.Dim
-    textBox.TextColor3           = Theme.Text
-    textBox.TextSize             = 11
-    textBox.Font                 = Enum.Font.GothamSemibold
-    textBox.TextXAlignment       = Enum.TextXAlignment.Center
-    textBox.ClearTextOnFocus     = false
-    textBox.Parent               = boxBg
-
-    textBox.Focused:Connect(function()
-        SafeTween(boxStroke, TweenInfo.new(0.1), {Color = Theme.Accent})
-        SafeTween(f,         TweenInfo.new(0.1), {BackgroundColor3 = Theme.Hover})
-        SafeTween(stroke,    TweenInfo.new(0.1), {Color = Theme.Accent})
-    end)
-    textBox.FocusLost:Connect(function(enterPressed)
-        SafeTween(boxStroke, TweenInfo.new(0.1), {Color = Theme.Line})
-        SafeTween(f,         TweenInfo.new(0.1), {BackgroundColor3 = Theme.Raised})
-        SafeTween(stroke,    TweenInfo.new(0.1), {Color = Theme.Line})
-        if callback then callback(textBox.Text) end
-    end)
-
-    f.MouseEnter:Connect(function()
-        SafeTween(f, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Hover})
-    end)
-    f.MouseLeave:Connect(function()
-        SafeTween(f, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Raised})
-    end)
-
-    return f, textBox
-end
-
--- ============================================================
--- ARRASTRE CORREGIDO
--- ============================================================
 local isDragging, dragStart, frameStart = false, nil, nil
 
 topBar.InputBegan:Connect(function(inp)
     if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
-        local closePos = closeBtn.AbsolutePosition
-        local closeSize = closeBtn.AbsoluteSize
-        if inp.Position.X >= closePos.X and inp.Position.X <= closePos.X + closeSize.X and
-           inp.Position.Y >= closePos.Y and inp.Position.Y <= closePos.Y + closeSize.Y then
-            return
-        end
         isDragging = true
         dragStart  = inp.Position
         frameStart = mainFrame.Position
@@ -2338,10 +2242,6 @@ end)
 closeBtn.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
 end)
-
--- ============================================================
--- EYE ICON (sin cambios)
--- ============================================================
 local eyeGui      = nil
 local eyeFixed    = false
 local eyeHidden   = false
@@ -2478,10 +2378,6 @@ local function createEyeIcon()
 
     applyEyeVisibility(btn, eyeStroke, eyeHidden)
 end
-
--- ============================================================
--- NOTIFICACIONES
--- ============================================================
 local _notifGui = Instance.new("ScreenGui")
 _notifGui.Name            = "iDepHubNotifs"
 _notifGui.ResetOnSpawn    = false
@@ -2566,10 +2462,6 @@ local function sendNotification(title, text, duration)
         end)
     end)
 end
-
--- ============================================================
--- FLOAT BUTTON
--- ============================================================
 local function createFloatButton(config)
     config = config or {}
 
@@ -2744,9 +2636,6 @@ local function createFloatButton(config)
     }
 end
 
--- ============================================================
--- CENTRAR Y MOSTRAR
--- ============================================================
 CenterWindow()
 SafeTween(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
     Size = WINDOW_SIZE,
