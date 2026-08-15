@@ -1260,11 +1260,11 @@ local function NewInfoTab(page, tabData)
         ColorSequenceKeypoint.new(1, Theme.Accent),
     })
     orbitGrad.Transparency = NumberSequence.new({
-        ColorSequenceKeypoint.new(0, 1),
-        ColorSequenceKeypoint.new(0.04, 0),
-        ColorSequenceKeypoint.new(0.1, 0),
-        ColorSequenceKeypoint.new(0.14, 1),
-        ColorSequenceKeypoint.new(1, 1),
+    NumberSequenceKeypoint.new(0, 1),
+    NumberSequenceKeypoint.new(0.04, 0),
+    NumberSequenceKeypoint.new(0.1, 0),
+    NumberSequenceKeypoint.new(0.14, 1),
+    NumberSequenceKeypoint.new(1, 1),
     })
     orbitGrad.Rotation = 0
     orbitGrad.Parent = orbitStroke
