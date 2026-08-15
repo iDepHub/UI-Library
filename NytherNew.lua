@@ -386,7 +386,7 @@ contentLayout.Padding   = UDim.new(0, 12)
 contentLayout.Parent    = contentScroll
 
 local contentPad = Instance.new("UIPadding")
-contentPad.PaddingLeft   = UDim.new(0, 16)
+contentPad.PaddingLeft   = UDim.new(0, 6)
 contentPad.PaddingRight  = UDim.new(0, 16)
 contentPad.PaddingTop    = UDim.new(0, 16)
 contentPad.PaddingBottom = UDim.new(0, 16)
@@ -520,7 +520,7 @@ local function NewTab(name, icon, order)
     local pagePad = Instance.new("UIPadding")
     pagePad.PaddingTop    = UDim.new(0, 16)
     pagePad.PaddingBottom = UDim.new(0, 16)
-    pagePad.PaddingLeft   = UDim.new(0, 16)
+    pagePad.PaddingLeft   = UDim.new(0, 6)
     pagePad.PaddingRight  = UDim.new(0, 16)
     pagePad.Parent        = page
 
