@@ -1197,6 +1197,17 @@ end
 local function NewInfoTab(page, tabData)
     local activeConns = {}
 
+    local dashTitle = Instance.new("TextLabel")
+    dashTitle.Size = UDim2.new(1, 0, 0, 20)
+    dashTitle.BackgroundTransparency = 1
+    dashTitle.Text = "DASHBOARD"
+    dashTitle.TextColor3 = Theme.Accent
+    dashTitle.TextSize = 10
+    dashTitle.Font = Enum.Font.GothamBold
+    dashTitle.TextXAlignment = Enum.TextXAlignment.Left
+    dashTitle.Parent = page
+    _regAcc(dashTitle, "TextColor3")
+
     local headerFrame = Instance.new("Frame")
     headerFrame.Size = UDim2.new(1, 0, 0, 70)
     headerFrame.BackgroundTransparency = 1
@@ -1220,7 +1231,7 @@ local function NewInfoTab(page, tabData)
 
     local sub = Instance.new("TextLabel")
     sub.Size = UDim2.new(1, 0, 0, 36)
-    sub.Position = UDim2.new(0, 0, 0, 36)
+    sub.Position = UDim2.new(0, 0, 0, 38)
     sub.BackgroundTransparency = 1
     sub.Text = "Todo lo que necesitas\nEn un solo lugar."
     sub.TextColor3 = Theme.Dim
@@ -1231,8 +1242,8 @@ local function NewInfoTab(page, tabData)
     sub.Parent = leftContainer
 
     local avatarContainer = Instance.new("Frame")
-    avatarContainer.Size = UDim2.new(0, 70, 0, 70)
-    avatarContainer.Position = UDim2.new(1, -70, 0, 0)
+    avatarContainer.Size = UDim2.new(0, 90, 0, 90)
+    avatarContainer.Position = UDim2.new(1, -130, 0, -20)
     avatarContainer.BackgroundTransparency = 1
     avatarContainer.Parent = headerFrame
 
