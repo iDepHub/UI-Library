@@ -37,7 +37,8 @@ local _accentDarkObjs = {}
 local _customAccentCallbacks = {}
 local function _regAcc(o, p)  table.insert(_accentObjs,     {o, p}) end
 local function _regDark(o, p) table.insert(_accentDarkObjs, {o, p}) end
-
+ 
+local registeredTabs = {}
 local function setAccentColor(color)
     Theme.Accent  = color
     Theme.Accent2 = color
@@ -399,8 +400,6 @@ contentPad.PaddingRight  = UDim.new(0, 16)
 contentPad.PaddingTop    = UDim.new(0, 16)
 contentPad.PaddingBottom = UDim.new(0, 16)
 contentPad.Parent        = contentScroll
-
-local registeredTabs = {}
 
 local function SelectTab(target)
     for _, td in ipairs(registeredTabs) do
