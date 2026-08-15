@@ -1,8 +1,8 @@
-local TweenService = game:GetService("TweenService")
+local TweenService     = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
+local Players          = game:GetService("Players")
+local RunService       = game:GetService("RunService")
+local LocalPlayer      = Players.LocalPlayer
 
 local Lucide = nil
 pcall(function()
@@ -18,30 +18,30 @@ local function getLucideAsset(iconName, size)
 end
 
 local Theme = {
-    Base = Color3.fromRGB(8, 8, 8),
-    Panel = Color3.fromRGB(12, 12, 12),
-    Raised = Color3.fromRGB(34, 30, 26),
-    Hover = Color3.fromRGB(44, 38, 32),
-    Line = Color3.fromRGB(56, 49, 42),
-    Toggle = Color3.fromRGB(58, 51, 44),
-    Accent = Color3.fromRGB(41, 255, 244),
+    Base    = Color3.fromRGB(8, 8, 8),
+    Panel   = Color3.fromRGB(12, 12, 12),
+    Raised  = Color3.fromRGB(34, 30, 26),
+    Hover   = Color3.fromRGB(44, 38, 32),
+    Line    = Color3.fromRGB(56, 49, 42),
+    Toggle  = Color3.fromRGB(58, 51, 44),
+    Accent  = Color3.fromRGB(41, 255, 244),
     Accent2 = Color3.fromRGB(41, 255, 244),
-    Hot = Color3.fromRGB(41, 255, 244),
-    Text = Color3.fromRGB(244, 238, 229),
-    Dim = Color3.fromRGB(150, 139, 126),
-    Good = Color3.fromRGB(128, 224, 134),
+    Hot     = Color3.fromRGB(41, 255, 244),
+    Text    = Color3.fromRGB(244, 238, 229),
+    Dim     = Color3.fromRGB(150, 139, 126),
+    Good    = Color3.fromRGB(128, 224, 134),
 }
 
 local _accentObjs = {}
 local _accentDarkObjs = {}
 local _customAccentCallbacks = {}
-local function _regAcc(o, p) table.insert(_accentObjs, {o, p}) end
+local function _regAcc(o, p)  table.insert(_accentObjs,     {o, p}) end
 local function _regDark(o, p) table.insert(_accentDarkObjs, {o, p}) end
 
 local function setAccentColor(color)
-    Theme.Accent = color
+    Theme.Accent  = color
     Theme.Accent2 = color
-    Theme.Hot = color
+    Theme.Hot     = color
     local dark = Color3.new(color.R * 0.55, color.G * 0.55, color.B * 0.55)
     for _, e in ipairs(_accentObjs) do
         pcall(function() e[1][e[2]] = color end)
@@ -56,23 +56,23 @@ local isMobile = UserInputService.TouchEnabled and not UserInputService.Keyboard
 
 local playerGui = LocalPlayer:WaitForChild("PlayerGui")
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "iDepHubUI"
-screenGui.ResetOnSpawn = false
+screenGui.Name           = "iDepHubUI"
+screenGui.ResetOnSpawn   = false
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-screenGui.DisplayOrder = 999
-screenGui.Parent = playerGui
+screenGui.DisplayOrder   = 999
+screenGui.Parent         = playerGui
 
 local WINDOW_SIZE = UDim2.new(0, 480, 0, 420)
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Name = "MainFrame"
-mainFrame.Size = UDim2.new(0, 0, 0, 0)
+mainFrame.Name              = "MainFrame"
+mainFrame.Size              = UDim2.new(0, 0, 0, 0)
 mainFrame.AnchorPoint = Vector2.new(0, 0)
-mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-mainFrame.BackgroundColor3 = Theme.Base
-mainFrame.BorderSizePixel = 0
-mainFrame.ClipsDescendants = true
-mainFrame.Parent = screenGui
+mainFrame.Position          = UDim2.new(0.5, 0, 0.5, 0)
+mainFrame.BackgroundColor3  = Theme.Base
+mainFrame.BorderSizePixel   = 0
+mainFrame.ClipsDescendants  = true
+mainFrame.Parent            = screenGui
 
 local mainCorner = Instance.new("UICorner")
 mainCorner.CornerRadius = UDim.new(0, 8)
@@ -87,50 +87,50 @@ local function CenterWindow()
 end
 
 local topBar = Instance.new("Frame")
-topBar.Name = "TopBar"
-topBar.Size = UDim2.new(1, 0, 0, 54)
+topBar.Name             = "TopBar"
+topBar.Size             = UDim2.new(1, 0, 0, 54)
 topBar.BackgroundColor3 = Theme.Panel
-topBar.BorderSizePixel = 0
-topBar.ZIndex = 5
-topBar.Parent = mainFrame
+topBar.BorderSizePixel  = 0
+topBar.ZIndex           = 5
+topBar.Parent           = mainFrame
 
 local topLine = Instance.new("Frame")
-topLine.Size = UDim2.new(1, 0, 0, 1)
-topLine.Position = UDim2.new(0, 0, 1, -1)
+topLine.Size             = UDim2.new(1, 0, 0, 1)
+topLine.Position         = UDim2.new(0, 0, 1, -1)
 topLine.BackgroundColor3 = Theme.Line
-topLine.BorderSizePixel = 0
-topLine.ZIndex = 6
-topLine.Parent = topBar
+topLine.BorderSizePixel  = 0
+topLine.ZIndex           = 6
+topLine.Parent           = topBar
 
 local LogoWrap = Instance.new("Frame")
-LogoWrap.Size = UDim2.new(0, 20, 0, 20)
-LogoWrap.Position = UDim2.new(0, 20, 0, 17)
-LogoWrap.Rotation = 45
+LogoWrap.Size             = UDim2.new(0, 20, 0, 20)
+LogoWrap.Position         = UDim2.new(0, 20, 0, 17)
+LogoWrap.Rotation         = 45
 LogoWrap.BackgroundTransparency = 1
-LogoWrap.Parent = topBar
+LogoWrap.Parent           = topBar
 
 local Logo = Instance.new("Frame")
-Logo.Size = UDim2.new(1, 0, 1, 0)
-Logo.BorderSizePixel = 0
-Logo.Parent = LogoWrap
+Logo.Size             = UDim2.new(1, 0, 1, 0)
+Logo.BorderSizePixel  = 0
+Logo.Parent           = LogoWrap
 local LogoCorner = Instance.new("UICorner")
 LogoCorner.CornerRadius = UDim.new(0, 5)
 LogoCorner.Parent = Logo
 
 local LogoGrad = Instance.new("UIGradient")
-LogoGrad.Color = ColorSequence.new(Theme.Accent, Theme.Accent)
+LogoGrad.Color    = ColorSequence.new(Theme.Accent, Theme.Accent)
 LogoGrad.Rotation = 45
-LogoGrad.Parent = Logo
+LogoGrad.Parent   = Logo
 table.insert(_customAccentCallbacks, function(c)
     LogoGrad.Color = ColorSequence.new(c, c)
 end)
 
 local LogoCore = Instance.new("Frame")
-LogoCore.Size = UDim2.new(0, 8, 0, 8)
-LogoCore.Position = UDim2.new(0.5, -4, 0.5, -4)
+LogoCore.Size             = UDim2.new(0, 8, 0, 8)
+LogoCore.Position         = UDim2.new(0.5, -4, 0.5, -4)
 LogoCore.BackgroundColor3 = Theme.Base
-LogoCore.BorderSizePixel = 0
-LogoCore.Parent = Logo
+LogoCore.BorderSizePixel  = 0
+LogoCore.Parent           = Logo
 local LogoCoreCorner = Instance.new("UICorner")
 LogoCoreCorner.CornerRadius = UDim.new(0, 2)
 LogoCoreCorner.Parent = LogoCore
@@ -142,65 +142,65 @@ RunService.RenderStepped:Connect(function(dt)
 end)
 
 local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(0, 260, 0, 20)
-titleLabel.Position = UDim2.new(0, 54, 0, 16)
+titleLabel.Size               = UDim2.new(0, 260, 0, 20)
+titleLabel.Position           = UDim2.new(0, 54, 0, 16)
 titleLabel.BackgroundTransparency = 1
-titleLabel.Text = "Nyther - UI Library"
-titleLabel.TextColor3 = Theme.Accent
-titleLabel.TextSize = 16
-titleLabel.Font = Enum.Font.GothamBlack
-titleLabel.TextXAlignment = Enum.TextXAlignment.Left
-titleLabel.ZIndex = 7
-titleLabel.Parent = topBar
+titleLabel.Text               = "Nyther - UI Library"
+titleLabel.TextColor3         = Theme.Accent
+titleLabel.TextSize           = 16
+titleLabel.Font               = Enum.Font.GothamBlack
+titleLabel.TextXAlignment     = Enum.TextXAlignment.Left
+titleLabel.ZIndex             = 7
+titleLabel.Parent             = topBar
 _regAcc(titleLabel, "TextColor3")
 
 local versionLabel = Instance.new("TextLabel")
-versionLabel.Size = UDim2.new(0, 60, 0, 16)
-versionLabel.Position = UDim2.new(0, 54, 0, 34)
+versionLabel.Size               = UDim2.new(0, 60, 0, 16)
+versionLabel.Position           = UDim2.new(0, 54, 0, 34)
 versionLabel.BackgroundTransparency = 1
-versionLabel.Text = "By L#######"
-versionLabel.TextColor3 = Theme.Dim
-versionLabel.TextSize = 9
-versionLabel.Font = Enum.Font.GothamMedium
-versionLabel.TextXAlignment = Enum.TextXAlignment.Left
-versionLabel.ZIndex = 7
-versionLabel.Parent = topBar
+versionLabel.Text               = "By L#######"
+versionLabel.TextColor3         = Theme.Dim
+versionLabel.TextSize           = 9
+versionLabel.Font               = Enum.Font.GothamMedium
+versionLabel.TextXAlignment     = Enum.TextXAlignment.Left
+versionLabel.ZIndex             = 7
+versionLabel.Parent             = topBar
 
 local Pill = Instance.new("Frame")
-Pill.Size = UDim2.new(0, 116, 0, 22)
-Pill.Position = UDim2.new(1, -172, 0, 16)
+Pill.Size             = UDim2.new(0, 116, 0, 22)
+Pill.Position         = UDim2.new(1, -172, 0, 16)
 Pill.BackgroundColor3 = Theme.Raised
-Pill.BorderSizePixel = 0
-Pill.Parent = topBar
+Pill.BorderSizePixel  = 0
+Pill.Parent           = topBar
 local PillCorner = Instance.new("UICorner")
 PillCorner.CornerRadius = UDim.new(0, 11)
 PillCorner.Parent = Pill
 local PillStroke = Instance.new("UIStroke")
-PillStroke.Color = Theme.Accent
+PillStroke.Color     = Theme.Accent
 PillStroke.Thickness = 0.5
-PillStroke.Parent = Pill
+PillStroke.Parent    = Pill
 _regAcc(PillStroke, "Color")
 
 local PillDot = Instance.new("Frame")
-PillDot.Size = UDim2.new(0, 6, 0, 6)
-PillDot.Position = UDim2.new(0, 10, 0.5, -3)
+PillDot.Size             = UDim2.new(0, 6, 0, 6)
+PillDot.Position         = UDim2.new(0, 10, 0.5, -3)
 PillDot.BackgroundColor3 = Theme.Good
-PillDot.BorderSizePixel = 0
-PillDot.Parent = Pill
+PillDot.BorderSizePixel  = 0
+PillDot.Parent           = Pill
 local PillDotCorner = Instance.new("UICorner")
 PillDotCorner.CornerRadius = UDim.new(1, 0)
 PillDotCorner.Parent = PillDot
 
 local PillText = Instance.new("TextLabel")
-PillText.Size = UDim2.new(1, -24, 1, 0)
-PillText.Position = UDim2.new(0, 22, 0, 0)
+PillText.Size                 = UDim2.new(1, -24, 1, 0)
+PillText.Position             = UDim2.new(0, 22, 0, 0)
 PillText.BackgroundTransparency = 1
-PillText.Text = "Activate"
-PillText.TextColor3 = Theme.Text
-PillText.TextSize = 11
-PillText.Font = Enum.Font.GothamBold
-PillText.TextXAlignment = Enum.TextXAlignment.Left
-PillText.Parent = Pill
+PillText.Text                 = "Activate"
+PillText.TextColor3           = Theme.Text
+PillText.TextSize             = 11
+PillText.Font                 = Enum.Font.GothamBold
+PillText.TextXAlignment       = Enum.TextXAlignment.Left
+PillText.Parent               = Pill
 
 task.spawn(function()
     while PillDot and PillDot.Parent do
@@ -213,16 +213,16 @@ task.spawn(function()
 end)
 
 local closeBtn = Instance.new("TextButton")
-closeBtn.Size = UDim2.new(0, 28, 0, 28)
-closeBtn.Position = UDim2.new(1, -42, 0, 13)
+closeBtn.Size             = UDim2.new(0, 28, 0, 28)
+closeBtn.Position         = UDim2.new(1, -42, 0, 13)
 closeBtn.BackgroundTransparency = 1
-closeBtn.Text = "X"
-closeBtn.TextColor3 = Theme.Dim
-closeBtn.TextSize = 15
-closeBtn.Font = Enum.Font.GothamBold
-closeBtn.AutoButtonColor = false
-closeBtn.ZIndex = 8
-closeBtn.Parent = topBar
+closeBtn.Text             = "X"
+closeBtn.TextColor3       = Theme.Dim
+closeBtn.TextSize         = 15
+closeBtn.Font             = Enum.Font.GothamBold
+closeBtn.AutoButtonColor  = false
+closeBtn.ZIndex           = 8
+closeBtn.Parent           = topBar
 local closeCorner = Instance.new("UICorner")
 closeCorner.CornerRadius = UDim.new(0, 6)
 closeCorner.Parent = closeBtn
@@ -235,30 +235,30 @@ closeBtn.MouseLeave:Connect(function()
 end)
 
 local Scan = Instance.new("Frame")
-Scan.Size = UDim2.new(0, 90, 0, 2)
-Scan.Position = UDim2.new(0, 0, 1, -2)
-Scan.BorderSizePixel = 0
+Scan.Size             = UDim2.new(0, 90, 0, 2)
+Scan.Position         = UDim2.new(0, 0, 1, -2)
+Scan.BorderSizePixel  = 0
 Scan.BackgroundColor3 = Theme.Accent
-Scan.Parent = topBar
+Scan.Parent           = topBar
 _regAcc(Scan, "BackgroundColor3")
 
 local ScanGrad = Instance.new("UIGradient")
 ScanGrad.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, Theme.Accent),
+    ColorSequenceKeypoint.new(0,   Theme.Accent),
     ColorSequenceKeypoint.new(0.5, Theme.Accent2),
-    ColorSequenceKeypoint.new(1, Theme.Accent),
+    ColorSequenceKeypoint.new(1,   Theme.Accent),
 })
 ScanGrad.Transparency = NumberSequence.new({
-    NumberSequenceKeypoint.new(0, 1),
+    NumberSequenceKeypoint.new(0,   1),
     NumberSequenceKeypoint.new(0.5, 0),
-    NumberSequenceKeypoint.new(1, 1),
+    NumberSequenceKeypoint.new(1,   1),
 })
 ScanGrad.Parent = Scan
 table.insert(_customAccentCallbacks, function(c)
     ScanGrad.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, c),
+        ColorSequenceKeypoint.new(0,   c),
         ColorSequenceKeypoint.new(0.5, c),
-        ColorSequenceKeypoint.new(1, c),
+        ColorSequenceKeypoint.new(1,   c),
     })
 end)
 
@@ -273,59 +273,59 @@ task.spawn(function()
 end)
 
 local bodyFrame = Instance.new("Frame")
-bodyFrame.Size = UDim2.new(1, 0, 1, -54)
-bodyFrame.Position = UDim2.new(0, 0, 0, 54)
+bodyFrame.Size              = UDim2.new(1, 0, 1, -54)
+bodyFrame.Position          = UDim2.new(0, 0, 0, 54)
 bodyFrame.BackgroundTransparency = 1
-bodyFrame.BorderSizePixel = 0
-bodyFrame.Parent = mainFrame
+bodyFrame.BorderSizePixel   = 0
+bodyFrame.Parent            = mainFrame
 
 local sidebar = Instance.new("Frame")
-sidebar.Name = "Sidebar"
-sidebar.Size = UDim2.new(0, 146, 1, 0)
+sidebar.Name             = "Sidebar"
+sidebar.Size             = UDim2.new(0, 146, 1, 0)
 sidebar.BackgroundColor3 = Theme.Base
-sidebar.BorderSizePixel = 0
-sidebar.Parent = bodyFrame
+sidebar.BorderSizePixel  = 0
+sidebar.Parent           = bodyFrame
 
 local sidebarLine = Instance.new("Frame")
-sidebarLine.Size = UDim2.new(0, 1, 1, 0)
-sidebarLine.Position = UDim2.new(0, 131, 0, 0)
+sidebarLine.Size             = UDim2.new(0, 1, 1, 0)
+sidebarLine.Position         = UDim2.new(0, 131, 0, 0)
 sidebarLine.BackgroundColor3 = Theme.Line
-sidebarLine.BorderSizePixel = 0
-sidebarLine.Parent = bodyFrame
+sidebarLine.BorderSizePixel  = 0
+sidebarLine.Parent           = bodyFrame
 
 local sidebarFill = Instance.new("Frame")
-sidebarFill.Size = UDim2.new(0, 15, 1, 0)
-sidebarFill.Position = UDim2.new(0, 132, 0, 0)
+sidebarFill.Size             = UDim2.new(0, 15, 1, 0)
+sidebarFill.Position         = UDim2.new(0, 132, 0, 0)
 sidebarFill.BackgroundColor3 = Theme.Base
-sidebarFill.BorderSizePixel = 0
-sidebarFill.Parent = sidebar
+sidebarFill.BorderSizePixel  = 0
+sidebarFill.Parent           = sidebar
 
 local DividerScan = Instance.new("Frame")
-DividerScan.Size = UDim2.new(0, 2, 0, 90)
-DividerScan.Position = UDim2.new(0, 130, 0, 0)
-DividerScan.BorderSizePixel = 0
+DividerScan.Size             = UDim2.new(0, 2, 0, 90)
+DividerScan.Position         = UDim2.new(0, 130, 0, 0)
+DividerScan.BorderSizePixel  = 0
 DividerScan.BackgroundColor3 = Theme.Accent
-DividerScan.Parent = sidebar
+DividerScan.Parent           = sidebar
 _regAcc(DividerScan, "BackgroundColor3")
 
 local DividerScanGrad = Instance.new("UIGradient")
 DividerScanGrad.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, Theme.Accent),
+    ColorSequenceKeypoint.new(0,   Theme.Accent),
     ColorSequenceKeypoint.new(0.5, Theme.Accent2),
-    ColorSequenceKeypoint.new(1, Theme.Accent),
+    ColorSequenceKeypoint.new(1,   Theme.Accent),
 })
 DividerScanGrad.Transparency = NumberSequence.new({
-    NumberSequenceKeypoint.new(0, 1),
+    NumberSequenceKeypoint.new(0,   1),
     NumberSequenceKeypoint.new(0.5, 0),
-    NumberSequenceKeypoint.new(1, 1),
+    NumberSequenceKeypoint.new(1,   1),
 })
 DividerScanGrad.Rotation = 90
 DividerScanGrad.Parent = DividerScan
 table.insert(_customAccentCallbacks, function(c)
     DividerScanGrad.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, c),
+        ColorSequenceKeypoint.new(0,   c),
         ColorSequenceKeypoint.new(0.5, c),
-        ColorSequenceKeypoint.new(1, c),
+        ColorSequenceKeypoint.new(1,   c),
     })
 end)
 
@@ -340,77 +340,77 @@ task.spawn(function()
 end)
 
 local tabScroll = Instance.new("ScrollingFrame")
-tabScroll.Size = UDim2.new(1, 0, 1, 0)
+tabScroll.Size                 = UDim2.new(1, 0, 1, 0)
 tabScroll.BackgroundTransparency = 1
-tabScroll.BorderSizePixel = 0
-tabScroll.ScrollBarThickness = 0
-tabScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
-tabScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-tabScroll.ScrollingDirection = Enum.ScrollingDirection.Y
-tabScroll.Parent = sidebar
+tabScroll.BorderSizePixel      = 0
+tabScroll.ScrollBarThickness   = 0
+tabScroll.CanvasSize           = UDim2.new(0, 0, 0, 0)
+tabScroll.AutomaticCanvasSize  = Enum.AutomaticSize.Y
+tabScroll.ScrollingDirection   = Enum.ScrollingDirection.Y
+tabScroll.Parent               = sidebar
 
 local tabLayout = Instance.new("UIListLayout")
 tabLayout.SortOrder = Enum.SortOrder.LayoutOrder
-tabLayout.Padding = UDim.new(0, 8)
-tabLayout.Parent = tabScroll
+tabLayout.Padding   = UDim.new(0, 8)
+tabLayout.Parent    = tabScroll
 
 local tabPad = Instance.new("UIPadding")
-tabPad.PaddingLeft = UDim.new(0, 8)
-tabPad.PaddingRight = UDim.new(0, 8)
-tabPad.PaddingTop = UDim.new(0, 8)
+tabPad.PaddingLeft   = UDim.new(0, 8)
+tabPad.PaddingRight  = UDim.new(0, 8)
+tabPad.PaddingTop    = UDim.new(0, 8)
 tabPad.PaddingBottom = UDim.new(0, 8)
-tabPad.Parent = tabScroll
+tabPad.Parent        = tabScroll
 
 local contentFrame = Instance.new("Frame")
-contentFrame.Name = "Content"
-contentFrame.Size = UDim2.new(1, -146, 1, 0)
-contentFrame.Position = UDim2.new(0, 146, 0, 0)
+contentFrame.Name             = "Content"
+contentFrame.Size             = UDim2.new(1, -146, 1, 0)
+contentFrame.Position         = UDim2.new(0, 146, 0, 0)
 contentFrame.BackgroundColor3 = Theme.Base
-contentFrame.BorderSizePixel = 0
+contentFrame.BorderSizePixel  = 0
 contentFrame.ClipsDescendants = true
-contentFrame.Parent = bodyFrame
+contentFrame.Parent           = bodyFrame
 
 local contentScroll = Instance.new("ScrollingFrame")
-contentScroll.Size = UDim2.new(1, 0, 1, 0)
+contentScroll.Size                 = UDim2.new(1, 0, 1, 0)
 contentScroll.BackgroundTransparency = 1
-contentScroll.BorderSizePixel = 0
-contentScroll.ScrollBarThickness = 0
-contentScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
-contentScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-contentScroll.ScrollingDirection = Enum.ScrollingDirection.Y
-contentScroll.Parent = contentFrame
+contentScroll.BorderSizePixel      = 0
+contentScroll.ScrollBarThickness   = 0
+contentScroll.CanvasSize           = UDim2.new(0, 0, 0, 0)
+contentScroll.AutomaticCanvasSize  = Enum.AutomaticSize.Y
+contentScroll.ScrollingDirection   = Enum.ScrollingDirection.Y
+contentScroll.Parent               = contentFrame
 
 local contentLayout = Instance.new("UIListLayout")
 contentLayout.SortOrder = Enum.SortOrder.LayoutOrder
-contentLayout.Padding = UDim.new(0, 12)
-contentLayout.Parent = contentScroll
+contentLayout.Padding   = UDim.new(0, 12)
+contentLayout.Parent    = contentScroll
 
 local contentPad = Instance.new("UIPadding")
-contentPad.PaddingLeft = UDim.new(0, 16)
-contentPad.PaddingRight = UDim.new(0, 16)
-contentPad.PaddingTop = UDim.new(0, 16)
+contentPad.PaddingLeft   = UDim.new(0, 16)
+contentPad.PaddingRight  = UDim.new(0, 16)
+contentPad.PaddingTop    = UDim.new(0, 16)
 contentPad.PaddingBottom = UDim.new(0, 16)
-contentPad.Parent = contentScroll
+contentPad.Parent        = contentScroll
 
 local registeredTabs = {}
 
 local function SelectTab(target)
     for _, td in ipairs(registeredTabs) do
-        td.page.Visible = false
+        td.page.Visible   = false
         td.accent.Visible = false
-        TweenService:Create(td.btn, TweenInfo.new(0.12), {BackgroundColor3 = Theme.Raised, TextColor3 = Theme.Dim}):Play()
+        TweenService:Create(td.btn,     TweenInfo.new(0.12), {BackgroundColor3 = Theme.Raised, TextColor3 = Theme.Dim}):Play()
         if td.iconImg then
             TweenService:Create(td.iconImg, TweenInfo.new(0.12), {ImageColor3 = Theme.Dim}):Play()
         end
         if td.customPanel then td.customPanel.Visible = false end
     end
     target.accent.Visible = true
-    TweenService:Create(target.btn, TweenInfo.new(0.12), {BackgroundColor3 = Theme.Hover, TextColor3 = Theme.Accent}):Play()
+    TweenService:Create(target.btn,     TweenInfo.new(0.12), {BackgroundColor3 = Theme.Hover, TextColor3 = Theme.Accent}):Play()
     if target.iconImg then
         TweenService:Create(target.iconImg, TweenInfo.new(0.12), {ImageColor3 = Theme.Accent}):Play()
     end
     if target.customPanel then
-        target.page.Visible = false
+        target.page.Visible        = false
         target.customPanel.Visible = true
     else
         target.page.Visible = true
@@ -422,29 +422,29 @@ end
 
 local function NewTab(name, icon, order)
     local btn = Instance.new("TextButton")
-    btn.Name = "Tab_"..name
-    btn.Size = UDim2.new(1, -16, 0, 38)
+    btn.Name             = "Tab_"..name
+    btn.Size             = UDim2.new(1, -16, 0, 38)
     btn.BackgroundColor3 = Theme.Raised
-    btn.TextColor3 = Theme.Dim
-    btn.Text = "   " .. name
-    btn.TextSize = 12
-    btn.Font = Enum.Font.GothamBold
-    btn.BorderSizePixel = 0
-    btn.AutoButtonColor = false
-    btn.LayoutOrder = order
-    btn.Parent = tabScroll
+    btn.TextColor3       = Theme.Dim
+    btn.Text             = "   " .. name
+    btn.TextSize         = 12
+    btn.Font             = Enum.Font.GothamBold
+    btn.BorderSizePixel  = 0
+    btn.AutoButtonColor  = false
+    btn.LayoutOrder      = order
+    btn.Parent           = tabScroll
     local btnCorner = Instance.new("UICorner")
     btnCorner.CornerRadius = UDim.new(0, 6)
     btnCorner.Parent = btn
 
     local accentBar = Instance.new("Frame")
-    accentBar.Name = "Accent"
-    accentBar.Size = UDim2.new(0, 3, 0, 20)
-    accentBar.Position = UDim2.new(0, 0, 0.5, -10)
+    accentBar.Name             = "Accent"
+    accentBar.Size             = UDim2.new(0, 3, 0, 20)
+    accentBar.Position         = UDim2.new(0, 0, 0.5, -10)
     accentBar.BackgroundColor3 = Theme.Accent
-    accentBar.BorderSizePixel = 0
-    accentBar.Visible = false
-    accentBar.Parent = btn
+    accentBar.BorderSizePixel  = 0
+    accentBar.Visible          = false
+    accentBar.Parent           = btn
     local accentCorner = Instance.new("UICorner")
     accentCorner.CornerRadius = UDim.new(0, 2)
     accentCorner.Parent = accentBar
@@ -460,40 +460,40 @@ local function NewTab(name, icon, order)
 
     if lucideAsset then
         local img = Instance.new("ImageLabel")
-        img.Size = UDim2.new(0, 16, 0, 16)
-        img.Position = UDim2.new(0, 8, 0.5, -8)
+        img.Size                 = UDim2.new(0, 16, 0, 16)
+        img.Position             = UDim2.new(0, 8, 0.5, -8)
         img.BackgroundTransparency = 1
-        img.Image = lucideAsset.Url
-        img.ImageRectSize = lucideAsset.ImageRectSize
-        img.ImageRectOffset = lucideAsset.ImageRectOffset
-        img.ScaleType = Enum.ScaleType.Fit
-        img.ImageColor3 = Theme.Dim
-        img.Parent = btn
+        img.Image                = lucideAsset.Url
+        img.ImageRectSize        = lucideAsset.ImageRectSize
+        img.ImageRectOffset      = lucideAsset.ImageRectOffset
+        img.ScaleType            = Enum.ScaleType.Fit
+        img.ImageColor3          = Theme.Dim
+        img.Parent               = btn
         iconImg = img
         hasVisibleIcon = true
     elseif (type(icon) == "number") or (type(icon) == "string" and (icon:match("^%d+$") or icon:match("^rbxassetid://"))) then
         local rawId = type(icon) == "number" and tostring(icon) or (icon:match("^%d+$") and icon or icon:gsub("rbxassetid://",""))
         local img = Instance.new("ImageLabel")
-        img.Size = UDim2.new(0, 16, 0, 16)
-        img.Position = UDim2.new(0, 8, 0.5, -8)
+        img.Size                 = UDim2.new(0, 16, 0, 16)
+        img.Position             = UDim2.new(0, 8, 0.5, -8)
         img.BackgroundTransparency = 1
-        img.Image = "rbxassetid://" .. rawId
-        img.ImageColor3 = Theme.Dim
-        img.ScaleType = Enum.ScaleType.Fit
-        img.Parent = btn
+        img.Image                = "rbxassetid://" .. rawId
+        img.ImageColor3          = Theme.Dim
+        img.ScaleType            = Enum.ScaleType.Fit
+        img.Parent               = btn
         iconImg = img
         hasVisibleIcon = true
     elseif type(icon) == "string" and icon ~= "" then
         local iconLbl = Instance.new("TextLabel")
-        iconLbl.Size = UDim2.new(0, 22, 1, 0)
-        iconLbl.Position = UDim2.new(0, 8, 0, 0)
+        iconLbl.Size                 = UDim2.new(0, 22, 1, 0)
+        iconLbl.Position             = UDim2.new(0, 8, 0, 0)
         iconLbl.BackgroundTransparency = 1
-        iconLbl.Text = icon
-        iconLbl.TextSize = 15
-        iconLbl.Font = Enum.Font.GothamSemibold
-        iconLbl.TextColor3 = Theme.Dim
-        iconLbl.TextXAlignment = Enum.TextXAlignment.Center
-        iconLbl.Parent = btn
+        iconLbl.Text                 = icon
+        iconLbl.TextSize             = 15
+        iconLbl.Font                 = Enum.Font.GothamSemibold
+        iconLbl.TextColor3           = Theme.Dim
+        iconLbl.TextXAlignment       = Enum.TextXAlignment.Center
+        iconLbl.Parent               = btn
         hasVisibleIcon = true
     end
 
@@ -502,27 +502,27 @@ local function NewTab(name, icon, order)
     end
 
     local page = Instance.new("ScrollingFrame")
-    page.Size = UDim2.new(1, 0, 1, 0)
+    page.Size                  = UDim2.new(1, 0, 1, 0)
     page.BackgroundTransparency = 1
-    page.BorderSizePixel = 0
-    page.ScrollBarThickness = 0
-    page.CanvasSize = UDim2.new(0, 0, 0, 0)
-    page.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    page.ScrollingDirection = Enum.ScrollingDirection.Y
-    page.Visible = false
-    page.Parent = contentFrame
+    page.BorderSizePixel        = 0
+    page.ScrollBarThickness     = 0
+    page.CanvasSize             = UDim2.new(0, 0, 0, 0)
+    page.AutomaticCanvasSize    = Enum.AutomaticSize.Y
+    page.ScrollingDirection     = Enum.ScrollingDirection.Y
+    page.Visible                = false
+    page.Parent                 = contentFrame
 
     local pageLayout = Instance.new("UIListLayout")
     pageLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    pageLayout.Padding = UDim.new(0, 12)
-    pageLayout.Parent = page
+    pageLayout.Padding   = UDim.new(0, 12)
+    pageLayout.Parent    = page
 
     local pagePad = Instance.new("UIPadding")
-    pagePad.PaddingTop = UDim.new(0, 16)
+    pagePad.PaddingTop    = UDim.new(0, 16)
     pagePad.PaddingBottom = UDim.new(0, 16)
-    pagePad.PaddingLeft = UDim.new(0, 16)
-    pagePad.PaddingRight = UDim.new(0, 16)
-    pagePad.Parent = page
+    pagePad.PaddingLeft   = UDim.new(0, 16)
+    pagePad.PaddingRight  = UDim.new(0, 16)
+    pagePad.Parent        = page
 
     local tabData = {btn = btn, accent = accentBar, page = page, iconImg = iconImg, customPanel = nil, onTabSelected = nil}
     table.insert(registeredTabs, tabData)
@@ -566,11 +566,11 @@ end
 
 local function ElemBase(parent, h)
     local f = Instance.new("Frame")
-    f.Size = UDim2.new(1, 0, 0, h)
+    f.Size             = UDim2.new(1, 0, 0, h)
     f.BackgroundColor3 = Theme.Raised
-    f.BorderSizePixel = 0
-    f.LayoutOrder = nextOrd()
-    f.Parent = parent
+    f.BorderSizePixel  = 0
+    f.LayoutOrder      = nextOrd()
+    f.Parent           = parent
     Corner(f, 6)
     local s = Stroke(f, Theme.Line, 0.5)
     return f, s
@@ -578,64 +578,63 @@ end
 
 local function NewSection(parent, title, iconName)
     local sec = Instance.new("Frame")
-    sec.Size = UDim2.new(1, 0, 0, 0)
+    sec.Size              = UDim2.new(1, 0, 0, 0)
     sec.BackgroundTransparency = 1
-    sec.BorderSizePixel = 0
-    sec.AutomaticSize = Enum.AutomaticSize.Y
-    sec.LayoutOrder = nextOrd()
-    sec.Parent = parent
+    sec.BorderSizePixel   = 0
+    sec.AutomaticSize     = Enum.AutomaticSize.Y
+    sec.LayoutOrder       = nextOrd()
+    sec.Parent            = parent
 
     local secLayout = Instance.new("UIListLayout")
     secLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    secLayout.Padding = UDim.new(0, 4)
-    secLayout.Parent = sec
+    secLayout.Padding   = UDim.new(0, 4)
+    secLayout.Parent    = sec
 
     local hdr = Instance.new("Frame")
-    hdr.Size = UDim2.new(1, 0, 0, 24)
+    hdr.Size             = UDim2.new(1, 0, 0, 24)
     hdr.BackgroundTransparency = 1
-    hdr.LayoutOrder = nextOrd()
-    hdr.Parent = sec
+    hdr.LayoutOrder      = nextOrd()
+    hdr.Parent           = sec
 
     local iconOffset = 0
     if iconName then
         local asset = getLucideAsset(iconName, 32)
         if asset then
             local img = Instance.new("ImageLabel")
-            img.Size = UDim2.new(0, 14, 0, 14)
-            img.Position = UDim2.new(0, 3, 0.5, -7)
+            img.Size                   = UDim2.new(0, 14, 0, 14)
+            img.Position               = UDim2.new(0, 3, 0.5, -7)
             img.BackgroundTransparency = 1
-            img.Image = asset.Url
-            img.ImageRectSize = asset.ImageRectSize
-            img.ImageRectOffset = asset.ImageRectOffset
-            img.ScaleType = Enum.ScaleType.Fit
-            img.ImageColor3 = Theme.Accent
-            img.Parent = hdr
+            img.Image                  = asset.Url
+            img.ImageRectSize          = asset.ImageRectSize
+            img.ImageRectOffset        = asset.ImageRectOffset
+            img.ScaleType              = Enum.ScaleType.Fit
+            img.ImageColor3            = Theme.Accent
+            img.Parent                 = hdr
             _regAcc(img, "ImageColor3")
             iconOffset = 20
         end
     end
 
     local hdrTxt = Instance.new("TextLabel")
-    hdrTxt.Size = UDim2.new(1, -iconOffset, 1, -2)
-    hdrTxt.Position = UDim2.new(0, iconOffset, 0, 0)
+    hdrTxt.Size              = UDim2.new(1, -iconOffset, 1, -2)
+    hdrTxt.Position          = UDim2.new(0, iconOffset, 0, 0)
     hdrTxt.BackgroundTransparency = 1
-    hdrTxt.Text = title
-    hdrTxt.TextColor3 = Theme.Dim
-    hdrTxt.TextSize = 10
-    hdrTxt.Font = Enum.Font.GothamBold
-    hdrTxt.TextXAlignment = Enum.TextXAlignment.Left
-    hdrTxt.Parent = hdr
+    hdrTxt.Text              = title
+    hdrTxt.TextColor3        = Theme.Dim
+    hdrTxt.TextSize          = 10
+    hdrTxt.Font              = Enum.Font.GothamBold
+    hdrTxt.TextXAlignment    = Enum.TextXAlignment.Left
+    hdrTxt.Parent            = hdr
 
     local hdrLine = Instance.new("Frame")
-    hdrLine.Size = UDim2.new(1, 0, 0, 1)
-    hdrLine.Position = UDim2.new(0, 0, 1, -1)
+    hdrLine.Size             = UDim2.new(1, 0, 0, 1)
+    hdrLine.Position         = UDim2.new(0, 0, 1, -1)
     hdrLine.BackgroundColor3 = Theme.Line
-    hdrLine.BorderSizePixel = 0
-    hdrLine.Parent = hdr
+    hdrLine.BorderSizePixel  = 0
+    hdrLine.Parent           = hdr
 
     return sec
 end
-
 local function SafeTween(instance, tweenInfo, properties)
     if not instance or not instance.Parent then return nil end
     local ok, tween = pcall(function()
@@ -678,7 +677,6 @@ local function Icon(parent, iconName, size, color)
     end
     return img
 end
-
 local function NewToggle(parent, label, sub, default, callback, iconName)
     local state = default or false
     local locked = false
@@ -838,7 +836,6 @@ local function NewToggle(parent, label, sub, default, callback, iconName)
 
     return container, setState, setLocked
 end
-
 local function NewSlider(parent, label, sub, minVal, maxVal, default, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 60)
@@ -1193,13 +1190,13 @@ end
 local function NewColorPicker(parent, label, sub, defaultColor, callback, iconName)
     defaultColor = defaultColor or Theme.Accent
 
-    local SQ_H = 120
-    local HUE_W = 14
-    local GAP = 12
-    local PAD = 12
-    local SQ_Y = 10
-    local INP_H = 28
-    local INP_Y = SQ_Y + SQ_H + 10
+    local SQ_H   = 120
+    local HUE_W  = 14
+    local GAP    = 12
+    local PAD    = 12
+    local SQ_Y   = 10
+    local INP_H  = 28
+    local INP_Y  = SQ_Y + SQ_H + 10
     local BODY_H = INP_Y + INP_H + 12
 
     local function toHexStr(c)
@@ -1226,24 +1223,24 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
     end
 
     local container = Instance.new("Frame")
-    container.Size = UDim2.new(1, 0, 0, 0)
-    container.AutomaticSize = Enum.AutomaticSize.Y
+    container.Size              = UDim2.new(1, 0, 0, 0)
+    container.AutomaticSize     = Enum.AutomaticSize.Y
     container.BackgroundTransparency = 1
-    container.BorderSizePixel = 0
-    container.LayoutOrder = nextOrd()
-    container.Parent = parent
+    container.BorderSizePixel   = 0
+    container.LayoutOrder       = nextOrd()
+    container.Parent            = parent
 
     local cLayout = Instance.new("UIListLayout")
     cLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    cLayout.Padding = UDim.new(0, 6)
-    cLayout.Parent = container
+    cLayout.Padding   = UDim.new(0, 6)
+    cLayout.Parent    = container
 
     local header = Instance.new("Frame")
-    header.Size = UDim2.new(1, 0, 0, 50)
+    header.Size             = UDim2.new(1, 0, 0, 50)
     header.BackgroundColor3 = Theme.Raised
-    header.BorderSizePixel = 0
-    header.LayoutOrder = 1
-    header.Parent = container
+    header.BorderSizePixel  = 0
+    header.LayoutOrder      = 1
+    header.Parent           = container
     Corner(header, 8)
     local hStroke = Stroke(header, Theme.Line, 0.5)
 
@@ -1252,15 +1249,15 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
         local asset = getLucideAsset(iconName, 32)
         if asset then
             local img = Instance.new("ImageLabel")
-            img.Size = UDim2.new(0, 16, 0, 16)
-            img.Position = UDim2.new(0, 14, 0, 9)
+            img.Size                   = UDim2.new(0, 16, 0, 16)
+            img.Position               = UDim2.new(0, 14, 0, 9)
             img.BackgroundTransparency = 1
-            img.Image = asset.Url
-            img.ImageRectSize = asset.ImageRectSize
-            img.ImageRectOffset = asset.ImageRectOffset
-            img.ScaleType = Enum.ScaleType.Fit
-            img.ImageColor3 = Theme.Accent
-            img.Parent = header
+            img.Image                  = asset.Url
+            img.ImageRectSize          = asset.ImageRectSize
+            img.ImageRectOffset        = asset.ImageRectOffset
+            img.ScaleType              = Enum.ScaleType.Fit
+            img.ImageColor3            = Theme.Accent
+            img.Parent                 = header
             _regAcc(img, "ImageColor3")
             labelOffset = 34
         end
@@ -1365,13 +1362,13 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
 
     local hueGrad = Instance.new("UIGradient")
     hueGrad.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromHSV(0, 1, 1)),
+        ColorSequenceKeypoint.new(0,     Color3.fromHSV(0,     1, 1)),
         ColorSequenceKeypoint.new(0.167, Color3.fromHSV(0.167, 1, 1)),
         ColorSequenceKeypoint.new(0.333, Color3.fromHSV(0.333, 1, 1)),
-        ColorSequenceKeypoint.new(0.5, Color3.fromHSV(0.5, 1, 1)),
+        ColorSequenceKeypoint.new(0.5,   Color3.fromHSV(0.5,   1, 1)),
         ColorSequenceKeypoint.new(0.667, Color3.fromHSV(0.667, 1, 1)),
         ColorSequenceKeypoint.new(0.833, Color3.fromHSV(0.833, 1, 1)),
-        ColorSequenceKeypoint.new(1, Color3.fromHSV(0, 1, 1)),
+        ColorSequenceKeypoint.new(1,     Color3.fromHSV(0,     1, 1)),
     })
     hueGrad.Rotation = 90
     hueGrad.Parent = hueBar
@@ -1422,34 +1419,34 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
         return box
     end
 
-    local hexBox = makeInputBox(0, PAD, 1, -136, "#000000")
-    local rBox = makeInputBox(1, -120, 0, 34, "R")
-    local gBox = makeInputBox(1, -82, 0, 34, "G")
-    local bBox = makeInputBox(1, -44, 0, 34, "B")
+    local hexBox = makeInputBox(0,  PAD,   1, -136, "#000000")
+    local rBox   = makeInputBox(1, -120,   0,   34, "R")
+    local gBox   = makeInputBox(1,  -82,   0,   34, "G")
+    local bBox   = makeInputBox(1,  -44,   0,   34, "B")
 
     local function getColor() return Color3.fromHSV(H, S, V) end
 
     local function refreshInputs()
-        local c = getColor()
-        local r = math.floor(c.R * 255 + 0.5)
-        local g = math.floor(c.G * 255 + 0.5)
-        local b = math.floor(c.B * 255 + 0.5)
+        local c   = getColor()
+        local r   = math.floor(c.R * 255 + 0.5)
+        local g   = math.floor(c.G * 255 + 0.5)
+        local b   = math.floor(c.B * 255 + 0.5)
         hexBox.Text = string.format("#%02X%02X%02X", r, g, b)
-        rBox.Text = tostring(r)
-        gBox.Text = tostring(g)
-        bBox.Text = tostring(b)
+        rBox.Text   = tostring(r)
+        gBox.Text   = tostring(g)
+        bBox.Text   = tostring(b)
     end
 
     local function refreshVisuals()
         local c = getColor()
         preview.BackgroundColor3 = c
-        square.BackgroundColor3 = Color3.fromHSV(H, 1, 1)
+        square.BackgroundColor3  = Color3.fromHSV(H, 1, 1)
         if callback then callback(c) end
     end
 
     local function applyHSV(nh, ns, nv)
         H = nh; S = ns; V = nv
-        sqKnob.Position = UDim2.new(S, 0, 1 - V, 0)
+        sqKnob.Position  = UDim2.new(S, 0, 1 - V, 0)
         hueKnob.Position = UDim2.new(0, -2, H, 0)
         refreshVisuals()
         refreshInputs()
@@ -1467,7 +1464,7 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
     local function updateFromHue(my)
         local ry = math.clamp((my - hueBar.AbsolutePosition.Y) / hueBar.AbsoluteSize.Y, 0, 1)
         H = ry
-        hueKnob.Position = UDim2.new(0, -2, ry, 0)
+        hueKnob.Position        = UDim2.new(0, -2, ry, 0)
         square.BackgroundColor3 = Color3.fromHSV(H, 1, 1)
         refreshVisuals()
         refreshInputs()
@@ -1531,7 +1528,7 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
 
     UserInputService.InputChanged:Connect(function(inp)
         if not isMoveEvent(inp) then return end
-        if dragSq then updateFromSquare(inp.Position.X, inp.Position.Y) end
+        if dragSq  then updateFromSquare(inp.Position.X, inp.Position.Y) end
         if dragHue then updateFromHue(inp.Position.Y) end
     end)
 
@@ -1588,7 +1585,7 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
     end)
 
     H, S, V = Color3.toHSV(defaultColor)
-    sqKnob.Position = UDim2.new(S, 0, 1 - V, 0)
+    sqKnob.Position  = UDim2.new(S, 0, 1 - V, 0)
     hueKnob.Position = UDim2.new(0, -2, H, 0)
     square.BackgroundColor3 = Color3.fromHSV(H, 1, 1)
     refreshVisuals()
@@ -1598,20 +1595,20 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
 end
 
 local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, defaultParts, extRefreshTable, iconName)
-    local RH_ROW = 30
-    local TH_ROW = 38
-    local RG = 6
-    local LW = 46
-    local CW = 72
-    local CG = 5
-    local PAD = 12
-    local ABH = 26
-    local legW = math.floor((CW - CG) / 2)
+    local RH_ROW  = 30
+    local TH_ROW  = 38
+    local RG      = 6
+    local LW      = 46
+    local CW      = 72
+    local CG      = 5
+    local PAD     = 12
+    local ABH     = 26
+    local legW    = math.floor((CW - CG) / 2)
 
     local TOTAL_INNER_W = LW + CG + CW + CG + LW
-    local CONTENT_W = TOTAL_INNER_W + PAD * 2
+    local CONTENT_W     = TOTAL_INNER_W + PAD * 2
 
-    local ROWS = 7
+    local ROWS   = 7
     local function rowY(r)
         if r == 1 then return PAD
         elseif r == 2 then return rowY(1) + RH_ROW + RG
@@ -1623,28 +1620,28 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         end
         return PAD
     end
-    local SEP_Y = rowY(ROWS) + RH_ROW + RG - 2
-    local AB_Y = SEP_Y + 8
+    local SEP_Y  = rowY(ROWS) + RH_ROW + RG - 2
+    local AB_Y   = SEP_Y + 8
     local BODY_H = AB_Y + ABH + PAD
 
     local container = Instance.new("Frame")
-    container.Size = UDim2.new(1, 0, 0, 0)
-    container.AutomaticSize = Enum.AutomaticSize.Y
+    container.Size               = UDim2.new(1, 0, 0, 0)
+    container.AutomaticSize      = Enum.AutomaticSize.Y
     container.BackgroundTransparency = 1
-    container.LayoutOrder = nextOrd()
-    container.Parent = parent
+    container.LayoutOrder        = nextOrd()
+    container.Parent             = parent
 
     local cLayout = Instance.new("UIListLayout")
     cLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    cLayout.Padding = UDim.new(0, 6)
-    cLayout.Parent = container
+    cLayout.Padding   = UDim.new(0, 6)
+    cLayout.Parent    = container
 
     local header = Instance.new("Frame")
-    header.Size = UDim2.new(1, 0, 0, 46)
+    header.Size             = UDim2.new(1, 0, 0, 46)
     header.BackgroundColor3 = Theme.Raised
-    header.BorderSizePixel = 0
-    header.LayoutOrder = 1
-    header.Parent = container
+    header.BorderSizePixel  = 0
+    header.LayoutOrder      = 1
+    header.Parent           = container
     Corner(header, 8)
     local hStroke = Stroke(header, Theme.Line, 0.5)
 
@@ -1653,72 +1650,72 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         local asset = getLucideAsset(iconName, 32)
         if asset then
             local img = Instance.new("ImageLabel")
-            img.Size = UDim2.new(0, 16, 0, 16)
-            img.Position = UDim2.new(0, 10, 0, 9)
+            img.Size               = UDim2.new(0, 16, 0, 16)
+            img.Position           = UDim2.new(0, 10, 0, 9)
             img.BackgroundTransparency = 1
-            img.Image = asset.Url
-            img.ImageRectSize = asset.ImageRectSize
-            img.ImageRectOffset = asset.ImageRectOffset
-            img.ScaleType = Enum.ScaleType.Fit
-            img.ImageColor3 = Theme.Accent
-            img.Parent = header
+            img.Image              = asset.Url
+            img.ImageRectSize      = asset.ImageRectSize
+            img.ImageRectOffset    = asset.ImageRectOffset
+            img.ScaleType          = Enum.ScaleType.Fit
+            img.ImageColor3        = Theme.Accent
+            img.Parent             = header
             _regAcc(img, "ImageColor3")
             labelOffset = 30
         end
     end
 
     local lbl = Label(header, label, 12, Theme.Text, Enum.Font.GothamBold)
-    lbl.Size = UDim2.new(1, -70, 0, 18)
-    lbl.Position = UDim2.new(0, labelOffset, 0, 7)
+    lbl.Size              = UDim2.new(1, -70, 0, 18)
+    lbl.Position          = UDim2.new(0, labelOffset, 0, 7)
 
     local subLbl = Label(header, sub or "", 10, Theme.Dim, Enum.Font.Gotham)
-    subLbl.Size = UDim2.new(1, -70, 0, 14)
-    subLbl.Position = UDim2.new(0, labelOffset, 0, 26)
+    subLbl.Size           = UDim2.new(1, -70, 0, 14)
+    subLbl.Position       = UDim2.new(0, labelOffset, 0, 26)
 
     local badgeBg = Instance.new("Frame")
-    badgeBg.Size = UDim2.new(0, 36, 0, 26)
-    badgeBg.Position = UDim2.new(1, -46, 0, 10)
+    badgeBg.Size             = UDim2.new(0, 36, 0, 26)
+    badgeBg.Position         = UDim2.new(1, -46, 0, 10)
     badgeBg.BackgroundColor3 = Theme.Panel
-    badgeBg.BorderSizePixel = 0
-    badgeBg.Parent = header
+    badgeBg.BorderSizePixel  = 0
+    badgeBg.Parent           = header
     Corner(badgeBg, 6)
     Stroke(badgeBg, Theme.Line, 0.5)
 
     local countLbl = Label(badgeBg, "0", 12, Theme.Accent, Enum.Font.GothamBold)
-    countLbl.Size = UDim2.new(1, 0, 1, 0)
-    countLbl.TextXAlignment = Enum.TextXAlignment.Center
+    countLbl.Size                 = UDim2.new(1, 0, 1, 0)
+    countLbl.TextXAlignment       = Enum.TextXAlignment.Center
     _regAcc(countLbl, "TextColor3")
 
     local body = Instance.new("Frame")
-    body.Size = UDim2.new(1, 0, 0, BODY_H)
+    body.Size             = UDim2.new(1, 0, 0, BODY_H)
     body.BackgroundColor3 = Theme.Panel
-    body.BorderSizePixel = 0
+    body.BorderSizePixel  = 0
     body.ClipsDescendants = true
-    body.Visible = false
-    body.LayoutOrder = 2
-    body.Parent = container
+    body.Visible          = false
+    body.LayoutOrder      = 2
+    body.Parent           = container
     Corner(body, 8)
     Stroke(body, Theme.Line, 0.5)
 
     local ch = Instance.new("Frame")
-    ch.Size = UDim2.new(0, CONTENT_W, 1, 0)
+    ch.Size        = UDim2.new(0, CONTENT_W, 1, 0)
     ch.AnchorPoint = Vector2.new(0.5, 0)
-    ch.Position = UDim2.new(0.5, 0, 0, 0)
+    ch.Position    = UDim2.new(0.5, 0, 0, 0)
     ch.BackgroundTransparency = 1
-    ch.Parent = body
+    ch.Parent      = body
 
-    local lx = PAD
-    local cx = lx + LW + CG
-    local rx = cx + CW + CG
+    local lx       = PAD
+    local cx       = lx + LW + CG
+    local rx       = cx + CW + CG
     local cxCenter = cx + math.floor(CW / 2)
 
     local function makeDeco(x, y, w, h)
         local d = Instance.new("Frame")
-        d.Size = UDim2.new(0, w, 0, h)
-        d.Position = UDim2.new(0, x, 0, y)
+        d.Size             = UDim2.new(0, w, 0, h)
+        d.Position         = UDim2.new(0, x, 0, y)
         d.BackgroundColor3 = Theme.Line
-        d.BorderSizePixel = 0
-        d.Parent = ch
+        d.BorderSizePixel  = 0
+        d.Parent           = ch
         Corner(d, 1)
         return d
     end
@@ -1745,26 +1742,26 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
 
     local function makePartBtn(btnLabel, partName, x, y, w, h, mirrorPart)
         local btn = Instance.new("TextButton")
-        btn.Size = UDim2.new(0, w, 0, h)
-        btn.Position = UDim2.new(0, x, 0, y)
-        btn.Text = btnLabel
-        btn.TextSize = 9
-        btn.Font = Enum.Font.GothamBold
+        btn.Size            = UDim2.new(0, w, 0, h)
+        btn.Position        = UDim2.new(0, x, 0, y)
+        btn.Text            = btnLabel
+        btn.TextSize        = 9
+        btn.Font            = Enum.Font.GothamBold
         btn.BorderSizePixel = 0
         btn.AutoButtonColor = false
-        btn.Parent = ch
+        btn.Parent          = ch
         Corner(btn, 5)
         local bStroke = Stroke(btn, Theme.Line, 0.5)
 
         local function refresh()
             if selectedParts[partName] then
                 btn.BackgroundColor3 = Theme.Accent
-                btn.TextColor3 = Theme.Base
-                bStroke.Color = Theme.Accent
+                btn.TextColor3       = Theme.Base
+                bStroke.Color        = Theme.Accent
             else
                 btn.BackgroundColor3 = Theme.Raised
-                btn.TextColor3 = Theme.Dim
-                bStroke.Color = Theme.Line
+                btn.TextColor3       = Theme.Dim
+                bStroke.Color        = Theme.Line
             end
         end
         refresh()
@@ -1790,44 +1787,44 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         end)
     end
 
-    makePartBtn("H", "Head", cx + math.floor((CW-LW)/2), rowY(1), LW, RH_ROW)
-    makePartBtn("LUA", "LeftUpperArm", lx, rowY(2), LW, TH_ROW)
-    makePartBtn("UT", "UpperTorso", cx, rowY(2), CW, TH_ROW, "Torso")
+    makePartBtn("H",   "Head",          cx + math.floor((CW-LW)/2), rowY(1), LW, RH_ROW)
+    makePartBtn("LUA", "LeftUpperArm",  lx, rowY(2), LW, TH_ROW)
+    makePartBtn("UT",  "UpperTorso",    cx, rowY(2), CW, TH_ROW, "Torso")
     makePartBtn("RUA", "RightUpperArm", rx, rowY(2), LW, TH_ROW)
-    makePartBtn("LLA", "LeftLowerArm", lx, rowY(3), LW, TH_ROW)
-    makePartBtn("LT", "LowerTorso", cx, rowY(3), CW, TH_ROW)
+    makePartBtn("LLA", "LeftLowerArm",  lx, rowY(3), LW, TH_ROW)
+    makePartBtn("LT",  "LowerTorso",    cx, rowY(3), CW, TH_ROW)
     makePartBtn("RLA", "RightLowerArm", rx, rowY(3), LW, TH_ROW)
-    makePartBtn("LH", "LeftHand", lx, rowY(4), LW, RH_ROW)
-    makePartBtn("RH", "RightHand", rx, rowY(4), LW, RH_ROW)
-    makePartBtn("LUL", "LeftUpperLeg", cx, rowY(5), legW, RH_ROW)
-    makePartBtn("RUL", "RightUpperLeg", cx+legW+CG, rowY(5), legW, RH_ROW)
-    makePartBtn("LLL", "LeftLowerLeg", cx, rowY(6), legW, RH_ROW)
-    makePartBtn("RLL", "RightLowerLeg", cx+legW+CG, rowY(6), legW, RH_ROW)
-    makePartBtn("LF", "LeftFoot", cx, rowY(7), legW, RH_ROW)
-    makePartBtn("RF", "RightFoot", cx+legW+CG, rowY(7), legW, RH_ROW)
+    makePartBtn("LH",  "LeftHand",      lx, rowY(4), LW, RH_ROW)
+    makePartBtn("RH",  "RightHand",     rx, rowY(4), LW, RH_ROW)
+    makePartBtn("LUL", "LeftUpperLeg",  cx,          rowY(5), legW, RH_ROW)
+    makePartBtn("RUL", "RightUpperLeg", cx+legW+CG,  rowY(5), legW, RH_ROW)
+    makePartBtn("LLL", "LeftLowerLeg",  cx,          rowY(6), legW, RH_ROW)
+    makePartBtn("RLL", "RightLowerLeg", cx+legW+CG,  rowY(6), legW, RH_ROW)
+    makePartBtn("LF",  "LeftFoot",      cx,          rowY(7), legW, RH_ROW)
+    makePartBtn("RF",  "RightFoot",     cx+legW+CG,  rowY(7), legW, RH_ROW)
 
     local sep = Instance.new("Frame")
-    sep.Size = UDim2.new(1, -PAD*2, 0, 1)
-    sep.Position = UDim2.new(0, PAD, 0, SEP_Y)
+    sep.Size             = UDim2.new(1, -PAD*2, 0, 1)
+    sep.Position         = UDim2.new(0, PAD, 0, SEP_Y)
     sep.BackgroundColor3 = Theme.Line
-    sep.BorderSizePixel = 0
-    sep.Parent = ch
+    sep.BorderSizePixel  = 0
+    sep.Parent           = ch
 
-    local ABW = math.floor((TOTAL_INNER_W - CG * 2) / 3)
+    local ABW      = math.floor((TOTAL_INNER_W - CG * 2) / 3)
     local abStartX = lx
 
     local function makeActionBtn(btnLabel, x, callback)
         local ab = Instance.new("TextButton")
-        ab.Size = UDim2.new(0, ABW, 0, ABH)
-        ab.Position = UDim2.new(0, x, 0, AB_Y)
-        ab.Text = btnLabel
-        ab.TextSize = 10
-        ab.Font = Enum.Font.GothamSemibold
+        ab.Size             = UDim2.new(0, ABW, 0, ABH)
+        ab.Position         = UDim2.new(0, x, 0, AB_Y)
+        ab.Text             = btnLabel
+        ab.TextSize         = 10
+        ab.Font             = Enum.Font.GothamSemibold
         ab.BackgroundColor3 = Theme.Raised
-        ab.TextColor3 = Theme.Accent
-        ab.BorderSizePixel = 0
-        ab.AutoButtonColor = false
-        ab.Parent = ch
+        ab.TextColor3       = Theme.Accent
+        ab.BorderSizePixel  = 0
+        ab.AutoButtonColor  = false
+        ab.Parent           = ch
         Corner(ab, 5)
         Stroke(ab, Theme.Line, 0.5)
         _regAcc(ab, "TextColor3")
@@ -1864,10 +1861,10 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     end)
 
     local headerBtn = Instance.new("TextButton")
-    headerBtn.Size = UDim2.new(1, 0, 1, 0)
+    headerBtn.Size                 = UDim2.new(1, 0, 1, 0)
     headerBtn.BackgroundTransparency = 1
-    headerBtn.Text = ""
-    headerBtn.Parent = header
+    headerBtn.Text                 = ""
+    headerBtn.Parent               = header
 
     local expanded = false
     headerBtn.MouseButton1Click:Connect(function()
@@ -1894,209 +1891,209 @@ end
 
 local function NewNote(parent, text, iconName)
     local noteFrame = Instance.new("Frame")
-    noteFrame.Size = UDim2.new(1, 0, 0, 0)
-    noteFrame.AutomaticSize = Enum.AutomaticSize.Y
-    noteFrame.BackgroundColor3 = Theme.Raised
-    noteFrame.BorderSizePixel = 0
-    noteFrame.LayoutOrder = nextOrd()
-    noteFrame.Parent = parent
+    noteFrame.Size              = UDim2.new(1, 0, 0, 0)
+    noteFrame.AutomaticSize     = Enum.AutomaticSize.Y
+    noteFrame.BackgroundColor3  = Theme.Raised
+    noteFrame.BorderSizePixel   = 0
+    noteFrame.LayoutOrder       = nextOrd()
+    noteFrame.Parent            = parent
     Corner(noteFrame, 6)
 
     local noteStroke = Instance.new("UIStroke")
-    noteStroke.Color = Theme.Line
+    noteStroke.Color     = Theme.Line
     noteStroke.Thickness = 0.5
-    noteStroke.Parent = noteFrame
+    noteStroke.Parent    = noteFrame
 
     local notePad = Instance.new("UIPadding")
-    notePad.PaddingTop = UDim.new(0, 8)
+    notePad.PaddingTop    = UDim.new(0, 8)
     notePad.PaddingBottom = UDim.new(0, 8)
-    notePad.PaddingLeft = UDim.new(0, 10)
-    notePad.PaddingRight = UDim.new(0, 10)
-    notePad.Parent = noteFrame
+    notePad.PaddingLeft   = UDim.new(0, 10)
+    notePad.PaddingRight  = UDim.new(0, 10)
+    notePad.Parent        = noteFrame
 
     local iconOffset = 0
     if iconName then
         local asset = getLucideAsset(iconName, 32)
         if asset then
             local img = Instance.new("ImageLabel")
-            img.Size = UDim2.new(0, 14, 0, 14)
-            img.Position = UDim2.new(0, 0, 0, 8)
+            img.Size                   = UDim2.new(0, 14, 0, 14)
+            img.Position               = UDim2.new(0, 0, 0, 8)
             img.BackgroundTransparency = 1
-            img.Image = asset.Url
-            img.ImageRectSize = asset.ImageRectSize
-            img.ImageRectOffset = asset.ImageRectOffset
-            img.ScaleType = Enum.ScaleType.Fit
-            img.ImageColor3 = Theme.Accent
-            img.Parent = noteFrame
+            img.Image                  = asset.Url
+            img.ImageRectSize          = asset.ImageRectSize
+            img.ImageRectOffset        = asset.ImageRectOffset
+            img.ScaleType              = Enum.ScaleType.Fit
+            img.ImageColor3            = Theme.Accent
+            img.Parent                 = noteFrame
             _regAcc(img, "ImageColor3")
             iconOffset = 20
         end
     end
 
     local noteLbl = Instance.new("TextLabel")
-    noteLbl.Size = UDim2.new(1, -iconOffset, 0, 0)
-    noteLbl.Position = UDim2.new(0, iconOffset, 0, 0)
-    noteLbl.AutomaticSize = Enum.AutomaticSize.Y
+    noteLbl.Size                   = UDim2.new(1, -iconOffset, 0, 0)
+    noteLbl.Position               = UDim2.new(0, iconOffset, 0, 0)
+    noteLbl.AutomaticSize          = Enum.AutomaticSize.Y
     noteLbl.BackgroundTransparency = 1
-    noteLbl.Text = text or ""
-    noteLbl.TextColor3 = Theme.Dim
-    noteLbl.TextSize = 11
-    noteLbl.Font = Enum.Font.Gotham
-    noteLbl.TextXAlignment = Enum.TextXAlignment.Left
-    noteLbl.TextYAlignment = Enum.TextYAlignment.Top
-    noteLbl.TextWrapped = true
-    noteLbl.Parent = noteFrame
+    noteLbl.Text                   = text or ""
+    noteLbl.TextColor3             = Theme.Dim
+    noteLbl.TextSize               = 11
+    noteLbl.Font                   = Enum.Font.Gotham
+    noteLbl.TextXAlignment         = Enum.TextXAlignment.Left
+    noteLbl.TextYAlignment         = Enum.TextYAlignment.Top
+    noteLbl.TextWrapped            = true
+    noteLbl.Parent                 = noteFrame
 
     return noteFrame
 end
 
 local function NewSearchPanel(searchTabData, opts)
-    local getWeapons = opts and opts.getWeapons
-    local onSend = opts and opts.onSend
-    local hideAmount = opts and opts.hideAmount
-    local buttonLabel = (opts and opts.buttonLabel) or "Enviar arma"
+    local getWeapons   = opts and opts.getWeapons
+    local onSend       = opts and opts.onSend
+    local hideAmount   = opts and opts.hideAmount
+    local buttonLabel  = (opts and opts.buttonLabel) or "Enviar arma"
 
-    local selectedWeapon = nil
-    local selectedAmount = 1
+    local selectedWeapon  = nil
+    local selectedAmount  = 1
     local weaponRowFrames = {}
 
     local searchOuter = Instance.new("Frame")
-    searchOuter.Size = UDim2.new(1, -146, 1, 0)
-    searchOuter.Position = UDim2.new(0, 146, 0, 0)
+    searchOuter.Size              = UDim2.new(1, -146, 1, 0)
+    searchOuter.Position          = UDim2.new(0, 146, 0, 0)
     searchOuter.BackgroundTransparency = 1
-    searchOuter.BorderSizePixel = 0
-    searchOuter.ClipsDescendants = false
-    searchOuter.Visible = false
-    searchOuter.Parent = bodyFrame
+    searchOuter.BorderSizePixel   = 0
+    searchOuter.ClipsDescendants  = false
+    searchOuter.Visible           = false
+    searchOuter.Parent            = bodyFrame
 
     local searchBarBg = Instance.new("Frame")
-    searchBarBg.Size = UDim2.new(1, -18, 0, 32)
-    searchBarBg.Position = UDim2.new(0, 9, 0, 8)
+    searchBarBg.Size             = UDim2.new(1, -18, 0, 32)
+    searchBarBg.Position         = UDim2.new(0, 9, 0, 8)
     searchBarBg.BackgroundColor3 = Theme.Raised
-    searchBarBg.BorderSizePixel = 0
-    searchBarBg.Parent = searchOuter
+    searchBarBg.BorderSizePixel  = 0
+    searchBarBg.Parent           = searchOuter
     Corner(searchBarBg, 6)
 
     local _sbStroke = Stroke(searchBarBg, Theme.Line, 0.5)
 
     local searchIcon = Instance.new("TextLabel")
-    searchIcon.Size = UDim2.new(0, 28, 1, 0)
+    searchIcon.Size                 = UDim2.new(0, 28, 1, 0)
     searchIcon.BackgroundTransparency = 1
-    searchIcon.Text = "🔍"
-    searchIcon.TextSize = 13
-    searchIcon.Font = Enum.Font.GothamSemibold
-    searchIcon.TextXAlignment = Enum.TextXAlignment.Center
-    searchIcon.Parent = searchBarBg
+    searchIcon.Text                 = "🔍"
+    searchIcon.TextSize             = 13
+    searchIcon.Font                 = Enum.Font.GothamSemibold
+    searchIcon.TextXAlignment       = Enum.TextXAlignment.Center
+    searchIcon.Parent               = searchBarBg
 
     local searchBox = Instance.new("TextBox")
-    searchBox.Size = UDim2.new(1, -36, 1, 0)
-    searchBox.Position = UDim2.new(0, 28, 0, 0)
+    searchBox.Size              = UDim2.new(1, -36, 1, 0)
+    searchBox.Position          = UDim2.new(0, 28, 0, 0)
     searchBox.BackgroundTransparency = 1
-    searchBox.BorderSizePixel = 0
-    searchBox.PlaceholderText = "Buscar arma..."
+    searchBox.BorderSizePixel   = 0
+    searchBox.PlaceholderText   = "Buscar arma..."
     searchBox.PlaceholderColor3 = Theme.Dim
-    searchBox.Text = ""
-    searchBox.TextColor3 = Theme.Text
-    searchBox.TextSize = 11
-    searchBox.Font = Enum.Font.Gotham
-    searchBox.TextXAlignment = Enum.TextXAlignment.Left
-    searchBox.ClearTextOnFocus = false
-    searchBox.Parent = searchBarBg
+    searchBox.Text              = ""
+    searchBox.TextColor3        = Theme.Text
+    searchBox.TextSize          = 11
+    searchBox.Font              = Enum.Font.Gotham
+    searchBox.TextXAlignment    = Enum.TextXAlignment.Left
+    searchBox.ClearTextOnFocus  = false
+    searchBox.Parent            = searchBarBg
 
     local listFrame = Instance.new("ScrollingFrame")
-    listFrame.Size = UDim2.new(1, -18, 1, -130)
-    listFrame.Position = UDim2.new(0, 9, 0, 48)
-    listFrame.BackgroundColor3 = Theme.Raised
-    listFrame.BorderSizePixel = 0
-    listFrame.ScrollBarThickness = 0
-    listFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-    listFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    listFrame.Parent = searchOuter
+    listFrame.Size                  = UDim2.new(1, -18, 1, -130)
+    listFrame.Position              = UDim2.new(0, 9, 0, 48)
+    listFrame.BackgroundColor3      = Theme.Raised
+    listFrame.BorderSizePixel       = 0
+    listFrame.ScrollBarThickness    = 0
+    listFrame.CanvasSize            = UDim2.new(0, 0, 0, 0)
+    listFrame.AutomaticCanvasSize   = Enum.AutomaticSize.Y
+    listFrame.Parent                = searchOuter
     Corner(listFrame, 6)
 
     local _lfStroke = Stroke(listFrame, Theme.Line, 0.5)
 
     local listLayout = Instance.new("UIListLayout")
     listLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    listLayout.Padding = UDim.new(0, 2)
-    listLayout.Parent = listFrame
+    listLayout.Padding   = UDim.new(0, 2)
+    listLayout.Parent    = listFrame
 
     local listPad = Instance.new("UIPadding")
-    listPad.PaddingTop = UDim.new(0, 4)
+    listPad.PaddingTop    = UDim.new(0, 4)
     listPad.PaddingBottom = UDim.new(0, 4)
-    listPad.PaddingLeft = UDim.new(0, 4)
-    listPad.PaddingRight = UDim.new(0, 4)
-    listPad.Parent = listFrame
+    listPad.PaddingLeft   = UDim.new(0, 4)
+    listPad.PaddingRight  = UDim.new(0, 4)
+    listPad.Parent        = listFrame
 
     local bottomPanel = Instance.new("Frame")
-    bottomPanel.Size = UDim2.new(1, -18, 0, 68)
-    bottomPanel.Position = UDim2.new(0, 9, 1, -74)
+    bottomPanel.Size             = UDim2.new(1, -18, 0, 68)
+    bottomPanel.Position         = UDim2.new(0, 9, 1, -74)
     bottomPanel.BackgroundColor3 = Theme.Raised
-    bottomPanel.BorderSizePixel = 0
-    bottomPanel.Parent = searchOuter
+    bottomPanel.BorderSizePixel  = 0
+    bottomPanel.Parent           = searchOuter
     Corner(bottomPanel, 6)
     Stroke(bottomPanel, Theme.Line, 0.5)
 
     local selLabel = Instance.new("TextLabel")
-    selLabel.Size = UDim2.new(1, -12, 0, 20)
-    selLabel.Position = UDim2.new(0, 8, 0, 4)
+    selLabel.Size                 = UDim2.new(1, -12, 0, 20)
+    selLabel.Position             = UDim2.new(0, 8, 0, 4)
     selLabel.BackgroundTransparency = 1
-    selLabel.Text = "Seleccionado: ninguno"
-    selLabel.TextColor3 = Theme.Dim
-    selLabel.TextSize = 11
-    selLabel.Font = Enum.Font.Gotham
-    selLabel.TextXAlignment = Enum.TextXAlignment.Left
-    selLabel.TextTruncate = Enum.TextTruncate.AtEnd
-    selLabel.Parent = bottomPanel
+    selLabel.Text                 = "Seleccionado: ninguno"
+    selLabel.TextColor3           = Theme.Dim
+    selLabel.TextSize             = 11
+    selLabel.Font                 = Enum.Font.Gotham
+    selLabel.TextXAlignment       = Enum.TextXAlignment.Left
+    selLabel.TextTruncate         = Enum.TextTruncate.AtEnd
+    selLabel.Parent               = bottomPanel
 
     local minusBtn = Instance.new("TextButton")
-    minusBtn.Size = UDim2.new(0, 26, 0, 26)
-    minusBtn.Position = UDim2.new(0, 8, 0, 28)
+    minusBtn.Size             = UDim2.new(0, 26, 0, 26)
+    minusBtn.Position         = UDim2.new(0, 8, 0, 28)
     minusBtn.BackgroundColor3 = Theme.Panel
-    minusBtn.BorderSizePixel = 0
-    minusBtn.Text = "−"
-    minusBtn.TextColor3 = Theme.Accent
-    minusBtn.TextSize = 16
-    minusBtn.Font = Enum.Font.GothamBold
-    minusBtn.AutoButtonColor = false
-    minusBtn.Parent = bottomPanel
+    minusBtn.BorderSizePixel  = 0
+    minusBtn.Text             = "−"
+    minusBtn.TextColor3       = Theme.Accent
+    minusBtn.TextSize         = 16
+    minusBtn.Font             = Enum.Font.GothamBold
+    minusBtn.AutoButtonColor  = false
+    minusBtn.Parent           = bottomPanel
     Corner(minusBtn, 4)
 
     local amountLabel = Instance.new("TextLabel")
-    amountLabel.Size = UDim2.new(0, 40, 0, 26)
-    amountLabel.Position = UDim2.new(0, 38, 0, 28)
+    amountLabel.Size                 = UDim2.new(0, 40, 0, 26)
+    amountLabel.Position             = UDim2.new(0, 38, 0, 28)
     amountLabel.BackgroundTransparency = 1
-    amountLabel.Text = "1"
-    amountLabel.TextColor3 = Theme.Text
-    amountLabel.TextSize = 12
-    amountLabel.Font = Enum.Font.GothamBold
-    amountLabel.TextXAlignment = Enum.TextXAlignment.Center
-    amountLabel.Parent = bottomPanel
+    amountLabel.Text                 = "1"
+    amountLabel.TextColor3           = Theme.Text
+    amountLabel.TextSize             = 12
+    amountLabel.Font                 = Enum.Font.GothamBold
+    amountLabel.TextXAlignment       = Enum.TextXAlignment.Center
+    amountLabel.Parent               = bottomPanel
 
     local plusBtn = Instance.new("TextButton")
-    plusBtn.Size = UDim2.new(0, 26, 0, 26)
-    plusBtn.Position = UDim2.new(0, 82, 0, 28)
+    plusBtn.Size             = UDim2.new(0, 26, 0, 26)
+    plusBtn.Position         = UDim2.new(0, 82, 0, 28)
     plusBtn.BackgroundColor3 = Theme.Panel
-    plusBtn.BorderSizePixel = 0
-    plusBtn.Text = "+"
-    plusBtn.TextColor3 = Theme.Accent
-    plusBtn.TextSize = 16
-    plusBtn.Font = Enum.Font.GothamBold
-    plusBtn.AutoButtonColor = false
-    plusBtn.Parent = bottomPanel
+    plusBtn.BorderSizePixel  = 0
+    plusBtn.Text             = "+"
+    plusBtn.TextColor3       = Theme.Accent
+    plusBtn.TextSize         = 16
+    plusBtn.Font             = Enum.Font.GothamBold
+    plusBtn.AutoButtonColor  = false
+    plusBtn.Parent           = bottomPanel
     Corner(plusBtn, 4)
 
     local sendBtn = Instance.new("TextButton")
-    sendBtn.Size = UDim2.new(0, 110, 0, 26)
-    sendBtn.Position = UDim2.new(1, -118, 0, 28)
+    sendBtn.Size             = UDim2.new(0, 110, 0, 26)
+    sendBtn.Position         = UDim2.new(1, -118, 0, 28)
     sendBtn.BackgroundColor3 = Theme.Hover
-    sendBtn.BorderSizePixel = 0
-    sendBtn.Text = buttonLabel
-    sendBtn.TextColor3 = Theme.Text
-    sendBtn.TextSize = 11
-    sendBtn.Font = Enum.Font.GothamSemibold
-    sendBtn.AutoButtonColor = false
-    sendBtn.Parent = bottomPanel
+    sendBtn.BorderSizePixel  = 0
+    sendBtn.Text             = buttonLabel
+    sendBtn.TextColor3       = Theme.Text
+    sendBtn.TextSize         = 11
+    sendBtn.Font             = Enum.Font.GothamSemibold
+    sendBtn.AutoButtonColor  = false
+    sendBtn.Parent           = bottomPanel
     Corner(sendBtn, 4)
 
     sendBtn.MouseEnter:Connect(function()
@@ -2115,10 +2112,10 @@ local function NewSearchPanel(searchTabData, opts)
         if name and rowData then
             SafeTween(rowData.frame, TweenInfo.new(0.1), { BackgroundColor3 = Theme.Hover })
             rowData.lbl.TextColor3 = Theme.Text
-            selLabel.Text = "Seleccionado: " .. name
+            selLabel.Text       = "Seleccionado: " .. name
             selLabel.TextColor3 = Theme.Accent
         else
-            selLabel.Text = "Seleccionado: ninguno"
+            selLabel.Text       = "Seleccionado: ninguno"
             selLabel.TextColor3 = Theme.Dim
         end
     end
@@ -2126,8 +2123,8 @@ local function NewSearchPanel(searchTabData, opts)
     local function BuildList(filter)
         for _, rf in ipairs(weaponRowFrames) do rf.frame:Destroy() end
         weaponRowFrames = {}
-        selectedWeapon = nil
-        selLabel.Text = "Seleccionado: ninguno"
+        selectedWeapon  = nil
+        selLabel.Text       = "Seleccionado: ninguno"
         selLabel.TextColor3 = Theme.Dim
 
         local weapons = getWeapons and getWeapons() or {}
@@ -2140,29 +2137,29 @@ local function NewSearchPanel(searchTabData, opts)
         for _, weaponName in ipairs(unique) do
             if filterLower == "" or weaponName:lower():find(filterLower, 1, true) then
                 local row = Instance.new("Frame")
-                row.Size = UDim2.new(1, 0, 0, 28)
+                row.Size             = UDim2.new(1, 0, 0, 28)
                 row.BackgroundColor3 = Theme.Raised
-                row.BorderSizePixel = 0
-                row.Parent = listFrame
+                row.BorderSizePixel  = 0
+                row.Parent           = listFrame
                 Corner(row, 4)
 
                 local rowLbl = Instance.new("TextLabel")
-                rowLbl.Size = UDim2.new(1, -10, 1, 0)
-                rowLbl.Position = UDim2.new(0, 8, 0, 0)
+                rowLbl.Size                 = UDim2.new(1, -10, 1, 0)
+                rowLbl.Position             = UDim2.new(0, 8, 0, 0)
                 rowLbl.BackgroundTransparency = 1
-                rowLbl.Text = weaponName
-                rowLbl.TextColor3 = Theme.Dim
-                rowLbl.TextSize = 11
-                rowLbl.Font = Enum.Font.Gotham
-                rowLbl.TextXAlignment = Enum.TextXAlignment.Left
-                rowLbl.TextTruncate = Enum.TextTruncate.AtEnd
-                rowLbl.Parent = row
+                rowLbl.Text                 = weaponName
+                rowLbl.TextColor3           = Theme.Dim
+                rowLbl.TextSize             = 11
+                rowLbl.Font                 = Enum.Font.Gotham
+                rowLbl.TextXAlignment       = Enum.TextXAlignment.Left
+                rowLbl.TextTruncate         = Enum.TextTruncate.AtEnd
+                rowLbl.Parent               = row
 
                 local rowBtn = Instance.new("TextButton")
-                rowBtn.Size = UDim2.new(1, 0, 1, 0)
+                rowBtn.Size                 = UDim2.new(1, 0, 1, 0)
                 rowBtn.BackgroundTransparency = 1
-                rowBtn.Text = ""
-                rowBtn.Parent = row
+                rowBtn.Text                 = ""
+                rowBtn.Parent               = row
 
                 local rowData = {frame = row, lbl = rowLbl}
                 table.insert(weaponRowFrames, rowData)
@@ -2204,14 +2201,14 @@ local function NewSearchPanel(searchTabData, opts)
     end)
 
     if hideAmount then
-        minusBtn.Visible = false
+        minusBtn.Visible    = false
         amountLabel.Visible = false
-        plusBtn.Visible = false
-        sendBtn.Size = UDim2.new(1, -16, 0, 26)
-        sendBtn.Position = UDim2.new(0, 8, 0, 28)
+        plusBtn.Visible     = false
+        sendBtn.Size        = UDim2.new(1, -16, 0, 26)
+        sendBtn.Position    = UDim2.new(0, 8, 0, 28)
     end
 
-    searchTabData.customPanel = searchOuter
+    searchTabData.customPanel   = searchOuter
     searchTabData.onTabSelected = function() BuildList(searchBox.Text) end
 end
 
@@ -2244,10 +2241,10 @@ closeBtn.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
 end)
 
-local eyeGui = nil
-local eyeFixed = false
-local eyeHidden = false
-local eyeLastPos = UDim2.new(0.5, -26, 0, 70)
+local eyeGui      = nil
+local eyeFixed    = false
+local eyeHidden   = false
+local eyeLastPos  = UDim2.new(0.5, -26, 0, 70)
 
 local function setEyeFixed(v)
     eyeFixed = v
@@ -2286,56 +2283,56 @@ local function createEyeIcon()
     if eyeGui then eyeGui:Destroy() end
 
     local sg = Instance.new("ScreenGui")
-    sg.Name = "NytherEyeIcon"
-    sg.ResetOnSpawn = false
+    sg.Name           = "NytherEyeIcon"
+    sg.ResetOnSpawn   = false
     sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    sg.DisplayOrder = 998
+    sg.DisplayOrder   = 998
 
     local btn = Instance.new("TextButton")
-    btn.Name = "EyeBtn"
-    btn.Size = UDim2.new(0, 52, 0, 52)
-    btn.Position = eyeLastPos
-    btn.AnchorPoint = Vector2.new(0, 0)
-    btn.BackgroundColor3 = Theme.Raised
+    btn.Name               = "EyeBtn"
+    btn.Size               = UDim2.new(0, 52, 0, 52)
+    btn.Position           = eyeLastPos
+    btn.AnchorPoint        = Vector2.new(0, 0)
+    btn.BackgroundColor3   = Theme.Raised
     btn.BackgroundTransparency = 0.15
-    btn.BorderSizePixel = 0
-    btn.Text = ""
-    btn.AutoButtonColor = false
-    btn.ZIndex = 5
-    btn.Parent = sg
+    btn.BorderSizePixel    = 0
+    btn.Text               = ""
+    btn.AutoButtonColor    = false
+    btn.ZIndex             = 5
+    btn.Parent             = sg
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 13)
 
     local eyeStroke = Instance.new("UIStroke")
-    eyeStroke.Color = Theme.Accent
+    eyeStroke.Color     = Theme.Accent
     eyeStroke.Thickness = 1.5
-    eyeStroke.Parent = btn
+    eyeStroke.Parent    = btn
     table.insert(_accentObjs, {eyeStroke, "Color"})
 
     local eyeAsset = getLucideAsset("eye", 48)
     if eyeAsset then
         local img = Instance.new("ImageLabel")
-        img.Size = UDim2.new(0, 26, 0, 26)
-        img.Position = UDim2.new(0.5, -13, 0.5, -13)
+        img.Size              = UDim2.new(0, 26, 0, 26)
+        img.Position          = UDim2.new(0.5, -13, 0.5, -13)
         img.BackgroundTransparency = 1
-        img.Image = eyeAsset.Url
-        img.ImageRectSize = eyeAsset.ImageRectSize
-        img.ImageRectOffset = eyeAsset.ImageRectOffset
-        img.ScaleType = Enum.ScaleType.Fit
-        img.ImageColor3 = Theme.Accent
-        img.ZIndex = 6
-        img.Parent = btn
+        img.Image             = eyeAsset.Url
+        img.ImageRectSize     = eyeAsset.ImageRectSize
+        img.ImageRectOffset   = eyeAsset.ImageRectOffset
+        img.ScaleType         = Enum.ScaleType.Fit
+        img.ImageColor3       = Theme.Accent
+        img.ZIndex            = 6
+        img.Parent            = btn
         table.insert(_accentObjs, {img, "ImageColor3"})
     else
         local lbl = Instance.new("TextLabel")
-        lbl.Size = UDim2.new(1, 0, 1, 0)
+        lbl.Size                 = UDim2.new(1, 0, 1, 0)
         lbl.BackgroundTransparency = 1
-        lbl.Text = "👁"
-        lbl.TextSize = 22
-        lbl.Font = Enum.Font.GothamBold
-        lbl.TextXAlignment = Enum.TextXAlignment.Center
-        lbl.TextYAlignment = Enum.TextYAlignment.Center
-        lbl.ZIndex = 6
-        lbl.Parent = btn
+        lbl.Text                 = "👁"
+        lbl.TextSize             = 22
+        lbl.Font                 = Enum.Font.GothamBold
+        lbl.TextXAlignment       = Enum.TextXAlignment.Center
+        lbl.TextYAlignment       = Enum.TextYAlignment.Center
+        lbl.ZIndex               = 6
+        lbl.Parent               = btn
     end
 
     local dragging, dragStart, startPos = false, nil, nil
@@ -2343,9 +2340,9 @@ local function createEyeIcon()
     btn.InputBegan:Connect(function(inp)
         if eyeFixed then return end
         if inp.UserInputType == Enum.UserInputType.Touch or inp.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
+            dragging  = true
             dragStart = inp.Position
-            startPos = btn.Position
+            startPos  = btn.Position
         end
     end)
     UserInputService.InputChanged:Connect(function(inp)
@@ -2376,17 +2373,17 @@ local function createEyeIcon()
     end)
 
     sg.Parent = game:GetService("CoreGui")
-    eyeGui = sg
+    eyeGui    = sg
 
     applyEyeVisibility(btn, eyeStroke, eyeHidden)
 end
 
 local _notifGui = Instance.new("ScreenGui")
-_notifGui.Name = "iDepHubNotifs"
-_notifGui.ResetOnSpawn = false
-_notifGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-_notifGui.DisplayOrder = 1000
-_notifGui.Parent = playerGui
+_notifGui.Name            = "iDepHubNotifs"
+_notifGui.ResetOnSpawn    = false
+_notifGui.ZIndexBehavior  = Enum.ZIndexBehavior.Sibling
+_notifGui.DisplayOrder    = 1000
+_notifGui.Parent          = playerGui
 
 local _notifOffset = 0
 
@@ -2395,59 +2392,59 @@ local function sendNotification(title, text, duration)
     _notifOffset = _notifOffset + 1
 
     local card = Instance.new("Frame")
-    card.Size = UDim2.new(0, 300, 0, 60)
-    card.Position = UDim2.new(1, 10, 1, slotY)
-    card.BackgroundColor3 = Theme.Raised
+    card.Size                   = UDim2.new(0, 300, 0, 60)
+    card.Position               = UDim2.new(1, 10, 1, slotY)
+    card.BackgroundColor3       = Theme.Raised
     card.BackgroundTransparency = 0.05
-    card.BorderSizePixel = 0
-    card.ZIndex = 100
-    card.Parent = _notifGui
+    card.BorderSizePixel        = 0
+    card.ZIndex                 = 100
+    card.Parent                 = _notifGui
 
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 9)
-    corner.Parent = card
+    corner.Parent       = card
 
     local stroke = Instance.new("UIStroke")
-    stroke.Color = Theme.Accent
-    stroke.Thickness = 1.4
+    stroke.Color        = Theme.Accent
+    stroke.Thickness    = 1.4
     stroke.Transparency = 0.25
-    stroke.Parent = card
+    stroke.Parent       = card
     table.insert(_accentObjs, {stroke, "Color"})
 
     local accent = Instance.new("Frame")
-    accent.Size = UDim2.new(0, 3, 1, -16)
-    accent.Position = UDim2.new(0, 8, 0, 8)
+    accent.Size             = UDim2.new(0, 3, 1, -16)
+    accent.Position         = UDim2.new(0, 8, 0, 8)
     accent.BackgroundColor3 = Theme.Accent
-    accent.BorderSizePixel = 0
-    accent.ZIndex = 101
-    accent.Parent = card
+    accent.BorderSizePixel  = 0
+    accent.ZIndex           = 101
+    accent.Parent           = card
     table.insert(_accentObjs, {accent, "BackgroundColor3"})
     Instance.new("UICorner", accent).CornerRadius = UDim.new(1, 0)
 
     local titleL = Instance.new("TextLabel")
-    titleL.Size = UDim2.new(1, -26, 0, 24)
-    titleL.Position = UDim2.new(0, 20, 0, 8)
+    titleL.Size               = UDim2.new(1, -26, 0, 24)
+    titleL.Position           = UDim2.new(0, 20, 0, 8)
     titleL.BackgroundTransparency = 1
-    titleL.Text = title
-    titleL.TextColor3 = Theme.Text
-    titleL.TextSize = 14
-    titleL.Font = Enum.Font.GothamBold
-    titleL.TextXAlignment = Enum.TextXAlignment.Left
-    titleL.ZIndex = 102
-    titleL.Parent = card
+    titleL.Text               = title
+    titleL.TextColor3         = Theme.Text
+    titleL.TextSize           = 14
+    titleL.Font               = Enum.Font.GothamBold
+    titleL.TextXAlignment     = Enum.TextXAlignment.Left
+    titleL.ZIndex             = 102
+    titleL.Parent             = card
 
     local textL = Instance.new("TextLabel")
-    textL.Size = UDim2.new(1, -26, 0, 20)
-    textL.Position = UDim2.new(0, 20, 0, 33)
+    textL.Size                = UDim2.new(1, -26, 0, 20)
+    textL.Position            = UDim2.new(0, 20, 0, 33)
     textL.BackgroundTransparency = 1
-    textL.Text = text
-    textL.TextColor3 = Theme.Dim
-    textL.TextSize = 12
-    textL.Font = Enum.Font.Gotham
-    textL.TextXAlignment = Enum.TextXAlignment.Left
-    textL.TextWrapped = true
-    textL.ZIndex = 102
-    textL.Parent = card
+    textL.Text                = text
+    textL.TextColor3          = Theme.Dim
+    textL.TextSize            = 12
+    textL.Font                = Enum.Font.Gotham
+    textL.TextXAlignment      = Enum.TextXAlignment.Left
+    textL.TextWrapped         = true
+    textL.ZIndex              = 102
+    textL.Parent              = card
 
     SafeTween(card, TweenInfo.new(0.28, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
         Position = UDim2.new(1, -316, 1, slotY)
@@ -2465,79 +2462,78 @@ local function sendNotification(title, text, duration)
         end)
     end)
 end
-
 local function createFloatButton(config)
     config = config or {}
 
-    local guiName = config.name or "NytherFloatBtn"
-    local iconName = config.icon or "circle"
-    local startPos = config.position or UDim2.new(1, -90, 1, -160)
-    local dispOrder = config.displayOrder or 997
-    local onToggle = config.onToggle
-    local isActive = config.defaultActive or false
-    local isFixed = false
-    local isHidden = false
+    local guiName     = config.name         or "NytherFloatBtn"
+    local iconName    = config.icon         or "circle"
+    local startPos    = config.position     or UDim2.new(1, -90, 1, -160)
+    local dispOrder   = config.displayOrder or 997
+    local onToggle    = config.onToggle
+    local isActive    = config.defaultActive or false
+    local isFixed     = false
+    local isHidden    = false
 
-    local colorOn = Color3.fromRGB(46, 204, 113)
-    local colorOff = Color3.fromRGB(220, 50, 50)
+    local colorOn  = Color3.fromRGB(46, 204, 113)
+    local colorOff = Color3.fromRGB(220, 50,  50)
 
     local sg = Instance.new("ScreenGui")
-    sg.Name = guiName
-    sg.ResetOnSpawn = false
+    sg.Name           = guiName
+    sg.ResetOnSpawn   = false
     sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    sg.DisplayOrder = dispOrder
+    sg.DisplayOrder   = dispOrder
 
     local btn = Instance.new("TextButton")
-    btn.Name = "FloatBtn"
-    btn.Size = UDim2.new(0, 52, 0, 52)
-    btn.Position = startPos
-    btn.AnchorPoint = Vector2.new(0.5, 0.5)
-    btn.BackgroundColor3 = Theme.Raised
+    btn.Name                   = "FloatBtn"
+    btn.Size                   = UDim2.new(0, 52, 0, 52)
+    btn.Position               = startPos
+    btn.AnchorPoint            = Vector2.new(0.5, 0.5)
+    btn.BackgroundColor3       = Theme.Raised
     btn.BackgroundTransparency = 0.15
-    btn.BorderSizePixel = 0
-    btn.Text = ""
-    btn.AutoButtonColor = false
-    btn.ZIndex = 5
-    btn.Parent = sg
+    btn.BorderSizePixel        = 0
+    btn.Text                   = ""
+    btn.AutoButtonColor        = false
+    btn.ZIndex                 = 5
+    btn.Parent                 = sg
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 13)
 
     local stroke = Instance.new("UIStroke")
-    stroke.Name = "UIStroke"
-    stroke.Color = isActive and colorOn or colorOff
-    stroke.Thickness = 1.5
-    stroke.Transparency = 0
+    stroke.Name            = "UIStroke"
+    stroke.Color           = isActive and colorOn or colorOff
+    stroke.Thickness       = 1.5
+    stroke.Transparency    = 0
     stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    stroke.Parent = btn
+    stroke.Parent          = btn
 
     local iconObj = nil
     local lucideAsset = getLucideAsset(iconName, 48)
     if lucideAsset then
         local img = Instance.new("ImageLabel")
-        img.Name = "Icon"
-        img.Size = UDim2.new(0, 26, 0, 26)
-        img.Position = UDim2.new(0.5, -13, 0.5, -13)
+        img.Name                   = "Icon"
+        img.Size                   = UDim2.new(0, 26, 0, 26)
+        img.Position               = UDim2.new(0.5, -13, 0.5, -13)
         img.BackgroundTransparency = 1
-        img.Image = lucideAsset.Url
-        img.ImageRectSize = lucideAsset.ImageRectSize
-        img.ImageRectOffset = lucideAsset.ImageRectOffset
-        img.ScaleType = Enum.ScaleType.Fit
-        img.ImageColor3 = Color3.fromRGB(255, 255, 255)
-        img.ZIndex = 6
-        img.Parent = btn
+        img.Image                  = lucideAsset.Url
+        img.ImageRectSize          = lucideAsset.ImageRectSize
+        img.ImageRectOffset        = lucideAsset.ImageRectOffset
+        img.ScaleType              = Enum.ScaleType.Fit
+        img.ImageColor3            = Color3.fromRGB(255, 255, 255)
+        img.ZIndex                 = 6
+        img.Parent                 = btn
         iconObj = img
     else
         local lbl = Instance.new("TextLabel")
-        lbl.Name = "Icon"
-        lbl.Size = UDim2.new(1, 0, 1, 0)
+        lbl.Name                   = "Icon"
+        lbl.Size                   = UDim2.new(1, 0, 1, 0)
         lbl.BackgroundTransparency = 1
-        lbl.Text = iconName
-        lbl.TextSize = 11
-        lbl.Font = Enum.Font.GothamSemibold
-        lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
-        lbl.TextXAlignment = Enum.TextXAlignment.Center
-        lbl.TextYAlignment = Enum.TextYAlignment.Center
-        lbl.ZIndex = 6
-        lbl.Parent = btn
+        lbl.Text                   = iconName
+        lbl.TextSize               = 11
+        lbl.Font                   = Enum.Font.GothamSemibold
+        lbl.TextColor3             = Color3.fromRGB(255, 255, 255)
+        lbl.TextXAlignment         = Enum.TextXAlignment.Center
+        lbl.TextYAlignment         = Enum.TextYAlignment.Center
+        lbl.ZIndex                 = 6
+        lbl.Parent                 = btn
         iconObj = lbl
     end
 
@@ -2546,8 +2542,8 @@ local function createFloatButton(config)
         if isFixed then return end
         if inp.UserInputType == Enum.UserInputType.Touch
            or inp.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            dragStart = inp.Position
+            dragging    = true
+            dragStart   = inp.Position
             startBtnPos = btn.Position
         end
     end)
@@ -2616,12 +2612,12 @@ local function createFloatButton(config)
     local function setHidden(v)
         isHidden = v
         btn.BackgroundTransparency = v and 1 or 0.15
-        stroke.Transparency = v and 1 or 0
+        stroke.Transparency        = v and 1 or 0
         if iconObj then
             if iconObj:IsA("ImageLabel") then
                 iconObj.ImageTransparency = v and 1 or 0
             elseif iconObj:IsA("TextLabel") then
-                iconObj.TextTransparency = v and 1 or 0
+                iconObj.TextTransparency  = v and 1 or 0
             end
         end
     end
@@ -2631,12 +2627,12 @@ local function createFloatButton(config)
     end
 
     return {
-        destroy = destroy,
+        destroy   = destroy,
         setActive = setActive,
-        setFixed = setFixed,
+        setFixed  = setFixed,
         setHidden = setHidden,
-        gui = sg,
-        button = btn,
+        gui       = sg,
+        button    = btn,
     }
 end
 
@@ -2646,35 +2642,35 @@ SafeTween(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirect
 })
 
 return {
-    titleLabel = titleLabel,
-    setAccentColor = setAccentColor,
-    NewTab = NewTab,
-    NewSection = NewSection,
-    NewToggle = NewToggle,
-    NewSlider = NewSlider,
-    NewButton = NewButton,
-    NewInput = NewInput,
-    NewKeybind = NewKeybind,
-    NewLabel = NewLabel,
-    NewColorPicker = NewColorPicker,
-    NewBodyPartSelector = NewBodyPartSelector,
-    NewNote = NewNote,
-    NewSearchPanel = NewSearchPanel,
-    SelectTab = SelectTab,
-    registeredTabs = registeredTabs,
-    mainFrame = mainFrame,
-    sendNotification = sendNotification,
-    isMobile = isMobile,
-    getWindowSize = function()
+    titleLabel           = titleLabel,
+    setAccentColor       = setAccentColor,
+    NewTab               = NewTab,
+    NewSection           = NewSection,
+    NewToggle            = NewToggle,
+    NewSlider            = NewSlider,
+    NewButton            = NewButton,
+    NewInput             = NewInput,
+    NewKeybind           = NewKeybind,
+    NewLabel             = NewLabel,
+    NewColorPicker       = NewColorPicker,
+    NewBodyPartSelector  = NewBodyPartSelector,
+    NewNote              = NewNote,
+    NewSearchPanel       = NewSearchPanel,
+    SelectTab            = SelectTab,
+    registeredTabs       = registeredTabs,
+    mainFrame            = mainFrame,
+    sendNotification     = sendNotification,
+    isMobile             = isMobile,
+    getWindowSize        = function()
         return WINDOW_SIZE.X.Offset, WINDOW_SIZE.Y.Offset, false
     end,
-    setWindowSize = function(w, h)
+    setWindowSize        = function(w, h)
         WINDOW_SIZE = UDim2.new(0, w, 0, h)
         mainFrame.Size = WINDOW_SIZE
         CenterWindow()
     end,
-    setEyeFixed = setEyeFixed,
-    setEyeHidden = setEyeHidden,
-    createFloatButton = createFloatButton,
-    Theme = Theme,
+    setEyeFixed          = setEyeFixed,
+    setEyeHidden         = setEyeHidden,
+    createFloatButton    = createFloatButton,
+    Theme                = Theme,
 }
