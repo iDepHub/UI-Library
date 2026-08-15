@@ -50,20 +50,6 @@ local function setAccentColor(color)
         pcall(function() e[1][e[2]] = dark end)
     end
     for _, fn in ipairs(_customAccentCallbacks) do pcall(fn, color, dark) end
-    for _, td in ipairs(registeredTabs) do
-        if td.page.Visible or (td.customPanel and td.customPanel.Visible) then
-            pcall(function()
-                td.btn.TextColor3 = color
-                if td.iconImg then
-                    if td.iconImg:IsA("ImageLabel") then
-                        td.iconImg.ImageColor3 = color
-                    elseif td.iconImg:IsA("TextLabel") then
-                        td.iconImg.TextColor3 = color
-                    end
-                end
-            end)
-        end
-    end
 end
 
 local isMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
@@ -2668,6 +2654,7 @@ return {
     NewToggle = NewToggle,
     NewSlider = NewSlider,
     NewButton = NewButton,
+    NewInput = NewInput,
     NewKeybind = NewKeybind,
     NewLabel = NewLabel,
     NewColorPicker = NewColorPicker,
