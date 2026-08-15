@@ -1222,7 +1222,7 @@ local function NewInfoTab(page, tabData)
     greeting.Size = UDim2.new(1, 0, 0, 32)
     greeting.Position = UDim2.new(0, 0, 0, 2)
     greeting.BackgroundTransparency = 1
-    greeting.Text = "Hola " .. LocalPlayer.DisplayName
+    greeting.Text = "Hola, Usuario"
     greeting.TextColor3 = Theme.Text
     greeting.TextSize = 24
     greeting.Font = Enum.Font.GothamBlack
