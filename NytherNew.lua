@@ -67,7 +67,8 @@ local WINDOW_SIZE = UDim2.new(0, 480, 0, 420)
 local mainFrame = Instance.new("Frame")
 mainFrame.Name              = "MainFrame"
 mainFrame.Size              = UDim2.new(0, 0, 0, 0)
-mainFrame.Position          = UDim2.new(0, 0, 0, 0)
+mainFrame.AnchorPoint       = Vector2.new(0.5, 0.5)
+mainFrame.Position          = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.BackgroundColor3  = Theme.Base
 mainFrame.BorderSizePixel   = 0
 mainFrame.ClipsDescendants  = true
@@ -76,6 +77,13 @@ mainFrame.Parent            = screenGui
 local mainCorner = Instance.new("UICorner")
 mainCorner.CornerRadius = UDim.new(0, 8)
 mainCorner.Parent = mainFrame
+
+local function CenterWindow()
+    local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
+    mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+    mainFrame.Size = WINDOW_SIZE
+end
+
 local topBar = Instance.new("Frame")
 topBar.Name             = "TopBar"
 topBar.Size             = UDim2.new(1, 0, 0, 54)
@@ -667,7 +675,6 @@ local function Icon(parent, iconName, size, color)
     end
     return img
 end
-
 local function NewToggle(parent, label, sub, default, callback, iconName)
     local state = default or false
     local locked = false
@@ -827,7 +834,6 @@ local function NewToggle(parent, label, sub, default, callback, iconName)
 
     return container, setState, setLocked
 end
-
 local function NewSlider(parent, label, sub, minVal, maxVal, default, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 60)
@@ -2204,89 +2210,10 @@ local function NewSearchPanel(searchTabData, opts)
     searchTabData.onTabSelected = function() BuildList(searchBox.Text) end
 end
 
-local function NewInput(parent, label, placeholder, callback)
-    local f, stroke = ElemBase(parent, 46)
-
-    local lbl = Instance.new("TextLabel")
-    lbl.Size              = UDim2.new(0.48, -10, 0, 18)
-    lbl.Position          = UDim2.new(0, 10, 0, 7)
-    lbl.BackgroundTransparency = 1
-    lbl.Text              = label
-    lbl.TextColor3        = Theme.Text
-    lbl.TextSize          = 12
-    lbl.Font              = Enum.Font.GothamBold
-    lbl.TextXAlignment    = Enum.TextXAlignment.Left
-    lbl.TextTruncate      = Enum.TextTruncate.AtEnd
-    lbl.Parent            = f
-
-    local subLbl = Instance.new("TextLabel")
-    subLbl.Size              = UDim2.new(0.48, -10, 0, 14)
-    subLbl.Position          = UDim2.new(0, 10, 0, 25)
-    subLbl.BackgroundTransparency = 1
-    subLbl.Text              = "Escribe un valor"
-    subLbl.TextColor3        = Theme.Dim
-    subLbl.TextSize          = 11
-    subLbl.Font              = Enum.Font.Gotham
-    subLbl.TextXAlignment    = Enum.TextXAlignment.Left
-    subLbl.TextTruncate      = Enum.TextTruncate.AtEnd
-    subLbl.Parent            = f
-
-    local boxBg = Instance.new("Frame")
-    boxBg.Size             = UDim2.new(0.52, -14, 0, 28)
-    boxBg.Position         = UDim2.new(0.48, 0, 0.5, -14)
-    boxBg.BackgroundColor3 = Theme.Panel
-    boxBg.BorderSizePixel  = 0
-    boxBg.Parent           = f
-    Corner(boxBg, 4)
-
-    local boxStroke = Stroke(boxBg, Theme.Line, 0.5)
-
-    local textBox = Instance.new("TextBox")
-    textBox.Size                 = UDim2.new(1, -12, 1, 0)
-    textBox.Position             = UDim2.new(0, 6, 0, 0)
-    textBox.BackgroundTransparency = 1
-    textBox.Text                 = ""
-    textBox.PlaceholderText      = placeholder or "..."
-    textBox.PlaceholderColor3    = Theme.Dim
-    textBox.TextColor3           = Theme.Text
-    textBox.TextSize             = 11
-    textBox.Font                 = Enum.Font.GothamSemibold
-    textBox.TextXAlignment       = Enum.TextXAlignment.Center
-    textBox.ClearTextOnFocus     = false
-    textBox.Parent               = boxBg
-
-    textBox.Focused:Connect(function()
-        SafeTween(boxStroke, TweenInfo.new(0.1), {Color = Theme.Accent})
-        SafeTween(f,         TweenInfo.new(0.1), {BackgroundColor3 = Theme.Hover})
-        SafeTween(stroke,    TweenInfo.new(0.1), {Color = Theme.Accent})
-    end)
-    textBox.FocusLost:Connect(function(enterPressed)
-        SafeTween(boxStroke, TweenInfo.new(0.1), {Color = Theme.Line})
-        SafeTween(f,         TweenInfo.new(0.1), {BackgroundColor3 = Theme.Raised})
-        SafeTween(stroke,    TweenInfo.new(0.1), {Color = Theme.Line})
-        if callback then callback(textBox.Text) end
-    end)
-
-    f.MouseEnter:Connect(function()
-        SafeTween(f, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Hover})
-    end)
-    f.MouseLeave:Connect(function()
-        SafeTween(f, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Raised})
-    end)
-
-    return f, textBox
-end
-
 local isDragging, dragStart, frameStart = false, nil, nil
 
 topBar.InputBegan:Connect(function(inp)
     if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
-        local closePos = closeBtn.AbsolutePosition
-        local closeSize = closeBtn.AbsoluteSize
-        if inp.Position.X >= closePos.X and inp.Position.X <= closePos.X + closeSize.X and
-           inp.Position.Y >= closePos.Y and inp.Position.Y <= closePos.Y + closeSize.Y then
-            return
-        end
         isDragging = true
         dragStart  = inp.Position
         frameStart = mainFrame.Position
@@ -2535,7 +2462,6 @@ local function sendNotification(title, text, duration)
         end)
     end)
 end
-
 local function createFloatButton(config)
     config = config or {}
 
@@ -2709,6 +2635,7 @@ local function createFloatButton(config)
         button    = btn,
     }
 end
+
 CenterWindow()
 SafeTween(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
     Size = WINDOW_SIZE,
