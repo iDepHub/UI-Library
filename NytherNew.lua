@@ -50,6 +50,14 @@ local function setAccentColor(color)
         pcall(function() e[1][e[2]] = dark end)
     end
     for _, fn in ipairs(_customAccentCallbacks) do pcall(fn, color, dark) end
+    for _, td in ipairs(registeredTabs) do
+        if td.page.Visible or (td.customPanel and td.customPanel.Visible) then
+            TweenService:Create(td.btn, TweenInfo.new(0.12), { TextColor3 = color }):Play()
+            if td.iconImg then
+                TweenService:Create(td.iconImg, TweenInfo.new(0.12), { ImageColor3 = color }):Play()
+            end
+        end
+    end
 end
 
 local isMobile = UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
