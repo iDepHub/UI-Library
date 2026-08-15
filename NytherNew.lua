@@ -91,7 +91,7 @@ local function CenterWindow()
     local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
     local w = WINDOW_SIZE.X.Offset
     local h = WINDOW_SIZE.Y.Offset
-    mainFrame.Position = UDim2.new(0, (viewport.X - w) / 2, 0, (viewport.Y - h) / 2)
+    mainFrame.Position = UDim2.new(0, (viewport.X - w) / 2, 0, (viewport.Y - h) / 3)
     mainFrame.Size = WINDOW_SIZE
 end
 
@@ -1496,8 +1496,6 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
     preview.Parent = header
     Corner(preview, 6)
     Stroke(preview, Theme.Line, 0.5)
-    _regAcc(preview, "BackgroundColor3")
-
     local headerBtn = Instance.new("TextButton")
     headerBtn.Size = UDim2.new(1, 0, 1, 0)
     headerBtn.BackgroundTransparency = 1
