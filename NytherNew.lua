@@ -1254,10 +1254,9 @@ local function NewInfoTab(page, tabData)
 
     local orbitGrad = Instance.new("UIGradient")
     orbitGrad.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Theme.Accent),
-        ColorSequenceKeypoint.new(0.1, Theme.Accent),
-        ColorSequenceKeypoint.new(0.11, Theme.Accent),
-        ColorSequenceKeypoint.new(1, Theme.Accent),
+    ColorSequenceKeypoint.new(0, Theme.Accent),
+    ColorSequenceKeypoint.new(0.1, Theme.Accent),
+    ColorSequenceKeypoint.new(1, Theme.Accent),
     })
     orbitGrad.Transparency = NumberSequence.new({
     NumberSequenceKeypoint.new(0, 1),
