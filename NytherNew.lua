@@ -1282,8 +1282,6 @@ local function NewInfoTab(page, tabData)
             orbitGrad.Rotation = (orbitGrad.Rotation + dt * 90) % 360
         end
     end))
-
-    -- Card info
     local card = Instance.new("Frame")
     card.Size = UDim2.new(1, 0, 0, 72)
     card.BackgroundColor3 = Theme.Raised
@@ -2588,8 +2586,9 @@ local function createEyeIcon()
         eyeGui = nil
     end)
 
-    sg.Parent = game:GetService("CoreGui")
-    eyeGui    = sg
+    local ok = pcall(function() sg.Parent = game:GetService("CoreGui") end)
+    if not ok then sg.Parent = playerGui end
+    eyeGui = sg
 
     applyEyeVisibility(btn, eyeStroke, eyeHidden)
 end
@@ -2840,7 +2839,7 @@ local function createFloatButton(config)
 end
 
 CenterWindow()
-SafeTween(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+local _openTween = SafeTween(mainFrame, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
     Size = WINDOW_SIZE,
 })
 
@@ -2869,7 +2868,14 @@ return {
         return WINDOW_SIZE.X.Offset, WINDOW_SIZE.Y.Offset, false
     end,
     setWindowSize        = function(w, h)
-        WINDOW_SIZE = UDim2.new(0, w, 0, h)
+        if _openTween then
+            pcall(function() _openTween:Cancel() end)
+            _openTween = nil
+        end
+        local finalW = (w <= 1 and w > 0)
+            and math.floor(workspace.CurrentCamera.ViewportSize.X * w)
+            or w
+        WINDOW_SIZE = UDim2.new(0, finalW, 0, h)
         mainFrame.Size = WINDOW_SIZE
         CenterWindow()
     end,
