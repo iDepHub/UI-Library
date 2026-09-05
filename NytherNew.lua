@@ -2454,6 +2454,7 @@ end)
 
 closeBtn.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
+    createEyeIcon()
 end)
 
 local eyeGui      = nil
