@@ -2450,11 +2450,6 @@ UserInputService.InputChanged:Connect(function(inp)
     end
 end)
 
-closeBtn.MouseButton1Click:Connect(function()
-    mainFrame.Visible = false
-    createEyeIcon()
-end)
-
 local eyeGui      = nil
 local eyeFixed    = false
 local eyeHidden   = false
@@ -2592,6 +2587,12 @@ local function createEyeIcon()
 
     applyEyeVisibility(btn, eyeStroke, eyeHidden)
 end
+
+
+closeBtn.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+    createEyeIcon()
+end)
 
 local _notifGui = Instance.new("ScreenGui")
 _notifGui.Name            = "iDepHubNotifs"
