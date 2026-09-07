@@ -1233,7 +1233,7 @@ local function NewInfoTab(page, tabData)
     sub.Size = UDim2.new(1, 0, 0, 36)
     sub.Position = UDim2.new(0, 0, 0, 38)
     sub.BackgroundTransparency = 1
-    sub.Text = "Todo lo que necesitas\nSolo con iDepHub."
+    sub.Text = "Todo lo que necesitas\nSolo en iDepHub"
     sub.TextColor3 = Theme.Dim
     sub.TextSize = 12
     sub.Font = Enum.Font.Gotham
@@ -1308,7 +1308,7 @@ local function NewInfoTab(page, tabData)
     cardSub.Size = UDim2.new(0, 280, 0, 18)
     cardSub.Position = UDim2.new(0, 16, 0, 34)
     cardSub.BackgroundTransparency = 1
-    cardSub.Text = "Cualquier Bug, Informarlo"
+    cardSub.Text = "Cualquier Bug, Informarlo al Discord\nhttps://discord.gg/q6Ebn2FKq9"
     cardSub.TextColor3 = Theme.Dim
     cardSub.TextSize = 11
     cardSub.Font = Enum.Font.Gotham
