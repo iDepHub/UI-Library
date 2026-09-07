@@ -1308,7 +1308,7 @@ local function NewInfoTab(page, tabData)
     cardSub.Size = UDim2.new(0, 280, 0, 18)
     cardSub.Position = UDim2.new(0, 16, 0, 34)
     cardSub.BackgroundTransparency = 1
-    cardSub.Text = "Cualquier Bug, Informarlo al Discord\nhttps://discord.gg/q6Ebn2FKq9"
+    cardSub.Text = "Cualquier Bug, Informarlo al Discord\n \nhttps://discord.gg/q6Ebn2FKq9"
     cardSub.TextColor3 = Theme.Dim
     cardSub.TextSize = 11
     cardSub.Font = Enum.Font.Gotham
