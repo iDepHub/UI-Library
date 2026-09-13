@@ -2502,21 +2502,6 @@ return {
     mainFrame            = mainFrame,
     sendNotification     = sendNotification,
     isMobile             = isMobile,
-    getWindowSize        = function()
-        return WINDOW_SIZE.X.Offset, WINDOW_SIZE.Y.Offset, false
-    end,
-    setWindowSize        = function(w, h)
-        if _openTween then
-            pcall(function() _openTween:Cancel() end)
-            _openTween = nil
-        end
-        local finalW = (w <= 1 and w > 0)
-            and math.floor(workspace.CurrentCamera.ViewportSize.X * w)
-            or w
-        WINDOW_SIZE = UDim2.new(0, finalW, 0, h)
-        mainFrame.Size = WINDOW_SIZE
-        CenterWindow()
-    end,
     setEyeFixed          = setEyeFixed,
     setEyeHidden         = setEyeHidden,
     createFloatButton    = createFloatButton,
