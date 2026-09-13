@@ -172,10 +172,10 @@ PillDotCorner.CornerRadius = UDim.new(1, 0)
 PillDotCorner.Parent = PillDot
 
 local PillText = Instance.new("TextLabel")
-PillText.Size                 = UDim2.new(1, -24, 1, 0)
+PillText.Size                 = UDim2.new(1, -20, 1, 0)
 PillText.Position             = UDim2.new(0, 22, 0, 0)
 PillText.BackgroundTransparency = 1
-PillText.Text                 = "Activate"
+PillText.Text                 = "Enable"
 PillText.TextColor3           = Theme.Text
 PillText.TextSize             = 11
 PillText.Font                 = Enum.Font.GothamBold
@@ -376,20 +376,14 @@ local function SelectTab(target)
     for _, td in ipairs(registeredTabs) do
         td.page.Visible   = false
         td.accent.Visible = false
-        TweenService:Create(td.btn, TweenInfo.new(0.12), {BackgroundColor3 = Theme.Raised, TextColor3 = Theme.Dim}):Play()
-        if td.stroke then
-            TweenService:Create(td.stroke, TweenInfo.new(0.12), {Color = Theme.Line}):Play()
-        end
+        TweenService:Create(td.btn,     TweenInfo.new(0.12), {BackgroundColor3 = Theme.Raised, TextColor3 = Theme.Dim}):Play()
         if td.iconImg then
             TweenService:Create(td.iconImg, TweenInfo.new(0.12), {ImageColor3 = Theme.Dim}):Play()
         end
         if td.customPanel then td.customPanel.Visible = false end
     end
     target.accent.Visible = true
-    TweenService:Create(target.btn, TweenInfo.new(0.12), {BackgroundColor3 = Theme.Hover, TextColor3 = Theme.Accent}):Play()
-    if target.stroke then
-        TweenService:Create(target.stroke, TweenInfo.new(0.12), {Color = Theme.Accent}):Play()
-    end
+    TweenService:Create(target.btn,     TweenInfo.new(0.12), {BackgroundColor3 = Theme.Hover, TextColor3 = Theme.Accent}):Play()
     if target.iconImg then
         TweenService:Create(target.iconImg, TweenInfo.new(0.12), {ImageColor3 = Theme.Accent}):Play()
     end
@@ -421,8 +415,6 @@ local function NewTab(name, icon, order)
     local btnCorner = Instance.new("UICorner")
     btnCorner.CornerRadius = UDim.new(0, 6)
     btnCorner.Parent = btn
-
-    local btnStroke = Stroke(btn, Theme.Line, 0.5)
 
     local accentBar = Instance.new("Frame")
     accentBar.Name             = "Accent"
@@ -511,22 +503,20 @@ local function NewTab(name, icon, order)
     pagePad.PaddingRight  = UDim.new(0, 16)
     pagePad.Parent        = page
 
-    local tabData = {btn = btn, stroke = btnStroke, accent = accentBar, page = page, iconImg = iconImg, customPanel = nil, onTabSelected = nil}
+    local tabData = {btn = btn, accent = accentBar, page = page, iconImg = iconImg, customPanel = nil, onTabSelected = nil}
     table.insert(registeredTabs, tabData)
 
     btn.MouseButton1Click:Connect(function() SelectTab(tabData) end)
     btn.MouseEnter:Connect(function()
         if page.Visible or (tabData.customPanel and tabData.customPanel.Visible) then return end
-        TweenService:Create(btn,       TweenInfo.new(0.1), {BackgroundColor3 = Theme.Hover, TextColor3 = Theme.Text}):Play()
-        TweenService:Create(btnStroke, TweenInfo.new(0.1), {Color = Theme.Accent}):Play()
+        TweenService:Create(btn, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Hover, TextColor3 = Theme.Text}):Play()
         if iconImg then
             TweenService:Create(iconImg, TweenInfo.new(0.1), {ImageColor3 = Theme.Text}):Play()
         end
     end)
     btn.MouseLeave:Connect(function()
         if page.Visible or (tabData.customPanel and tabData.customPanel.Visible) then return end
-        TweenService:Create(btn,       TweenInfo.new(0.1), {BackgroundColor3 = Theme.Raised, TextColor3 = Theme.Dim}):Play()
-        TweenService:Create(btnStroke, TweenInfo.new(0.1), {Color = Theme.Line}):Play()
+        TweenService:Create(btn, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Raised, TextColor3 = Theme.Dim}):Play()
         if iconImg then
             TweenService:Create(iconImg, TweenInfo.new(0.1), {ImageColor3 = Theme.Dim}):Play()
         end
