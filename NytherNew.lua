@@ -92,7 +92,7 @@ bgImage.Name                   = "Background"
 bgImage.Size                   = UDim2.new(1, 0, 1, 0)
 bgImage.Position               = UDim2.new(0, 0, 0, 0)
 bgImage.BackgroundTransparency = 1
-bgImage.Image                  = "rbxassetid://81051720367511"
+bgImage.Image                  = "rbxassetid://138835110409403"
 bgImage.ScaleType              = Enum.ScaleType.Crop
 bgImage.ZIndex                 = 1
 bgImage.Parent                 = mainFrame
@@ -130,7 +130,7 @@ LogoWrap.Parent                 = topBar
 local iconDH = Instance.new("ImageLabel")
 iconDH.Size                   = UDim2.new(1, 0, 1, 0)
 iconDH.BackgroundTransparency = 1
-iconDH.Image                  = "rbxassetid://81051720367511"
+iconDH.Image                  = "rbxassetid://99173242168462"
 iconDH.ScaleType              = Enum.ScaleType.Fit
 iconDH.ZIndex                 = 6
 iconDH.Parent                 = LogoWrap
@@ -665,7 +665,7 @@ local function Icon(parent, iconName, size, color)
         img.ImageRectSize = asset.ImageRectSize
         img.ImageRectOffset = asset.ImageRectOffset
     else
-        img.Image = "rbxassetid://0"
+        img.Image = "rbxassetid://138835110409403"
     end
     return img
 end
@@ -2500,7 +2500,7 @@ local function createEyeIcon()
     iconDHImg.Size                   = UDim2.new(0, 20, 0, 20)
     iconDHImg.Position               = UDim2.new(0.5, -10, 0.5, -10)
     iconDHImg.BackgroundTransparency = 1
-    iconDHImg.Image                  = "rbxassetid://120909249875543"
+    iconDHImg.Image                  = "rbxassetid://99173242168462"
     iconDHImg.ScaleType              = Enum.ScaleType.Fit
     iconDHImg.ZIndex                 = 6
     iconDHImg.Parent                 = btn
