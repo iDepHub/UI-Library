@@ -1425,7 +1425,7 @@ local function NewInfoTab(page, tabData, config)
     end
 
     local paletteTitle = Instance.new("TextLabel")
-    paletteTitle.Size = UDim2.new(1, 0, 0, 20)
+    paletteTitle.Size = UDim2.new(1, 0, 0, 8)
     paletteTitle.BackgroundTransparency = 1
     paletteTitle.Text = "PALETA RÁPIDA"
     paletteTitle.TextColor3 = Theme.Accent
@@ -1437,7 +1437,6 @@ local function NewInfoTab(page, tabData, config)
 
     local paletteFrame = Instance.new("Frame")
     paletteFrame.Size = UDim2.new(1, 0, 0, 48)
-    paletteFrame.Position = UDim2.new(0, 0, 0, -8)
     paletteFrame.BackgroundTransparency = 1
     paletteFrame.Parent = page
 
