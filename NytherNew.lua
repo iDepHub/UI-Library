@@ -149,7 +149,7 @@ versionLabel.Parent             = topBar
 local _executorName = (identifyexecutor and identifyexecutor()) or (syn and "Synapse") or (KRNL_LOADED and "Krnl") or (fluxus and "Fluxus") or "Executor"
 
 local Pill = Instance.new("Frame")
-Pill.Size             = UDim2.new(0, 92, 0, 18)
+Pill.Size = UDim2.new(0, 62, 0, 18)
 Pill.Position         = UDim2.new(1, -148, 0, 18)
 Pill.BackgroundColor3 = Theme.Raised
 Pill.BorderSizePixel  = 0
