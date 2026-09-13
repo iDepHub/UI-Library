@@ -92,7 +92,7 @@ bgImage.Name                   = "Background"
 bgImage.Size                   = UDim2.new(1, 0, 1, 0)
 bgImage.Position               = UDim2.new(0, 0, 0, 0)
 bgImage.BackgroundTransparency = 1
-bgImage.Image                  = "rbxassetid://138835110409403"
+bgImage.Image                  = "rbxassetid://81051720367511"
 bgImage.ScaleType              = Enum.ScaleType.Crop
 bgImage.ZIndex                 = 1
 bgImage.Parent                 = mainFrame
@@ -121,23 +121,9 @@ topLine.BorderSizePixel  = 0
 topLine.ZIndex           = 6
 topLine.Parent           = topBar
 
-local LogoWrap = Instance.new("Frame")
-LogoWrap.Size                   = UDim2.new(0, 28, 0, 28)
-LogoWrap.Position               = UDim2.new(0, 14, 0, 13)
-LogoWrap.BackgroundTransparency = 1
-LogoWrap.Parent                 = topBar
-
-local iconDH = Instance.new("ImageLabel")
-iconDH.Size                   = UDim2.new(1, 0, 1, 0)
-iconDH.BackgroundTransparency = 1
-iconDH.Image                  = "rbxassetid://99173242168462"
-iconDH.ScaleType              = Enum.ScaleType.Fit
-iconDH.ZIndex                 = 6
-iconDH.Parent                 = LogoWrap
-
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size               = UDim2.new(0, 260, 0, 20)
-titleLabel.Position           = UDim2.new(0, 54, 0, 16)
+titleLabel.Position           = UDim2.new(0, 16, 0, 16)
 titleLabel.BackgroundTransparency = 1
 titleLabel.Text               = "iDepHub - UI Library"
 titleLabel.TextColor3         = Theme.Accent
@@ -150,7 +136,7 @@ _regAcc(titleLabel, "TextColor3")
 
 local versionLabel = Instance.new("TextLabel")
 versionLabel.Size               = UDim2.new(0, 60, 0, 16)
-versionLabel.Position           = UDim2.new(0, 54, 0, 34)
+versionLabel.Position           = UDim2.new(0, 16, 0, 34)
 versionLabel.BackgroundTransparency = 1
 versionLabel.Text               = "By L#######"
 versionLabel.TextColor3         = Theme.Dim
@@ -665,7 +651,7 @@ local function Icon(parent, iconName, size, color)
         img.ImageRectSize = asset.ImageRectSize
         img.ImageRectOffset = asset.ImageRectOffset
     else
-        img.Image = "rbxassetid://138835110409403"
+        img.Image = "rbxassetid://0"
     end
     return img
 end
@@ -2497,10 +2483,10 @@ local function createEyeIcon()
     local iconDHStroke = nil
 
     local iconDHImg = Instance.new("ImageLabel")
-    iconDHImg.Size                   = UDim2.new(0, 20, 0, 20)
-    iconDHImg.Position               = UDim2.new(0.5, -10, 0.5, -10)
+    iconDHImg.Size                   = UDim2.new(0, 45, 0, 45)
+    iconDHImg.Position               = UDim2.new(0.5, -22.5, 0.5, -22.5)
     iconDHImg.BackgroundTransparency = 1
-    iconDHImg.Image                  = "rbxassetid://99173242168462"
+    iconDHImg.Image                  = "rbxassetid://81051720367511"
     iconDHImg.ScaleType              = Enum.ScaleType.Fit
     iconDHImg.ZIndex                 = 6
     iconDHImg.Parent                 = btn
