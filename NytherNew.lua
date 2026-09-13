@@ -2400,14 +2400,11 @@ topBar.InputBegan:Connect(function(inp)
     if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
         isDragging = true
         dragStart = inp.Position
-        -- Convertir posición actual a offset absoluto en píxeles antes de arrastrar
+        -- Guardar la posición absoluta del centro del frame al momento de tomar
         local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
         local absX = mainFrame.Position.X.Scale * viewport.X + mainFrame.Position.X.Offset
         local absY = mainFrame.Position.Y.Scale * viewport.Y + mainFrame.Position.Y.Offset
-        frameStart = UDim2.new(0, absX, 0, absY)
-        -- Pasar a modo offset puro para que el drag funcione correctamente
-        mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-        mainFrame.Position = frameStart
+        frameStart = Vector2.new(absX, absY)
     end
 end)
 
@@ -2420,9 +2417,7 @@ end)
 UserInputService.InputChanged:Connect(function(inp)
     if isDragging and (inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch) then
         local delta = inp.Position - dragStart
-        local newX = frameStart.X.Offset + delta.X
-        local newY = frameStart.Y.Offset + delta.Y
-        mainFrame.Position = UDim2.new(0, newX, 0, newY)
+        mainFrame.Position = UDim2.new(0, frameStart.X + delta.X, 0, frameStart.Y + delta.Y)
     end
 end)
 
