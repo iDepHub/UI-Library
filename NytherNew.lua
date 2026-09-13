@@ -98,8 +98,11 @@ bgImage.ZIndex                 = 1
 bgImage.Parent                 = mainFrame
 
 local function CenterWindow()
-    mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-    mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+    local vp = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
+    local w = WINDOW_SIZE.X.Offset
+    local h = WINDOW_SIZE.Y.Offset
+    mainFrame.AnchorPoint = Vector2.new(0, 0)
+    mainFrame.Position = UDim2.new(0, (vp.X - w) / 2, 0, (vp.Y - h) / 2)
     mainFrame.Size = WINDOW_SIZE
 end
 
@@ -2398,21 +2401,9 @@ local isDragging, dragStart, frameStart = false, nil, nil
 
 topBar.InputBegan:Connect(function(inp)
     if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
-        -- Convertir a AnchorPoint (0,0) con posición absoluta equivalente ANTES de guardar frameStart
-        -- Así el drag siempre trabaja en offset puro sin saltos
-        local vp = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
-        local absX = mainFrame.Position.X.Scale * vp.X + mainFrame.Position.X.Offset
-        local absY = mainFrame.Position.Y.Scale * vp.Y + mainFrame.Position.Y.Offset
-        -- Con AnchorPoint 0.5,0.5 el offset absoluto es el centro del frame
-        -- Con AnchorPoint 0,0 la esquina superior izquierda sería centro - tamaño/2
-        local cornerX = absX - mainFrame.AbsoluteSize.X / 2
-        local cornerY = absY - mainFrame.AbsoluteSize.Y / 2
-        mainFrame.AnchorPoint = Vector2.new(0, 0)
-        mainFrame.Position = UDim2.new(0, cornerX, 0, cornerY)
-
         isDragging = true
         dragStart = inp.Position
-        frameStart = Vector2.new(cornerX, cornerY)
+        frameStart = mainFrame.Position
     end
 end)
 
@@ -2425,7 +2416,7 @@ end)
 UserInputService.InputChanged:Connect(function(inp)
     if isDragging and (inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch) then
         local delta = inp.Position - dragStart
-        mainFrame.Position = UDim2.new(0, frameStart.X + delta.X, 0, frameStart.Y + delta.Y)
+        mainFrame.Position = UDim2.new(0, frameStart.X.Offset + delta.X, 0, frameStart.Y.Offset + delta.Y)
     end
 end)
 
