@@ -1197,7 +1197,7 @@ local function NewInfoTab(page, tabData, config)
     greetingSmall.Size = UDim2.new(1, 0, 0, 16)
     greetingSmall.Position = UDim2.new(0, 0, 0, 2)
     greetingSmall.BackgroundTransparency = 1
-    greetingSmall.Text = "Hola,"
+    greetingSmall.Text = "Hola"
     greetingSmall.TextColor3 = Theme.Dim
     greetingSmall.TextSize = 12
     greetingSmall.Font = Enum.Font.Gotham
@@ -1220,7 +1220,7 @@ local function NewInfoTab(page, tabData, config)
     sub.Size = UDim2.new(1, 0, 0, 18)
     sub.Position = UDim2.new(0, 0, 0, 50)
     sub.BackgroundTransparency = 1
-    sub.Text = "Solo en iDepHub"
+    sub.Text = "Lo que necesitas solo en iDepHub"
     sub.TextColor3 = Theme.Dim
     sub.TextSize = 11
     sub.Font = Enum.Font.Gotham
@@ -1296,7 +1296,7 @@ local function NewInfoTab(page, tabData, config)
     cardTitle.Size = UDim2.new(0, 220, 0, 20)
     cardTitle.Position = UDim2.new(0, 16, 0, 14)
     cardTitle.BackgroundTransparency = 1
-    cardTitle.Text = "Nyther UI Library"
+    cardTitle.Text = "iDepHub UI Library"
     cardTitle.TextColor3 = Theme.Text
     cardTitle.TextSize = 14
     cardTitle.Font = Enum.Font.GothamBlack
