@@ -20,8 +20,8 @@ end
 local Theme = {
     Base    = Color3.fromRGB(8, 8, 8),
     Panel   = Color3.fromRGB(12, 12, 12),
-    Raised  = Color3.fromRGB(0, 0, 0),
-    Hover   = Color3.fromRGB(15, 15, 15),
+    Raised  = Color3.fromRGB(34, 30, 26),
+    Hover   = Color3.fromRGB(44, 38, 32),
     Line    = Color3.fromRGB(56, 49, 42),
     Toggle  = Color3.fromRGB(58, 51, 44),
     Accent  = Color3.fromRGB(41, 255, 244),
@@ -172,13 +172,13 @@ PillDotCorner.CornerRadius = UDim.new(1, 0)
 PillDotCorner.Parent = PillDot
 
 local PillText = Instance.new("TextLabel")
-PillText.Size                 = UDim2.new(1, -20, 1, 0)
+PillText.Size                 = UDim2.new(1, -24, 1, 0)
 PillText.Position             = UDim2.new(0, 22, 0, 0)
 PillText.BackgroundTransparency = 1
-PillText.Text                 = "Enable"
+PillText.Text                 = "Activate"
 PillText.TextColor3           = Theme.Text
 PillText.TextSize             = 11
-PillText.Font                 = Enum.Font.Code
+PillText.Font                 = Enum.Font.GothamBold
 PillText.TextXAlignment       = Enum.TextXAlignment.Left
 PillText.Parent               = Pill
 
@@ -400,18 +400,17 @@ end
 
 local function NewTab(name, icon, order)
     local btn = Instance.new("TextButton")
-    btn.Name                   = "Tab_"..name
-    btn.Size                   = UDim2.new(1, -16, 0, 38)
-    btn.BackgroundColor3       = Theme.Raised
-    btn.BackgroundTransparency = 0.45
-    btn.TextColor3             = Theme.Dim
-    btn.Text                   = "   " .. name
-    btn.TextSize               = 12
-    btn.Font                   = Enum.Font.GothamBold
-    btn.BorderSizePixel        = 0
-    btn.AutoButtonColor        = false
-    btn.LayoutOrder            = order
-    btn.Parent                 = tabScroll
+    btn.Name             = "Tab_"..name
+    btn.Size             = UDim2.new(1, -16, 0, 38)
+    btn.BackgroundColor3 = Theme.Raised
+    btn.TextColor3       = Theme.Dim
+    btn.Text             = "   " .. name
+    btn.TextSize         = 12
+    btn.Font             = Enum.Font.GothamBold
+    btn.BorderSizePixel  = 0
+    btn.AutoButtonColor  = false
+    btn.LayoutOrder      = order
+    btn.Parent           = tabScroll
     local btnCorner = Instance.new("UICorner")
     btnCorner.CornerRadius = UDim.new(0, 6)
     btnCorner.Parent = btn
@@ -545,12 +544,11 @@ end
 
 local function ElemBase(parent, h)
     local f = Instance.new("Frame")
-    f.Size                   = UDim2.new(1, 0, 0, h)
-    f.BackgroundColor3       = Theme.Raised
-    f.BackgroundTransparency = 0.45
-    f.BorderSizePixel        = 0
-    f.LayoutOrder            = nextOrd()
-    f.Parent                 = parent
+    f.Size             = UDim2.new(1, 0, 0, h)
+    f.BackgroundColor3 = Theme.Raised
+    f.BorderSizePixel  = 0
+    f.LayoutOrder      = nextOrd()
+    f.Parent           = parent
     Corner(f, 6)
     local s = Stroke(f, Theme.Line, 0.5)
     return f, s
@@ -664,7 +662,6 @@ local function NewToggle(parent, label, sub, default, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 46)
     container.BackgroundColor3 = Theme.Raised
-    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -821,7 +818,6 @@ local function NewSlider(parent, label, sub, minVal, maxVal, default, callback, 
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 60)
     container.BackgroundColor3 = Theme.Raised
-    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -950,7 +946,6 @@ local function NewButton(parent, label, sub, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 46)
     container.BackgroundColor3 = Theme.Raised
-    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -1029,7 +1024,6 @@ local function NewKeybind(parent, label, sub, defaultKey, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 46)
     container.BackgroundColor3 = Theme.Raised
-    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -1141,7 +1135,6 @@ local function NewLabel(parent, text, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 30)
     container.BackgroundColor3 = Theme.Raised
-    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -1263,7 +1256,6 @@ local function NewInfoTab(page, tabData)
     local card = Instance.new("Frame")
     card.Size = UDim2.new(1, 0, 0, 72)
     card.BackgroundColor3 = Theme.Raised
-    card.BackgroundTransparency = 0.45
     card.BorderSizePixel = 0
     card.Parent = page
     Instance.new("UICorner", card).CornerRadius = UDim.new(0, 8)
@@ -1430,12 +1422,11 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
     cLayout.Parent    = container
 
     local header = Instance.new("Frame")
-    header.Size                   = UDim2.new(1, 0, 0, 50)
-    header.BackgroundColor3       = Theme.Raised
-    header.BackgroundTransparency = 0.45
-    header.BorderSizePixel        = 0
-    header.LayoutOrder            = 1
-    header.Parent                 = container
+    header.Size             = UDim2.new(1, 0, 0, 50)
+    header.BackgroundColor3 = Theme.Raised
+    header.BorderSizePixel  = 0
+    header.LayoutOrder      = 1
+    header.Parent           = container
     Corner(header, 8)
     local hStroke = Stroke(header, Theme.Line, 0.5)
 
@@ -1830,12 +1821,11 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     cLayout.Parent    = container
 
     local header = Instance.new("Frame")
-    header.Size                   = UDim2.new(1, 0, 0, 46)
-    header.BackgroundColor3       = Theme.Raised
-    header.BackgroundTransparency = 0.45
-    header.BorderSizePixel        = 0
-    header.LayoutOrder            = 1
-    header.Parent                 = container
+    header.Size             = UDim2.new(1, 0, 0, 46)
+    header.BackgroundColor3 = Theme.Raised
+    header.BorderSizePixel  = 0
+    header.LayoutOrder      = 1
+    header.Parent           = container
     Corner(header, 8)
     local hStroke = Stroke(header, Theme.Line, 0.5)
 
@@ -1949,15 +1939,13 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
 
         local function refresh()
             if selectedParts[partName] then
-                btn.BackgroundColor3       = Theme.Accent
-                btn.BackgroundTransparency = 0
-                btn.TextColor3             = Theme.Base
-                bStroke.Color              = Theme.Accent
+                btn.BackgroundColor3 = Theme.Accent
+                btn.TextColor3       = Theme.Base
+                bStroke.Color        = Theme.Accent
             else
-                btn.BackgroundColor3       = Theme.Raised
-                btn.BackgroundTransparency = 0.45
-                btn.TextColor3             = Theme.Dim
-                bStroke.Color              = Theme.Line
+                btn.BackgroundColor3 = Theme.Raised
+                btn.TextColor3       = Theme.Dim
+                bStroke.Color        = Theme.Line
             end
         end
         refresh()
@@ -2011,17 +1999,16 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
 
     local function makeActionBtn(btnLabel, x, callback)
         local ab = Instance.new("TextButton")
-        ab.Size                   = UDim2.new(0, ABW, 0, ABH)
-        ab.Position               = UDim2.new(0, x, 0, AB_Y)
-        ab.Text                   = btnLabel
-        ab.TextSize               = 10
-        ab.Font                   = Enum.Font.GothamSemibold
-        ab.BackgroundColor3       = Theme.Raised
-        ab.BackgroundTransparency = 0.45
-        ab.TextColor3             = Theme.Accent
-        ab.BorderSizePixel        = 0
-        ab.AutoButtonColor        = false
-        ab.Parent                 = ch
+        ab.Size             = UDim2.new(0, ABW, 0, ABH)
+        ab.Position         = UDim2.new(0, x, 0, AB_Y)
+        ab.Text             = btnLabel
+        ab.TextSize         = 10
+        ab.Font             = Enum.Font.GothamSemibold
+        ab.BackgroundColor3 = Theme.Raised
+        ab.TextColor3       = Theme.Accent
+        ab.BorderSizePixel  = 0
+        ab.AutoButtonColor  = false
+        ab.Parent           = ch
         Corner(ab, 5)
         Stroke(ab, Theme.Line, 0.5)
         _regAcc(ab, "TextColor3")
@@ -2086,7 +2073,328 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     return container
 end
 
+local function NewNote(parent, text, iconName)
+    local noteFrame = Instance.new("Frame")
+    noteFrame.Size              = UDim2.new(1, 0, 0, 0)
+    noteFrame.AutomaticSize     = Enum.AutomaticSize.Y
+    noteFrame.BackgroundColor3  = Theme.Raised
+    noteFrame.BorderSizePixel   = 0
+    noteFrame.LayoutOrder       = nextOrd()
+    noteFrame.Parent            = parent
+    Corner(noteFrame, 6)
 
+    local noteStroke = Instance.new("UIStroke")
+    noteStroke.Color     = Theme.Line
+    noteStroke.Thickness = 0.5
+    noteStroke.Parent    = noteFrame
+
+    local notePad = Instance.new("UIPadding")
+    notePad.PaddingTop    = UDim.new(0, 8)
+    notePad.PaddingBottom = UDim.new(0, 8)
+    notePad.PaddingLeft   = UDim.new(0, 10)
+    notePad.PaddingRight  = UDim.new(0, 10)
+    notePad.Parent        = noteFrame
+
+    local iconOffset = 0
+    if iconName then
+        local asset = getLucideAsset(iconName, 32)
+        if asset then
+            local img = Instance.new("ImageLabel")
+            img.Size                   = UDim2.new(0, 14, 0, 14)
+            img.Position               = UDim2.new(0, 0, 0, 8)
+            img.BackgroundTransparency = 1
+            img.Image                  = asset.Url
+            img.ImageRectSize          = asset.ImageRectSize
+            img.ImageRectOffset        = asset.ImageRectOffset
+            img.ScaleType              = Enum.ScaleType.Fit
+            img.ImageColor3            = Theme.Accent
+            img.Parent                 = noteFrame
+            _regAcc(img, "ImageColor3")
+            iconOffset = 20
+        end
+    end
+
+    local noteLbl = Instance.new("TextLabel")
+    noteLbl.Size                   = UDim2.new(1, -iconOffset, 0, 0)
+    noteLbl.Position               = UDim2.new(0, iconOffset, 0, 0)
+    noteLbl.AutomaticSize          = Enum.AutomaticSize.Y
+    noteLbl.BackgroundTransparency = 1
+    noteLbl.Text                   = text or ""
+    noteLbl.TextColor3             = Theme.Dim
+    noteLbl.TextSize               = 11
+    noteLbl.Font                   = Enum.Font.Gotham
+    noteLbl.TextXAlignment         = Enum.TextXAlignment.Left
+    noteLbl.TextYAlignment         = Enum.TextYAlignment.Top
+    noteLbl.TextWrapped            = true
+    noteLbl.Parent                 = noteFrame
+
+    return noteFrame
+end
+
+local function NewSearchPanel(searchTabData, opts)
+    local getWeapons   = opts and opts.getWeapons
+    local onSend       = opts and opts.onSend
+    local hideAmount   = opts and opts.hideAmount
+    local buttonLabel  = (opts and opts.buttonLabel) or "Enviar arma"
+
+    local selectedWeapon  = nil
+    local selectedAmount  = 1
+    local weaponRowFrames = {}
+
+    local searchOuter = Instance.new("Frame")
+    searchOuter.Size              = UDim2.new(1, -146, 1, 0)
+    searchOuter.Position          = UDim2.new(0, 146, 0, 0)
+    searchOuter.BackgroundTransparency = 1
+    searchOuter.BorderSizePixel   = 0
+    searchOuter.ClipsDescendants  = false
+    searchOuter.Visible           = false
+    searchOuter.Parent            = bodyFrame
+
+    local searchBarBg = Instance.new("Frame")
+    searchBarBg.Size             = UDim2.new(1, -18, 0, 32)
+    searchBarBg.Position         = UDim2.new(0, 9, 0, 8)
+    searchBarBg.BackgroundColor3 = Theme.Raised
+    searchBarBg.BorderSizePixel  = 0
+    searchBarBg.Parent           = searchOuter
+    Corner(searchBarBg, 6)
+
+    local _sbStroke = Stroke(searchBarBg, Theme.Line, 0.5)
+
+    local searchIcon = Instance.new("TextLabel")
+    searchIcon.Size                 = UDim2.new(0, 28, 1, 0)
+    searchIcon.BackgroundTransparency = 1
+    searchIcon.Text                 = "🔍"
+    searchIcon.TextSize             = 13
+    searchIcon.Font                 = Enum.Font.GothamSemibold
+    searchIcon.TextXAlignment       = Enum.TextXAlignment.Center
+    searchIcon.Parent               = searchBarBg
+
+    local searchBox = Instance.new("TextBox")
+    searchBox.Size              = UDim2.new(1, -36, 1, 0)
+    searchBox.Position          = UDim2.new(0, 28, 0, 0)
+    searchBox.BackgroundTransparency = 1
+    searchBox.BorderSizePixel   = 0
+    searchBox.PlaceholderText   = "Buscar arma..."
+    searchBox.PlaceholderColor3 = Theme.Dim
+    searchBox.Text              = ""
+    searchBox.TextColor3        = Theme.Text
+    searchBox.TextSize          = 11
+    searchBox.Font              = Enum.Font.Gotham
+    searchBox.TextXAlignment    = Enum.TextXAlignment.Left
+    searchBox.ClearTextOnFocus  = false
+    searchBox.Parent            = searchBarBg
+
+    local listFrame = Instance.new("ScrollingFrame")
+    listFrame.Size                  = UDim2.new(1, -18, 1, -130)
+    listFrame.Position              = UDim2.new(0, 9, 0, 48)
+    listFrame.BackgroundColor3      = Theme.Raised
+    listFrame.BorderSizePixel       = 0
+    listFrame.ScrollBarThickness    = 0
+    listFrame.CanvasSize            = UDim2.new(0, 0, 0, 0)
+    listFrame.AutomaticCanvasSize   = Enum.AutomaticSize.Y
+    listFrame.Parent                = searchOuter
+    Corner(listFrame, 6)
+
+    local _lfStroke = Stroke(listFrame, Theme.Line, 0.5)
+
+    local listLayout = Instance.new("UIListLayout")
+    listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    listLayout.Padding   = UDim.new(0, 2)
+    listLayout.Parent    = listFrame
+
+    local listPad = Instance.new("UIPadding")
+    listPad.PaddingTop    = UDim.new(0, 4)
+    listPad.PaddingBottom = UDim.new(0, 4)
+    listPad.PaddingLeft   = UDim.new(0, 4)
+    listPad.PaddingRight  = UDim.new(0, 4)
+    listPad.Parent        = listFrame
+
+    local bottomPanel = Instance.new("Frame")
+    bottomPanel.Size             = UDim2.new(1, -18, 0, 68)
+    bottomPanel.Position         = UDim2.new(0, 9, 1, -74)
+    bottomPanel.BackgroundColor3 = Theme.Raised
+    bottomPanel.BorderSizePixel  = 0
+    bottomPanel.Parent           = searchOuter
+    Corner(bottomPanel, 6)
+    Stroke(bottomPanel, Theme.Line, 0.5)
+
+    local selLabel = Instance.new("TextLabel")
+    selLabel.Size                 = UDim2.new(1, -12, 0, 20)
+    selLabel.Position             = UDim2.new(0, 8, 0, 4)
+    selLabel.BackgroundTransparency = 1
+    selLabel.Text                 = "Seleccionado: ninguno"
+    selLabel.TextColor3           = Theme.Dim
+    selLabel.TextSize             = 11
+    selLabel.Font                 = Enum.Font.Gotham
+    selLabel.TextXAlignment       = Enum.TextXAlignment.Left
+    selLabel.TextTruncate         = Enum.TextTruncate.AtEnd
+    selLabel.Parent               = bottomPanel
+
+    local minusBtn = Instance.new("TextButton")
+    minusBtn.Size             = UDim2.new(0, 26, 0, 26)
+    minusBtn.Position         = UDim2.new(0, 8, 0, 28)
+    minusBtn.BackgroundColor3 = Theme.Panel
+    minusBtn.BorderSizePixel  = 0
+    minusBtn.Text             = "−"
+    minusBtn.TextColor3       = Theme.Accent
+    minusBtn.TextSize         = 16
+    minusBtn.Font             = Enum.Font.GothamBold
+    minusBtn.AutoButtonColor  = false
+    minusBtn.Parent           = bottomPanel
+    Corner(minusBtn, 4)
+
+    local amountLabel = Instance.new("TextLabel")
+    amountLabel.Size                 = UDim2.new(0, 40, 0, 26)
+    amountLabel.Position             = UDim2.new(0, 38, 0, 28)
+    amountLabel.BackgroundTransparency = 1
+    amountLabel.Text                 = "1"
+    amountLabel.TextColor3           = Theme.Text
+    amountLabel.TextSize             = 12
+    amountLabel.Font                 = Enum.Font.GothamBold
+    amountLabel.TextXAlignment       = Enum.TextXAlignment.Center
+    amountLabel.Parent               = bottomPanel
+
+    local plusBtn = Instance.new("TextButton")
+    plusBtn.Size             = UDim2.new(0, 26, 0, 26)
+    plusBtn.Position         = UDim2.new(0, 82, 0, 28)
+    plusBtn.BackgroundColor3 = Theme.Panel
+    plusBtn.BorderSizePixel  = 0
+    plusBtn.Text             = "+"
+    plusBtn.TextColor3       = Theme.Accent
+    plusBtn.TextSize         = 16
+    plusBtn.Font             = Enum.Font.GothamBold
+    plusBtn.AutoButtonColor  = false
+    plusBtn.Parent           = bottomPanel
+    Corner(plusBtn, 4)
+
+    local sendBtn = Instance.new("TextButton")
+    sendBtn.Size             = UDim2.new(0, 110, 0, 26)
+    sendBtn.Position         = UDim2.new(1, -118, 0, 28)
+    sendBtn.BackgroundColor3 = Theme.Hover
+    sendBtn.BorderSizePixel  = 0
+    sendBtn.Text             = buttonLabel
+    sendBtn.TextColor3       = Theme.Text
+    sendBtn.TextSize         = 11
+    sendBtn.Font             = Enum.Font.GothamSemibold
+    sendBtn.AutoButtonColor  = false
+    sendBtn.Parent           = bottomPanel
+    Corner(sendBtn, 4)
+
+    sendBtn.MouseEnter:Connect(function()
+        SafeTween(sendBtn, TweenInfo.new(0.1), { BackgroundColor3 = Theme.Accent })
+    end)
+    sendBtn.MouseLeave:Connect(function()
+        SafeTween(sendBtn, TweenInfo.new(0.1), { BackgroundColor3 = Theme.Hover })
+    end)
+
+    local function SetSelected(name, rowData)
+        for _, rf in ipairs(weaponRowFrames) do
+            SafeTween(rf.frame, TweenInfo.new(0.1), { BackgroundColor3 = Theme.Raised })
+            rf.lbl.TextColor3 = Theme.Dim
+        end
+        selectedWeapon = name
+        if name and rowData then
+            SafeTween(rowData.frame, TweenInfo.new(0.1), { BackgroundColor3 = Theme.Hover })
+            rowData.lbl.TextColor3 = Theme.Text
+            selLabel.Text       = "Seleccionado: " .. name
+            selLabel.TextColor3 = Theme.Accent
+        else
+            selLabel.Text       = "Seleccionado: ninguno"
+            selLabel.TextColor3 = Theme.Dim
+        end
+    end
+
+    local function BuildList(filter)
+        for _, rf in ipairs(weaponRowFrames) do rf.frame:Destroy() end
+        weaponRowFrames = {}
+        selectedWeapon  = nil
+        selLabel.Text       = "Seleccionado: ninguno"
+        selLabel.TextColor3 = Theme.Dim
+
+        local weapons = getWeapons and getWeapons() or {}
+        local seen, unique = {}, {}
+        for _, w in ipairs(weapons) do
+            if not seen[w] then seen[w] = true; table.insert(unique, w) end
+        end
+
+        local filterLower = filter and filter:lower() or ""
+        for _, weaponName in ipairs(unique) do
+            if filterLower == "" or weaponName:lower():find(filterLower, 1, true) then
+                local row = Instance.new("Frame")
+                row.Size             = UDim2.new(1, 0, 0, 28)
+                row.BackgroundColor3 = Theme.Raised
+                row.BorderSizePixel  = 0
+                row.Parent           = listFrame
+                Corner(row, 4)
+
+                local rowLbl = Instance.new("TextLabel")
+                rowLbl.Size                 = UDim2.new(1, -10, 1, 0)
+                rowLbl.Position             = UDim2.new(0, 8, 0, 0)
+                rowLbl.BackgroundTransparency = 1
+                rowLbl.Text                 = weaponName
+                rowLbl.TextColor3           = Theme.Dim
+                rowLbl.TextSize             = 11
+                rowLbl.Font                 = Enum.Font.Gotham
+                rowLbl.TextXAlignment       = Enum.TextXAlignment.Left
+                rowLbl.TextTruncate         = Enum.TextTruncate.AtEnd
+                rowLbl.Parent               = row
+
+                local rowBtn = Instance.new("TextButton")
+                rowBtn.Size                 = UDim2.new(1, 0, 1, 0)
+                rowBtn.BackgroundTransparency = 1
+                rowBtn.Text                 = ""
+                rowBtn.Parent               = row
+
+                local rowData = {frame = row, lbl = rowLbl}
+                table.insert(weaponRowFrames, rowData)
+
+                rowBtn.MouseButton1Click:Connect(function() SetSelected(weaponName, rowData) end)
+                rowBtn.MouseEnter:Connect(function()
+                    if selectedWeapon == weaponName then return end
+                    SafeTween(row, TweenInfo.new(0.1), { BackgroundColor3 = Theme.Hover })
+                end)
+                rowBtn.MouseLeave:Connect(function()
+                    if selectedWeapon == weaponName then return end
+                    SafeTween(row, TweenInfo.new(0.1), { BackgroundColor3 = Theme.Raised })
+                end)
+            end
+        end
+    end
+
+    searchBox:GetPropertyChangedSignal("Text"):Connect(function()
+        BuildList(searchBox.Text)
+    end)
+
+    minusBtn.MouseButton1Click:Connect(function()
+        if selectedAmount > 1 then
+            selectedAmount -= 1
+            amountLabel.Text = tostring(selectedAmount)
+        end
+    end)
+
+    plusBtn.MouseButton1Click:Connect(function()
+        if selectedAmount < 999 then
+            selectedAmount += 1
+            amountLabel.Text = tostring(selectedAmount)
+        end
+    end)
+
+    sendBtn.MouseButton1Click:Connect(function()
+        if not selectedWeapon then return end
+        if onSend then onSend(selectedWeapon, selectedAmount) end
+    end)
+
+    if hideAmount then
+        minusBtn.Visible    = false
+        amountLabel.Visible = false
+        plusBtn.Visible     = false
+        sendBtn.Size        = UDim2.new(1, -16, 0, 26)
+        sendBtn.Position    = UDim2.new(0, 8, 0, 28)
+    end
+
+    searchTabData.customPanel   = searchOuter
+    searchTabData.onTabSelected = function() BuildList(searchBox.Text) end
+end
 
 local isDragging, dragStart, frameStart = false, nil, nil
 
@@ -2497,11 +2805,28 @@ return {
     NewInfoTab           = NewInfoTab,
     NewColorPicker       = NewColorPicker,
     NewBodyPartSelector  = NewBodyPartSelector,
+    NewNote              = NewNote,
+    NewSearchPanel       = NewSearchPanel,
     SelectTab            = SelectTab,
     registeredTabs       = registeredTabs,
     mainFrame            = mainFrame,
     sendNotification     = sendNotification,
     isMobile             = isMobile,
+    getWindowSize        = function()
+        return WINDOW_SIZE.X.Offset, WINDOW_SIZE.Y.Offset, false
+    end,
+    setWindowSize        = function(w, h)
+        if _openTween then
+            pcall(function() _openTween:Cancel() end)
+            _openTween = nil
+        end
+        local finalW = (w <= 1 and w > 0)
+            and math.floor(workspace.CurrentCamera.ViewportSize.X * w)
+            or w
+        WINDOW_SIZE = UDim2.new(0, finalW, 0, h)
+        mainFrame.Size = WINDOW_SIZE
+        CenterWindow()
+    end,
     setEyeFixed          = setEyeFixed,
     setEyeHidden         = setEyeHidden,
     createFloatButton    = createFloatButton,
