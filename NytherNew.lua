@@ -1788,35 +1788,14 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
 end
 
 local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, defaultParts, extRefreshTable, iconName)
-    local RH_ROW  = 30
-    local TH_ROW  = 38
-    local RG      = 6
-    local LW      = 46
-    local CW      = 72
-    local CG      = 5
-    local PAD     = 12
-    local ABH     = 26
-    local legW    = math.floor((CW - CG) / 2)
+    -- ── Constantes de layout (canvas 256 × 320) ──────────────────────────────
+    local CANVAS_W   = 256
+    local CANVAS_H   = 320
+    local PAD        = 8
+    local ABH        = 26
+    local AB_GAP     = 4
 
-    local TOTAL_INNER_W = LW + CG + CW + CG + LW
-    local CONTENT_W     = TOTAL_INNER_W + PAD * 2
-
-    local ROWS   = 7
-    local function rowY(r)
-        if r == 1 then return PAD
-        elseif r == 2 then return rowY(1) + RH_ROW + RG
-        elseif r == 3 then return rowY(2) + TH_ROW + RG
-        elseif r == 4 then return rowY(3) + TH_ROW + RG
-        elseif r == 5 then return rowY(4) + RH_ROW + RG
-        elseif r == 6 then return rowY(5) + RH_ROW + RG
-        elseif r == 7 then return rowY(6) + RH_ROW + RG
-        end
-        return PAD
-    end
-    local SEP_Y  = rowY(ROWS) + RH_ROW + RG - 2
-    local AB_Y   = SEP_Y + 8
-    local BODY_H = AB_Y + ABH + PAD
-
+    -- ── Container externo ─────────────────────────────────────────────────────
     local container = Instance.new("Frame")
     container.Size               = UDim2.new(1, 0, 0, 0)
     container.AutomaticSize      = Enum.AutomaticSize.Y
@@ -1829,6 +1808,7 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     cLayout.Padding   = UDim.new(0, 6)
     cLayout.Parent    = container
 
+    -- ── Header colapsable ─────────────────────────────────────────────────────
     local header = Instance.new("Frame")
     header.Size                   = UDim2.new(1, 0, 0, 46)
     header.BackgroundColor3       = Theme.Raised
@@ -1859,12 +1839,12 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     end
 
     local lbl = Label(header, label, 12, Theme.Text, Enum.Font.GothamBold)
-    lbl.Size              = UDim2.new(1, -70, 0, 18)
-    lbl.Position          = UDim2.new(0, labelOffset, 0, 7)
+    lbl.Size     = UDim2.new(1, -70, 0, 18)
+    lbl.Position = UDim2.new(0, labelOffset, 0, 7)
 
     local subLbl = Label(header, sub or "", 10, Theme.Dim, Enum.Font.Gotham)
-    subLbl.Size           = UDim2.new(1, -70, 0, 14)
-    subLbl.Position       = UDim2.new(0, labelOffset, 0, 26)
+    subLbl.Size     = UDim2.new(1, -70, 0, 14)
+    subLbl.Position = UDim2.new(0, labelOffset, 0, 26)
 
     local badgeBg = Instance.new("Frame")
     badgeBg.Size             = UDim2.new(0, 36, 0, 26)
@@ -1876,9 +1856,14 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     Stroke(badgeBg, Theme.Line, 0.5)
 
     local countLbl = Label(badgeBg, "0", 12, Theme.Accent, Enum.Font.GothamBold)
-    countLbl.Size                 = UDim2.new(1, 0, 1, 0)
-    countLbl.TextXAlignment       = Enum.TextXAlignment.Center
+    countLbl.Size            = UDim2.new(1, 0, 1, 0)
+    countLbl.TextXAlignment  = Enum.TextXAlignment.Center
     _regAcc(countLbl, "TextColor3")
+
+    -- ── Body (expandible) ─────────────────────────────────────────────────────
+    local SEP_Y  = PAD + CANVAS_H + 6
+    local AB_Y   = SEP_Y + 8
+    local BODY_H = AB_Y + ABH + PAD
 
     local body = Instance.new("Frame")
     body.Size             = UDim2.new(1, 0, 0, BODY_H)
@@ -1891,61 +1876,88 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     Corner(body, 8)
     Stroke(body, Theme.Line, 0.5)
 
+    -- ── Canvas del muñeco ─────────────────────────────────────────────────────
     local ch = Instance.new("Frame")
-    ch.Size        = UDim2.new(0, CONTENT_W, 1, 0)
-    ch.AnchorPoint = Vector2.new(0.5, 0)
-    ch.Position    = UDim2.new(0.5, 0, 0, 0)
-    ch.BackgroundTransparency = 1
-    ch.Parent      = body
+    ch.Size             = UDim2.new(0, CANVAS_W, 0, CANVAS_H)
+    ch.AnchorPoint      = Vector2.new(0.5, 0)
+    ch.Position         = UDim2.new(0.5, 0, 0, PAD)
+    ch.BackgroundColor3 = Theme.Base
+    ch.BackgroundTransparency = 0.55
+    ch.BorderSizePixel  = 0
+    ch.Parent           = body
+    Corner(ch, 8)
 
-    local lx       = PAD
-    local cx       = lx + LW + CG
-    local rx       = cx + CW + CG
-    local cxCenter = cx + math.floor(CW / 2)
-
-    local function makeDeco(x, y, w, h)
-        local d = Instance.new("Frame")
-        d.Size             = UDim2.new(0, w, 0, h)
-        d.Position         = UDim2.new(0, x, 0, y)
-        d.BackgroundColor3 = Theme.Line
-        d.BorderSizePixel  = 0
-        d.Parent           = ch
-        Corner(d, 1)
-        return d
-    end
-
-    makeDeco(cxCenter - 1, rowY(1) + RH_ROW, 2, RG)
-    makeDeco(cxCenter - 1, rowY(2), 2, TH_ROW + RG + TH_ROW)
-    makeDeco(cxCenter - 1, rowY(3) + TH_ROW, 2, RG)
-    makeDeco(lx + LW, rowY(2) + math.floor(TH_ROW/2) - 1, CG, 2)
-    makeDeco(cx + CW, rowY(2) + math.floor(TH_ROW/2) - 1, CG, 2)
-    makeDeco(lx + LW, rowY(3) + math.floor(TH_ROW/2) - 1, CG, 2)
-    makeDeco(cx + CW, rowY(3) + math.floor(TH_ROW/2) - 1, CG, 2)
-
+    -- ── Helpers ───────────────────────────────────────────────────────────────
     local localRefreshFns = {}
+    local partMeta        = {}   -- {name -> {btn,stroke,x,y,w,h}}
+    local animatedLines   = {}   -- líneas conectoras para animar
 
     local function countSelected()
         local n = 0
         for _, p in ipairs(allParts) do if selectedParts[p] then n += 1 end end
         return n
     end
-
     local function updateCount()
         countLbl.Text = tostring(countSelected())
     end
 
-    local function makePartBtn(btnLabel, partName, x, y, w, h, mirrorPart)
+    -- Dibuja una línea animable entre dos puntos absolutos dentro de ch
+    local function drawLine(x1, y1, x2, y2)
+        local dx = x2 - x1
+        local dy = y2 - y1
+        local length = math.sqrt(dx*dx + dy*dy)
+        if length < 1 then return end
+        local angle  = math.atan2(dy, dx)
+        local line   = Instance.new("Frame")
+        line.Size             = UDim2.new(0, length, 0, 2)
+        line.Position         = UDim2.new(0, (x1+x2)/2 - length/2,
+                                           0, (y1+y2)/2 - 1)
+        line.Rotation         = math.deg(angle)
+        line.BackgroundColor3 = Theme.Line
+        line.BorderSizePixel  = 0
+        line.ZIndex           = 0
+        line.Parent           = ch
+        table.insert(animatedLines, line)
+        return line
+    end
+
+    -- Devuelve el punto de un borde de una parte
+    local function getEdge(name, dir)
+        local d = partMeta[name]
+        if not d then return 0, 0 end
+        if dir == "top"         then return d.x + d.w/2,       d.y             end
+        if dir == "bottom"      then return d.x + d.w/2,       d.y + d.h       end
+        if dir == "left"        then return d.x,                d.y + d.h/2     end
+        if dir == "right"       then return d.x + d.w,         d.y + d.h/2     end
+        if dir == "bottomleft"  then return d.x + d.w*0.25,    d.y + d.h       end
+        if dir == "bottomright" then return d.x + d.w*0.75,    d.y + d.h       end
+        if dir == "topleft"     then return d.x + d.w*0.25,    d.y             end
+        if dir == "topright"    then return d.x + d.w*0.75,    d.y             end
+        return d.x + d.w/2, d.y + d.h/2
+    end
+
+    local function connectParts(p1, d1, p2, d2)
+        local x1, y1 = getEdge(p1, d1)
+        local x2, y2 = getEdge(p2, d2)
+        drawLine(x1, y1, x2, y2)
+    end
+
+    -- Crea un botón de parte del cuerpo
+    local function makePartBtn(btnLabel, partName, x, y, w, h, mirrorPart, radius)
         local btn = Instance.new("TextButton")
         btn.Size            = UDim2.new(0, w, 0, h)
         btn.Position        = UDim2.new(0, x, 0, y)
         btn.Text            = btnLabel
-        btn.TextSize        = 9
+        btn.TextSize        = 10
         btn.Font            = Enum.Font.GothamBold
         btn.BorderSizePixel = 0
         btn.AutoButtonColor = false
+        btn.ZIndex          = 1
         btn.Parent          = ch
-        Corner(btn, 5)
+        Corner(btn, radius or 8)
         local bStroke = Stroke(btn, Theme.Line, 0.5)
+
+        partMeta[partName] = {btn = btn, stroke = bStroke, x = x, y = y, w = w, h = h}
 
         local function refresh()
             if selectedParts[partName] then
@@ -1953,11 +1965,13 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
                 btn.BackgroundTransparency = 0
                 btn.TextColor3             = Theme.Base
                 bStroke.Color              = Theme.Accent
+                bStroke.Thickness          = 1.5
             else
                 btn.BackgroundColor3       = Theme.Raised
                 btn.BackgroundTransparency = 0.45
                 btn.TextColor3             = Theme.Dim
                 bStroke.Color              = Theme.Line
+                bStroke.Thickness          = 0.5
             end
         end
         refresh()
@@ -1983,36 +1997,103 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         end)
     end
 
-    makePartBtn("H",   "Head",          cx + math.floor((CW-LW)/2), rowY(1), LW, RH_ROW)
-    makePartBtn("LUA", "LeftUpperArm",  lx, rowY(2), LW, TH_ROW)
-    makePartBtn("UT",  "UpperTorso",    cx, rowY(2), CW, TH_ROW, "Torso")
-    makePartBtn("RUA", "RightUpperArm", rx, rowY(2), LW, TH_ROW)
-    makePartBtn("LLA", "LeftLowerArm",  lx, rowY(3), LW, TH_ROW)
-    makePartBtn("LT",  "LowerTorso",    cx, rowY(3), CW, TH_ROW)
-    makePartBtn("RLA", "RightLowerArm", rx, rowY(3), LW, TH_ROW)
-    makePartBtn("LH",  "LeftHand",      lx, rowY(4), LW, RH_ROW)
-    makePartBtn("RH",  "RightHand",     rx, rowY(4), LW, RH_ROW)
-    makePartBtn("LUL", "LeftUpperLeg",  cx,          rowY(5), legW, RH_ROW)
-    makePartBtn("RUL", "RightUpperLeg", cx+legW+CG,  rowY(5), legW, RH_ROW)
-    makePartBtn("LLL", "LeftLowerLeg",  cx,          rowY(6), legW, RH_ROW)
-    makePartBtn("RLL", "RightLowerLeg", cx+legW+CG,  rowY(6), legW, RH_ROW)
-    makePartBtn("LF",  "LeftFoot",      cx,          rowY(7), legW, RH_ROW)
-    makePartBtn("RF",  "RightFoot",     cx+legW+CG,  rowY(7), legW, RH_ROW)
+    -- ── Layout del muñeco (coordenadas absolutas dentro de ch 256×320) ────────
+    --   Columnas:  LArm=8   Centro=80   RArm=190
+    --   Filas (Y): Head=8  Torso=60  LTorso=110  Hands=162  Legs=186  LLegs=246  Feet=300
+    local CX   = 98   -- X izquierdo del torso central
+    local CW   = 60   -- ancho del torso
+    local LX   = 8    -- X brazo izquierdo
+    local RX   = 190  -- X brazo derecho
+    local AW   = 48   -- ancho brazo
+    local LGX  = 88   -- X pierna izquierda
+    local RGX  = 152  -- X pierna derecha
+    local LGW  = 52   -- ancho pierna
+    local HW   = 60   -- ancho cabeza
+    local HX   = 98   -- X cabeza (centrada en torso)
 
+    makePartBtn("H",   "Head",          HX,  8,  HW, 36, nil, 18)
+    makePartBtn("UT",  "UpperTorso",    CX,  54, CW, 44, "Torso", 10)
+    makePartBtn("LT",  "LowerTorso",    CX, 108, CW, 50, nil,     10)
+    makePartBtn("LUA", "LeftUpperArm",  LX,  54, AW, 44, nil,     10)
+    makePartBtn("LLA", "LeftLowerArm",  LX, 108, AW, 40, nil,     10)
+    makePartBtn("LH",  "LeftHand",      LX, 158, AW, 26, nil,      8)
+    makePartBtn("RUA", "RightUpperArm", RX,  54, AW, 44, nil,     10)
+    makePartBtn("RLA", "RightLowerArm", RX, 108, AW, 40, nil,     10)
+    makePartBtn("RH",  "RightHand",     RX, 158, AW, 26, nil,      8)
+    makePartBtn("LUL", "LeftUpperLeg",  LGX,186, LGW,54, nil,     10)
+    makePartBtn("LLL", "LeftLowerLeg",  LGX,248, LGW,46, nil,     10)
+    makePartBtn("LF",  "LeftFoot",      LGX,302, LGW,20, nil,      6)
+    makePartBtn("RUL", "RightUpperLeg", RGX,186, LGW,54, nil,     10)
+    makePartBtn("RLL", "RightLowerLeg", RGX,248, LGW,46, nil,     10)
+    makePartBtn("RF",  "RightFoot",     RGX,302, LGW,20, nil,      6)
+
+    -- ── Líneas conectoras ─────────────────────────────────────────────────────
+    connectParts("Head",         "bottom",      "UpperTorso",    "top")
+    connectParts("UpperTorso",   "bottom",      "LowerTorso",    "top")
+    connectParts("UpperTorso",   "left",        "LeftUpperArm",  "right")
+    connectParts("UpperTorso",   "right",       "RightUpperArm", "left")
+    connectParts("LeftUpperArm", "bottom",      "LeftLowerArm",  "top")
+    connectParts("RightUpperArm","bottom",      "RightLowerArm", "top")
+    connectParts("LeftLowerArm", "bottom",      "LeftHand",      "top")
+    connectParts("RightLowerArm","bottom",      "RightHand",     "top")
+    -- Cadera → piernas (usando bordes internos del LowerTorso)
+    do
+        local lhx, lhy = getEdge("LowerTorso", "bottomleft")
+        local lulx, luly = getEdge("LeftUpperLeg", "topleft")
+        drawLine(lhx, lhy, lulx, luly)
+        local rhx, rhy = getEdge("LowerTorso", "bottomright")
+        local rulx, ruly = getEdge("RightUpperLeg", "topright")
+        drawLine(rhx, rhy, rulx, ruly)
+    end
+    connectParts("LeftUpperLeg",  "bottom", "LeftLowerLeg",  "top")
+    connectParts("RightUpperLeg", "bottom", "RightLowerLeg", "top")
+    connectParts("LeftLowerLeg",  "bottom", "LeftFoot",      "top")
+    connectParts("RightLowerLeg", "bottom", "RightFoot",     "top")
+
+    -- ── Animación wave de las líneas (respeta accent color) ───────────────────
+    for i, line in ipairs(animatedLines) do
+        local delay = (i - 1) * 0.09
+        task.spawn(function()
+            task.wait(delay)
+            while line and line.Parent do
+                TweenService:Create(line, TweenInfo.new(0.55, Enum.EasingStyle.Sine), {
+                    BackgroundColor3 = Theme.Accent
+                }):Play()
+                task.wait(0.55)
+                if not line or not line.Parent then break end
+                TweenService:Create(line, TweenInfo.new(0.55, Enum.EasingStyle.Sine), {
+                    BackgroundColor3 = Theme.Line
+                }):Play()
+                task.wait(0.55)
+            end
+        end)
+    end
+
+    -- Registrar callback para que las líneas cambien al cambiar el accent ──────
+    table.insert(_customAccentCallbacks, function(newAccent)
+        -- No necesitamos forzar nada: la animación ya lee Theme.Accent en
+        -- cada iteración, así que el próximo ciclo ya usará el nuevo color.
+        -- Sólo refrescamos los botones de partes seleccionadas.
+        for _, fn in pairs(localRefreshFns) do fn() end
+        updateCount()
+    end)
+
+    -- ── Separador y botones de acción ─────────────────────────────────────────
     local sep = Instance.new("Frame")
     sep.Size             = UDim2.new(1, -PAD*2, 0, 1)
     sep.Position         = UDim2.new(0, PAD, 0, SEP_Y)
     sep.BackgroundColor3 = Theme.Line
     sep.BorderSizePixel  = 0
-    sep.Parent           = ch
+    sep.Parent           = body
 
-    local ABW      = math.floor((TOTAL_INNER_W - CG * 2) / 3)
-    local abStartX = lx
+    local totalABW  = CANVAS_W - PAD * 2
+    local ABW       = math.floor((totalABW - AB_GAP * 2) / 3)
+    local abStartX  = (CANVAS_W - (ABW * 3 + AB_GAP * 2)) / 2
 
     local function makeActionBtn(btnLabel, x, callback)
         local ab = Instance.new("TextButton")
         ab.Size                   = UDim2.new(0, ABW, 0, ABH)
-        ab.Position               = UDim2.new(0, x, 0, AB_Y)
+        ab.Position               = UDim2.new(0.5, x - CANVAS_W/2 + abStartX, 0, AB_Y)
         ab.Text                   = btnLabel
         ab.TextSize               = 10
         ab.Font                   = Enum.Font.GothamSemibold
@@ -2021,7 +2102,7 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         ab.TextColor3             = Theme.Accent
         ab.BorderSizePixel        = 0
         ab.AutoButtonColor        = false
-        ab.Parent                 = ch
+        ab.Parent                 = body
         Corner(ab, 5)
         Stroke(ab, Theme.Line, 0.5)
         _regAcc(ab, "TextColor3")
@@ -2036,27 +2117,23 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         return ab
     end
 
-    makeActionBtn("Select All", abStartX, function()
+    makeActionBtn("Select All", 0, function()
         for _, p in ipairs(allParts) do selectedParts[p] = true end
         for _, fn in pairs(localRefreshFns) do fn() end
         updateCount()
     end)
-    makeActionBtn("Reset", abStartX + ABW + CG, function()
+    makeActionBtn("Reset", ABW + AB_GAP, function()
         for _, p in ipairs(allParts) do selectedParts[p] = defaultParts[p] or nil end
         for _, fn in pairs(localRefreshFns) do fn() end
         updateCount()
     end)
-    makeActionBtn("Clear All", abStartX + (ABW + CG) * 2, function()
+    makeActionBtn("Clear All", (ABW + AB_GAP) * 2, function()
         for _, p in ipairs(allParts) do selectedParts[p] = nil end
         for _, fn in pairs(localRefreshFns) do fn() end
         updateCount()
     end)
 
-    table.insert(_customAccentCallbacks, function()
-        for _, fn in pairs(localRefreshFns) do fn() end
-        updateCount()
-    end)
-
+    -- ── Toggle de expansión ───────────────────────────────────────────────────
     local headerBtn = Instance.new("TextButton")
     headerBtn.Size                 = UDim2.new(1, 0, 1, 0)
     headerBtn.BackgroundTransparency = 1
@@ -2070,7 +2147,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         SafeTween(header, TweenInfo.new(0.15), { BackgroundColor3 = expanded and Theme.Hover or Theme.Raised })
         SafeTween(hStroke, TweenInfo.new(0.15), { Color = expanded and Theme.Accent or Theme.Line })
     end)
-
     header.MouseEnter:Connect(function()
         SafeTween(header, TweenInfo.new(0.15), { BackgroundColor3 = Theme.Hover })
         SafeTween(hStroke, TweenInfo.new(0.15), { Color = Theme.Accent })
@@ -2085,7 +2161,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     updateCount()
     return container
 end
-
 
 
 local isDragging, dragStart, frameStart = false, nil, nil
