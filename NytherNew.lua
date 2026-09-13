@@ -1782,15 +1782,10 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     local PAD   = 10
     local ABH   = 26
     local CG    = 5
-
-    -- Canvas dimensions: ch is 198px wide (CONTENT_W), doll fits in 186px
-    -- BODY_H = doll canvas (233) + separator (9) + action buttons (ABH+PAD)
     local CANVAS_H = 233
     local SEP_Y    = CANVAS_H + 4
     local AB_Y     = SEP_Y + 9
     local BODY_H   = AB_Y + ABH + PAD
-
-    -- Total inner width matches the ch frame (198px)
     local TOTAL_INNER_W = 198
     local ABW = math.floor((TOTAL_INNER_W - CG * 2) / 3)
 
@@ -1805,8 +1800,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     cLayout.SortOrder = Enum.SortOrder.LayoutOrder
     cLayout.Padding   = UDim.new(0, 6)
     cLayout.Parent    = container
-
-    -- Header (collapsible)
     local header = Instance.new("Frame")
     header.Size             = UDim2.new(1, 0, 0, 46)
     header.BackgroundColor3 = Theme.Raised
@@ -1856,8 +1849,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     countLbl.Size          = UDim2.new(1, 0, 1, 0)
     countLbl.TextXAlignment = Enum.TextXAlignment.Center
     _regAcc(countLbl, "TextColor3")
-
-    -- Body panel (hidden by default)
     local body = Instance.new("Frame")
     body.Size             = UDim2.new(1, 0, 0, BODY_H)
     body.BackgroundColor3 = Theme.Panel
@@ -1868,18 +1859,12 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     body.Parent           = container
     Corner(body, 8)
     Stroke(body, Theme.Line, 0.5)
-
-    -- Content frame centered inside body
     local ch = Instance.new("Frame")
     ch.Size        = UDim2.new(0, TOTAL_INNER_W, 1, 0)
     ch.AnchorPoint = Vector2.new(0.5, 0)
     ch.Position    = UDim2.new(0.5, 0, 0, 0)
     ch.BackgroundTransparency = 1
     ch.Parent      = body
-
-    -- ─────────────────────────────────────────
-    --  DOLL CANVAS (lines drawn under buttons)
-    -- ─────────────────────────────────────────
     local canvas = Instance.new("Frame")
     canvas.Size             = UDim2.new(1, 0, 0, CANVAS_H)
     canvas.Position         = UDim2.new(0, 0, 0, 0)
@@ -1906,40 +1891,20 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         table.insert(animLines, line)
         return line
     end
-
-    -- Draw all connections (under ZIndex 1, parts at ZIndex 2)
-    -- Head -> UpperTorso
     drawLine(canvas, 98, 35, 97, 39)
-    -- UpperTorso -> LowerTorso
     drawLine(canvas, 97, 68, 97, 76)
-    -- UpperTorso -> LeftUpperArm
     drawLine(canvas, 68, 54, 66, 54)
-    -- UpperTorso -> RightUpperArm
     drawLine(canvas, 126, 54, 129, 54)
-    -- LeftUpperArm -> LeftLowerArm
     drawLine(canvas, 52, 68, 52, 74)
-    -- RightUpperArm -> RightLowerArm
     drawLine(canvas, 143, 68, 143, 74)
-    -- LeftLowerArm -> LeftHand
     drawLine(canvas, 52, 100, 52, 110)
-    -- RightLowerArm -> RightHand
     drawLine(canvas, 143, 100, 144, 110)
-    -- LowerTorso -> LeftUpperLeg (diagonal)
     drawLine(canvas, 82, 112, 75, 118)
-    -- LowerTorso -> RightUpperLeg (diagonal)
     drawLine(canvas, 112, 112, 121, 118)
-    -- LeftUpperLeg -> LeftLowerLeg
     drawLine(canvas, 82, 157, 82, 163)
-    -- RightUpperLeg -> RightLowerLeg
     drawLine(canvas, 114, 157, 114, 163)
-    -- LeftLowerLeg -> LeftFoot
     drawLine(canvas, 82, 198, 83, 206)
-    -- RightLowerLeg -> RightFoot
     drawLine(canvas, 114, 198, 113, 206)
-
-    -- ─────────────────────────────────────────
-    --  BODY PART BUTTONS
-    -- ─────────────────────────────────────────
     local localRefreshFns = {}
 
     local function countSelected()
@@ -1998,8 +1963,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
             end
         end)
     end
-
-    -- Parts laid out exactly as Cuerpo.lua (scaled to 186px wide canvas)
     makePartBtn("H",   "Head",          76,  9,  44, 26, 13)
     makePartBtn("UT",  "UpperTorso",    68, 39,  58, 29, 8)
     makePartBtn("LT",  "LowerTorso",    68, 76,  58, 36, 8)
@@ -2015,10 +1978,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     makePartBtn("RUL", "RightUpperLeg", 99,118,  29, 39, 8)
     makePartBtn("RLL", "RightLowerLeg", 99,163,  29, 35, 8)
     makePartBtn("RF",  "RightFoot",     97,206,  32, 17, 6)
-
-    -- ─────────────────────────────────────────
-    --  LINE ANIMATION (wave effect)
-    -- ─────────────────────────────────────────
     task.spawn(function()
         local total = #animLines
         while body and body.Parent do
@@ -2035,10 +1994,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
             task.wait(total * 0.08 + 1.2)
         end
     end)
-
-    -- ─────────────────────────────────────────
-    --  SEPARATOR + ACTION BUTTONS
-    -- ─────────────────────────────────────────
     local sep = Instance.new("Frame")
     sep.Size             = UDim2.new(1, -PAD * 2, 0, 1)
     sep.Position         = UDim2.new(0, PAD, 0, SEP_Y)
@@ -2095,16 +2050,10 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         for _, fn in pairs(localRefreshFns) do fn() end
         updateCount()
     end)
-
-    -- Accent color reactivity
     table.insert(_customAccentCallbacks, function()
         for _, fn in pairs(localRefreshFns) do fn() end
         updateCount()
     end)
-
-    -- ─────────────────────────────────────────
-    --  HEADER TOGGLE (expand / collapse)
-    -- ─────────────────────────────────────────
     local headerBtn = Instance.new("TextButton")
     headerBtn.Size                 = UDim2.new(1, 0, 1, 0)
     headerBtn.BackgroundTransparency = 1
