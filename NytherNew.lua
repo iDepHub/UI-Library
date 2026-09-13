@@ -1981,22 +1981,12 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         localRefreshFns[partName] = refresh
         if extRefreshTable then extRefreshTable[partName] = refresh end
 
-        -- Toggle on both Mouse click AND Touch tap
-        local function toggle()
+        btn.MouseButton1Click:Connect(function()
             selectedParts[partName] = (not selectedParts[partName]) or nil
             refresh()
             updateCount()
-        end
-
-        btn.MouseButton1Click:Connect(toggle)
-
-        btn.InputBegan:Connect(function(inp)
-            if inp.UserInputType == Enum.UserInputType.Touch then
-                toggle()
-            end
         end)
 
-        -- Hover only on non-touch
         btn.MouseEnter:Connect(function()
             if not selectedParts[partName] then
                 SafeTween(btn, TweenInfo.new(0.08), {BackgroundColor3 = Theme.Hover})
@@ -2081,9 +2071,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
         end
 
         ab.MouseButton1Click:Connect(doAction)
-        ab.InputBegan:Connect(function(inp)
-            if inp.UserInputType == Enum.UserInputType.Touch then doAction() end
-        end)
         ab.MouseEnter:Connect(function()
             SafeTween(ab, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Hover})
         end)
@@ -2133,9 +2120,6 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     end
 
     headerBtn.MouseButton1Click:Connect(toggleExpand)
-    headerBtn.InputBegan:Connect(function(inp)
-        if inp.UserInputType == Enum.UserInputType.Touch then toggleExpand() end
-    end)
 
     header.MouseEnter:Connect(function()
         SafeTween(header, TweenInfo.new(0.15), { BackgroundColor3 = Theme.Hover })
