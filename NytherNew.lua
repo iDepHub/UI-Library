@@ -65,7 +65,7 @@ local isMobile = UserInputService.TouchEnabled and not UserInputService.Keyboard
 
 local playerGui = LocalPlayer:WaitForChild("PlayerGui")
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name           = "iDepHubUI"
+screenGui.Name           = "iDepHub UI"
 screenGui.ResetOnSpawn   = false
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 screenGui.DisplayOrder   = 999
@@ -78,10 +78,20 @@ mainFrame.Name              = "MainFrame"
 mainFrame.Size              = UDim2.new(0, 0, 0, 0)
 mainFrame.AnchorPoint = Vector2.new(0, 0)
 mainFrame.Position          = UDim2.new(0.5, 0, 0.5, 0)
-mainFrame.BackgroundColor3  = Theme.Base
+mainFrame.BackgroundTransparency = 1
 mainFrame.BorderSizePixel   = 0
 mainFrame.ClipsDescendants  = true
 mainFrame.Parent            = screenGui
+
+local bgImage = Instance.new("ImageLabel")
+bgImage.Name                = "Background"
+bgImage.Size                = UDim2.new(1, 0, 1, 0)
+bgImage.Position            = UDim2.new(0, 0, 0, 0)
+bgImage.BackgroundTransparency = 1
+bgImage.Image               = "rbxassetid://81051720367511" 
+bgImage.ScaleType           = Enum.ScaleType.Crop
+bgImage.ZIndex              = 1
+bgImage.Parent              = mainFrame
 
 local mainCorner = Instance.new("UICorner")
 mainCorner.CornerRadius = UDim.new(0, 8)
@@ -154,7 +164,7 @@ local titleLabel = Instance.new("TextLabel")
 titleLabel.Size               = UDim2.new(0, 260, 0, 20)
 titleLabel.Position           = UDim2.new(0, 54, 0, 16)
 titleLabel.BackgroundTransparency = 1
-titleLabel.Text               = "Nyther - UI Library"
+titleLabel.Text               = "iDepHub - UI Library"
 titleLabel.TextColor3         = Theme.Accent
 titleLabel.TextSize           = 16
 titleLabel.Font               = Enum.Font.GothamBlack
@@ -2595,7 +2605,7 @@ closeBtn.MouseButton1Click:Connect(function()
 end)
 
 local _notifGui = Instance.new("ScreenGui")
-_notifGui.Name            = "iDepHubNotifs"
+_notifGui.Name            = "iDepHub Notifications"
 _notifGui.ResetOnSpawn    = false
 _notifGui.ZIndexBehavior  = Enum.ZIndexBehavior.Sibling
 _notifGui.DisplayOrder    = 1000
@@ -2668,7 +2678,7 @@ end
 local function createFloatButton(config)
     config = config or {}
 
-    local guiName     = config.name         or "NytherFloatBtn"
+    local guiName     = config.name         or "iDepHubFloatBtn"
     local iconName    = config.icon         or "circle"
     local startPos    = config.position     or UDim2.new(1, -90, 1, -160)
     local dispOrder   = config.displayOrder or 997
