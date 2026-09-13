@@ -20,8 +20,8 @@ end
 local Theme = {
     Base    = Color3.fromRGB(8, 8, 8),
     Panel   = Color3.fromRGB(12, 12, 12),
-    Raised  = Color3.fromRGB(34, 30, 26),
-    Hover   = Color3.fromRGB(44, 38, 32),
+    Raised  = Color3.fromRGB(0, 0, 0),
+    Hover   = Color3.fromRGB(15, 15, 15),
     Line    = Color3.fromRGB(56, 49, 42),
     Toggle  = Color3.fromRGB(58, 51, 44),
     Accent  = Color3.fromRGB(41, 255, 244),
@@ -400,17 +400,18 @@ end
 
 local function NewTab(name, icon, order)
     local btn = Instance.new("TextButton")
-    btn.Name             = "Tab_"..name
-    btn.Size             = UDim2.new(1, -16, 0, 38)
-    btn.BackgroundColor3 = Theme.Raised
-    btn.TextColor3       = Theme.Dim
-    btn.Text             = "   " .. name
-    btn.TextSize         = 12
-    btn.Font             = Enum.Font.GothamBold
-    btn.BorderSizePixel  = 0
-    btn.AutoButtonColor  = false
-    btn.LayoutOrder      = order
-    btn.Parent           = tabScroll
+    btn.Name                   = "Tab_"..name
+    btn.Size                   = UDim2.new(1, -16, 0, 38)
+    btn.BackgroundColor3       = Theme.Raised
+    btn.BackgroundTransparency = 0.45
+    btn.TextColor3             = Theme.Dim
+    btn.Text                   = "   " .. name
+    btn.TextSize               = 12
+    btn.Font                   = Enum.Font.GothamBold
+    btn.BorderSizePixel        = 0
+    btn.AutoButtonColor        = false
+    btn.LayoutOrder            = order
+    btn.Parent                 = tabScroll
     local btnCorner = Instance.new("UICorner")
     btnCorner.CornerRadius = UDim.new(0, 6)
     btnCorner.Parent = btn
@@ -544,11 +545,12 @@ end
 
 local function ElemBase(parent, h)
     local f = Instance.new("Frame")
-    f.Size             = UDim2.new(1, 0, 0, h)
-    f.BackgroundColor3 = Theme.Raised
-    f.BorderSizePixel  = 0
-    f.LayoutOrder      = nextOrd()
-    f.Parent           = parent
+    f.Size                   = UDim2.new(1, 0, 0, h)
+    f.BackgroundColor3       = Theme.Raised
+    f.BackgroundTransparency = 0.45
+    f.BorderSizePixel        = 0
+    f.LayoutOrder            = nextOrd()
+    f.Parent                 = parent
     Corner(f, 6)
     local s = Stroke(f, Theme.Line, 0.5)
     return f, s
@@ -662,6 +664,7 @@ local function NewToggle(parent, label, sub, default, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 46)
     container.BackgroundColor3 = Theme.Raised
+    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -818,6 +821,7 @@ local function NewSlider(parent, label, sub, minVal, maxVal, default, callback, 
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 60)
     container.BackgroundColor3 = Theme.Raised
+    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -946,6 +950,7 @@ local function NewButton(parent, label, sub, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 46)
     container.BackgroundColor3 = Theme.Raised
+    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -1024,6 +1029,7 @@ local function NewKeybind(parent, label, sub, defaultKey, callback, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 46)
     container.BackgroundColor3 = Theme.Raised
+    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -1135,6 +1141,7 @@ local function NewLabel(parent, text, iconName)
     local container = Instance.new("Frame")
     container.Size = UDim2.new(1, 0, 0, 30)
     container.BackgroundColor3 = Theme.Raised
+    container.BackgroundTransparency = 0.45
     container.BorderSizePixel = 0
     container.LayoutOrder = nextOrd()
     container.Parent = parent
@@ -1256,6 +1263,7 @@ local function NewInfoTab(page, tabData)
     local card = Instance.new("Frame")
     card.Size = UDim2.new(1, 0, 0, 72)
     card.BackgroundColor3 = Theme.Raised
+    card.BackgroundTransparency = 0.45
     card.BorderSizePixel = 0
     card.Parent = page
     Instance.new("UICorner", card).CornerRadius = UDim.new(0, 8)
@@ -1422,11 +1430,12 @@ local function NewColorPicker(parent, label, sub, defaultColor, callback, iconNa
     cLayout.Parent    = container
 
     local header = Instance.new("Frame")
-    header.Size             = UDim2.new(1, 0, 0, 50)
-    header.BackgroundColor3 = Theme.Raised
-    header.BorderSizePixel  = 0
-    header.LayoutOrder      = 1
-    header.Parent           = container
+    header.Size                   = UDim2.new(1, 0, 0, 50)
+    header.BackgroundColor3       = Theme.Raised
+    header.BackgroundTransparency = 0.45
+    header.BorderSizePixel        = 0
+    header.LayoutOrder            = 1
+    header.Parent                 = container
     Corner(header, 8)
     local hStroke = Stroke(header, Theme.Line, 0.5)
 
@@ -1821,11 +1830,12 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
     cLayout.Parent    = container
 
     local header = Instance.new("Frame")
-    header.Size             = UDim2.new(1, 0, 0, 46)
-    header.BackgroundColor3 = Theme.Raised
-    header.BorderSizePixel  = 0
-    header.LayoutOrder      = 1
-    header.Parent           = container
+    header.Size                   = UDim2.new(1, 0, 0, 46)
+    header.BackgroundColor3       = Theme.Raised
+    header.BackgroundTransparency = 0.45
+    header.BorderSizePixel        = 0
+    header.LayoutOrder            = 1
+    header.Parent                 = container
     Corner(header, 8)
     local hStroke = Stroke(header, Theme.Line, 0.5)
 
@@ -1939,13 +1949,15 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
 
         local function refresh()
             if selectedParts[partName] then
-                btn.BackgroundColor3 = Theme.Accent
-                btn.TextColor3       = Theme.Base
-                bStroke.Color        = Theme.Accent
+                btn.BackgroundColor3       = Theme.Accent
+                btn.BackgroundTransparency = 0
+                btn.TextColor3             = Theme.Base
+                bStroke.Color              = Theme.Accent
             else
-                btn.BackgroundColor3 = Theme.Raised
-                btn.TextColor3       = Theme.Dim
-                bStroke.Color        = Theme.Line
+                btn.BackgroundColor3       = Theme.Raised
+                btn.BackgroundTransparency = 0.45
+                btn.TextColor3             = Theme.Dim
+                bStroke.Color              = Theme.Line
             end
         end
         refresh()
@@ -1999,16 +2011,17 @@ local function NewBodyPartSelector(parent, label, sub, selectedParts, allParts, 
 
     local function makeActionBtn(btnLabel, x, callback)
         local ab = Instance.new("TextButton")
-        ab.Size             = UDim2.new(0, ABW, 0, ABH)
-        ab.Position         = UDim2.new(0, x, 0, AB_Y)
-        ab.Text             = btnLabel
-        ab.TextSize         = 10
-        ab.Font             = Enum.Font.GothamSemibold
-        ab.BackgroundColor3 = Theme.Raised
-        ab.TextColor3       = Theme.Accent
-        ab.BorderSizePixel  = 0
-        ab.AutoButtonColor  = false
-        ab.Parent           = ch
+        ab.Size                   = UDim2.new(0, ABW, 0, ABH)
+        ab.Position               = UDim2.new(0, x, 0, AB_Y)
+        ab.Text                   = btnLabel
+        ab.TextSize               = 10
+        ab.Font                   = Enum.Font.GothamSemibold
+        ab.BackgroundColor3       = Theme.Raised
+        ab.BackgroundTransparency = 0.45
+        ab.TextColor3             = Theme.Accent
+        ab.BorderSizePixel        = 0
+        ab.AutoButtonColor        = false
+        ab.Parent                 = ch
         Corner(ab, 5)
         Stroke(ab, Theme.Line, 0.5)
         _regAcc(ab, "TextColor3")
@@ -2075,12 +2088,13 @@ end
 
 local function NewNote(parent, text, iconName)
     local noteFrame = Instance.new("Frame")
-    noteFrame.Size              = UDim2.new(1, 0, 0, 0)
-    noteFrame.AutomaticSize     = Enum.AutomaticSize.Y
-    noteFrame.BackgroundColor3  = Theme.Raised
-    noteFrame.BorderSizePixel   = 0
-    noteFrame.LayoutOrder       = nextOrd()
-    noteFrame.Parent            = parent
+    noteFrame.Size                   = UDim2.new(1, 0, 0, 0)
+    noteFrame.AutomaticSize          = Enum.AutomaticSize.Y
+    noteFrame.BackgroundColor3       = Theme.Raised
+    noteFrame.BackgroundTransparency = 0.45
+    noteFrame.BorderSizePixel        = 0
+    noteFrame.LayoutOrder            = nextOrd()
+    noteFrame.Parent                 = parent
     Corner(noteFrame, 6)
 
     local noteStroke = Instance.new("UIStroke")
@@ -2151,11 +2165,12 @@ local function NewSearchPanel(searchTabData, opts)
     searchOuter.Parent            = bodyFrame
 
     local searchBarBg = Instance.new("Frame")
-    searchBarBg.Size             = UDim2.new(1, -18, 0, 32)
-    searchBarBg.Position         = UDim2.new(0, 9, 0, 8)
-    searchBarBg.BackgroundColor3 = Theme.Raised
-    searchBarBg.BorderSizePixel  = 0
-    searchBarBg.Parent           = searchOuter
+    searchBarBg.Size                   = UDim2.new(1, -18, 0, 32)
+    searchBarBg.Position               = UDim2.new(0, 9, 0, 8)
+    searchBarBg.BackgroundColor3       = Theme.Raised
+    searchBarBg.BackgroundTransparency = 0.45
+    searchBarBg.BorderSizePixel        = 0
+    searchBarBg.Parent                 = searchOuter
     Corner(searchBarBg, 6)
 
     local _sbStroke = Stroke(searchBarBg, Theme.Line, 0.5)
@@ -2210,11 +2225,12 @@ local function NewSearchPanel(searchTabData, opts)
     listPad.Parent        = listFrame
 
     local bottomPanel = Instance.new("Frame")
-    bottomPanel.Size             = UDim2.new(1, -18, 0, 68)
-    bottomPanel.Position         = UDim2.new(0, 9, 1, -74)
-    bottomPanel.BackgroundColor3 = Theme.Raised
-    bottomPanel.BorderSizePixel  = 0
-    bottomPanel.Parent           = searchOuter
+    bottomPanel.Size                   = UDim2.new(1, -18, 0, 68)
+    bottomPanel.Position               = UDim2.new(0, 9, 1, -74)
+    bottomPanel.BackgroundColor3       = Theme.Raised
+    bottomPanel.BackgroundTransparency = 0.45
+    bottomPanel.BorderSizePixel        = 0
+    bottomPanel.Parent                 = searchOuter
     Corner(bottomPanel, 6)
     Stroke(bottomPanel, Theme.Line, 0.5)
 
@@ -2321,10 +2337,11 @@ local function NewSearchPanel(searchTabData, opts)
         for _, weaponName in ipairs(unique) do
             if filterLower == "" or weaponName:lower():find(filterLower, 1, true) then
                 local row = Instance.new("Frame")
-                row.Size             = UDim2.new(1, 0, 0, 28)
-                row.BackgroundColor3 = Theme.Raised
-                row.BorderSizePixel  = 0
-                row.Parent           = listFrame
+                row.Size                   = UDim2.new(1, 0, 0, 28)
+                row.BackgroundColor3       = Theme.Raised
+                row.BackgroundTransparency = 0.45
+                row.BorderSizePixel        = 0
+                row.Parent                 = listFrame
                 Corner(row, 4)
 
                 local rowLbl = Instance.new("TextLabel")
