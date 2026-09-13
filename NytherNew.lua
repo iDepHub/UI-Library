@@ -146,14 +146,16 @@ versionLabel.TextXAlignment     = Enum.TextXAlignment.Left
 versionLabel.ZIndex             = 7
 versionLabel.Parent             = topBar
 
+local _executorName = (identifyexecutor and identifyexecutor()) or (syn and "Synapse") or (KRNL_LOADED and "Krnl") or (fluxus and "Fluxus") or "Executor"
+
 local Pill = Instance.new("Frame")
-Pill.Size             = UDim2.new(0, 116, 0, 22)
-Pill.Position         = UDim2.new(1, -172, 0, 16)
+Pill.Size             = UDim2.new(0, 92, 0, 18)
+Pill.Position         = UDim2.new(1, -148, 0, 18)
 Pill.BackgroundColor3 = Theme.Raised
 Pill.BorderSizePixel  = 0
 Pill.Parent           = topBar
 local PillCorner = Instance.new("UICorner")
-PillCorner.CornerRadius = UDim.new(0, 11)
+PillCorner.CornerRadius = UDim.new(0, 9)
 PillCorner.Parent = Pill
 local PillStroke = Instance.new("UIStroke")
 PillStroke.Color     = Theme.Accent
@@ -162,8 +164,8 @@ PillStroke.Parent    = Pill
 _regAcc(PillStroke, "Color")
 
 local PillDot = Instance.new("Frame")
-PillDot.Size             = UDim2.new(0, 6, 0, 6)
-PillDot.Position         = UDim2.new(0, 10, 0.5, -3)
+PillDot.Size             = UDim2.new(0, 5, 0, 5)
+PillDot.Position         = UDim2.new(0, 8, 0.5, -2)
 PillDot.BackgroundColor3 = Theme.Good
 PillDot.BorderSizePixel  = 0
 PillDot.Parent           = Pill
@@ -172,14 +174,15 @@ PillDotCorner.CornerRadius = UDim.new(1, 0)
 PillDotCorner.Parent = PillDot
 
 local PillText = Instance.new("TextLabel")
-PillText.Size                 = UDim2.new(1, -24, 1, 0)
-PillText.Position             = UDim2.new(0, 22, 0, 0)
+PillText.Size                 = UDim2.new(1, -20, 1, 0)
+PillText.Position             = UDim2.new(0, 18, 0, 0)
 PillText.BackgroundTransparency = 1
-PillText.Text                 = "Activate"
+PillText.Text                 = _executorName
 PillText.TextColor3           = Theme.Text
-PillText.TextSize             = 11
+PillText.TextSize             = 9
 PillText.Font                 = Enum.Font.GothamBold
 PillText.TextXAlignment       = Enum.TextXAlignment.Left
+PillText.TextTruncate         = Enum.TextTruncate.AtEnd
 PillText.Parent               = Pill
 
 task.spawn(function()
@@ -1165,7 +1168,8 @@ local function NewLabel(parent, text, iconName)
     return container
 end
 
-local function NewInfoTab(page, tabData)
+local function NewInfoTab(page, tabData, config)
+    config = config or {}
     local activeConns = {}
 
     local dashTitle = Instance.new("TextLabel")
@@ -1178,125 +1182,6 @@ local function NewInfoTab(page, tabData)
     dashTitle.TextXAlignment = Enum.TextXAlignment.Left
     dashTitle.Parent = page
     _regAcc(dashTitle, "TextColor3")
-
-    local headerFrame = Instance.new("Frame")
-    headerFrame.Size = UDim2.new(1, 0, 0, 70)
-    headerFrame.BackgroundTransparency = 1
-    headerFrame.Parent = page
-
-    local leftContainer = Instance.new("Frame")
-    leftContainer.Size = UDim2.new(1, -90, 1, 0)
-    leftContainer.BackgroundTransparency = 1
-    leftContainer.Parent = headerFrame
-
-    local greeting = Instance.new("TextLabel")
-    greeting.Size = UDim2.new(1, 0, 0, 32)
-    greeting.Position = UDim2.new(0, 0, 0, 2)
-    greeting.BackgroundTransparency = 1
-    greeting.Text = "Hola, Usuario"
-    greeting.TextColor3 = Theme.Text
-    greeting.TextSize = 24
-    greeting.Font = Enum.Font.GothamBlack
-    greeting.TextXAlignment = Enum.TextXAlignment.Left
-    greeting.Parent = leftContainer
-
-    local sub = Instance.new("TextLabel")
-    sub.Size = UDim2.new(1, 0, 0, 36)
-    sub.Position = UDim2.new(0, 0, 0, 38)
-    sub.BackgroundTransparency = 1
-    sub.Text = "Todo lo que necesitas\nSolo en iDepHub"
-    sub.TextColor3 = Theme.Dim
-    sub.TextSize = 12
-    sub.Font = Enum.Font.Gotham
-    sub.TextXAlignment = Enum.TextXAlignment.Left
-    sub.TextWrapped = true
-    sub.Parent = leftContainer
-
-    local avatarContainer = Instance.new("Frame")
-    avatarContainer.Size = UDim2.new(0, 90, 0, 90)
-    avatarContainer.Position = UDim2.new(1, -130, 0, -20)
-    avatarContainer.BackgroundTransparency = 1
-    avatarContainer.Parent = headerFrame
-
-    local avatarImage = Instance.new("ImageLabel")
-    avatarImage.Size = UDim2.new(1, 0, 1, 0)
-    avatarImage.BackgroundColor3 = Theme.Raised
-    avatarImage.BorderSizePixel = 0
-    avatarImage.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. LocalPlayer.UserId .. "&width=180&height=180&format=png"
-    avatarImage.ScaleType = Enum.ScaleType.Fit
-    avatarImage.Parent = avatarContainer
-    Instance.new("UICorner", avatarImage).CornerRadius = UDim.new(1, 0)
-
-    local orbitStroke = Instance.new("UIStroke")
-    orbitStroke.Color = Theme.Accent
-    orbitStroke.Thickness = 1.5
-    orbitStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    orbitStroke.Parent = avatarImage
-    _regAcc(orbitStroke, "Color")
-
-    local orbitGrad = Instance.new("UIGradient")
-    orbitGrad.Color = ColorSequence.new(Theme.Accent, Theme.Accent)
-    orbitGrad.Transparency = NumberSequence.new({
-    NumberSequenceKeypoint.new(0, 1),
-    NumberSequenceKeypoint.new(0.04, 0),
-    NumberSequenceKeypoint.new(0.1, 0),
-    NumberSequenceKeypoint.new(0.14, 1),
-    NumberSequenceKeypoint.new(1, 1),
-    })
-    orbitGrad.Rotation = 0
-    orbitGrad.Parent = orbitStroke
-    table.insert(_customAccentCallbacks, function(c)
-    orbitGrad.Color = ColorSequence.new(c, c)
-    end)
-    table.insert(activeConns, RunService.RenderStepped:Connect(function(dt)
-        if orbitGrad and orbitStroke and orbitStroke.Parent then
-            orbitGrad.Rotation = (orbitGrad.Rotation + dt * 90) % 360
-        end
-    end))
-    local card = Instance.new("Frame")
-    card.Size = UDim2.new(1, 0, 0, 72)
-    card.BackgroundColor3 = Theme.Raised
-    card.BorderSizePixel = 0
-    card.Parent = page
-    Instance.new("UICorner", card).CornerRadius = UDim.new(0, 8)
-    local cardStroke = Instance.new("UIStroke")
-    cardStroke.Color = Theme.Line
-    cardStroke.Thickness = 0.5
-    cardStroke.Parent = card
-
-    local cardTitle = Instance.new("TextLabel")
-    cardTitle.Size = UDim2.new(0, 220, 0, 20)
-    cardTitle.Position = UDim2.new(0, 16, 0, 10)
-    cardTitle.BackgroundTransparency = 1
-    cardTitle.Text = "Nyther UI Library"
-    cardTitle.TextColor3 = Theme.Text
-    cardTitle.TextSize = 14
-    cardTitle.Font = Enum.Font.GothamBlack
-    cardTitle.TextXAlignment = Enum.TextXAlignment.Left
-    cardTitle.Parent = card
-
-    local cardSub = Instance.new("TextLabel")
-    cardSub.Size = UDim2.new(0, 280, 0, 18)
-    cardSub.Position = UDim2.new(0, 16, 0, 34)
-    cardSub.BackgroundTransparency = 1
-    cardSub.Text = "Cualquier Bug, Informarlo al Discord"
-    cardSub.TextColor3 = Theme.Dim
-    cardSub.TextSize = 11
-    cardSub.Font = Enum.Font.Gotham
-    cardSub.TextXAlignment = Enum.TextXAlignment.Left
-    cardSub.Parent = card
-
-    local cardVer = Instance.new("TextLabel")
-    cardVer.Size = UDim2.new(0, 60, 0, 16)
-    cardVer.Position = UDim2.new(1, -80, 0, 28)
-    cardVer.BackgroundTransparency = 1
-    cardVer.Text = "v 2.0"
-    cardVer.TextColor3 = Theme.Accent
-    cardVer.TextSize = 9
-    cardVer.Font = Enum.Font.GothamBold
-    cardVer.TextXAlignment = Enum.TextXAlignment.Right
-    cardVer.Parent = card
-    _regAcc(cardVer, "TextColor3")
 
     local paletteTitle = Instance.new("TextLabel")
     paletteTitle.Size = UDim2.new(1, 0, 0, 20)
@@ -1359,6 +1244,241 @@ local function NewInfoTab(page, tabData)
         end)
     end
 
+    local headerFrame = Instance.new("Frame")
+    headerFrame.Size = UDim2.new(1, 0, 0, 70)
+    headerFrame.BackgroundTransparency = 1
+    headerFrame.Parent = page
+
+    local leftContainer = Instance.new("Frame")
+    leftContainer.Size = UDim2.new(1, -90, 1, 0)
+    leftContainer.BackgroundTransparency = 1
+    leftContainer.Parent = headerFrame
+
+    local greetingSmall = Instance.new("TextLabel")
+    greetingSmall.Size = UDim2.new(1, 0, 0, 16)
+    greetingSmall.Position = UDim2.new(0, 0, 0, 2)
+    greetingSmall.BackgroundTransparency = 1
+    greetingSmall.Text = "Hola,"
+    greetingSmall.TextColor3 = Theme.Dim
+    greetingSmall.TextSize = 12
+    greetingSmall.Font = Enum.Font.Gotham
+    greetingSmall.TextXAlignment = Enum.TextXAlignment.Left
+    greetingSmall.Parent = leftContainer
+
+    local playerNameLabel = Instance.new("TextLabel")
+    playerNameLabel.Size = UDim2.new(1, 0, 0, 30)
+    playerNameLabel.Position = UDim2.new(0, 0, 0, 18)
+    playerNameLabel.BackgroundTransparency = 1
+    playerNameLabel.Text = LocalPlayer.DisplayName
+    playerNameLabel.TextColor3 = Theme.Text
+    playerNameLabel.TextSize = 22
+    playerNameLabel.Font = Enum.Font.GothamBlack
+    playerNameLabel.TextXAlignment = Enum.TextXAlignment.Left
+    playerNameLabel.TextTruncate = Enum.TextTruncate.AtEnd
+    playerNameLabel.Parent = leftContainer
+
+    local sub = Instance.new("TextLabel")
+    sub.Size = UDim2.new(1, 0, 0, 18)
+    sub.Position = UDim2.new(0, 0, 0, 50)
+    sub.BackgroundTransparency = 1
+    sub.Text = "Solo en iDepHub"
+    sub.TextColor3 = Theme.Dim
+    sub.TextSize = 11
+    sub.Font = Enum.Font.Gotham
+    sub.TextXAlignment = Enum.TextXAlignment.Left
+    sub.Parent = leftContainer
+
+    local avatarContainer = Instance.new("Frame")
+    avatarContainer.Size = UDim2.new(0, 72, 0, 72)
+    avatarContainer.Position = UDim2.new(1, -80, 0, -4)
+    avatarContainer.BackgroundTransparency = 1
+    avatarContainer.Parent = headerFrame
+
+    local avatarImage = Instance.new("ImageLabel")
+    avatarImage.Size = UDim2.new(1, 0, 1, 0)
+    avatarImage.BackgroundColor3 = Theme.Raised
+    avatarImage.BorderSizePixel = 0
+    avatarImage.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. LocalPlayer.UserId .. "&width=180&height=180&format=png"
+    avatarImage.ScaleType = Enum.ScaleType.Fit
+    avatarImage.Parent = avatarContainer
+    Instance.new("UICorner", avatarImage).CornerRadius = UDim.new(1, 0)
+
+    local orbitStroke = Instance.new("UIStroke")
+    orbitStroke.Color = Theme.Accent
+    orbitStroke.Thickness = 1.5
+    orbitStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    orbitStroke.Parent = avatarImage
+    _regAcc(orbitStroke, "Color")
+
+    local orbitGrad = Instance.new("UIGradient")
+    orbitGrad.Color = ColorSequence.new(Theme.Accent, Theme.Accent)
+    orbitGrad.Transparency = NumberSequence.new({
+        NumberSequenceKeypoint.new(0, 1),
+        NumberSequenceKeypoint.new(0.04, 0),
+        NumberSequenceKeypoint.new(0.1, 0),
+        NumberSequenceKeypoint.new(0.14, 1),
+        NumberSequenceKeypoint.new(1, 1),
+    })
+    orbitGrad.Rotation = 0
+    orbitGrad.Parent = orbitStroke
+    table.insert(_customAccentCallbacks, function(c)
+        orbitGrad.Color = ColorSequence.new(c, c)
+    end)
+    table.insert(activeConns, RunService.RenderStepped:Connect(function(dt)
+        if orbitGrad and orbitStroke and orbitStroke.Parent then
+            orbitGrad.Rotation = (orbitGrad.Rotation + dt * 90) % 360
+        end
+    end))
+
+    local card = Instance.new("Frame")
+    card.Size = UDim2.new(1, 0, 0, 0)
+    card.AutomaticSize = Enum.AutomaticSize.Y
+    card.BackgroundColor3 = Theme.Raised
+    card.BorderSizePixel = 0
+    card.Parent = page
+    Instance.new("UICorner", card).CornerRadius = UDim.new(0, 8)
+    local cardStroke = Instance.new("UIStroke")
+    cardStroke.Color = Theme.Line
+    cardStroke.Thickness = 0.5
+    cardStroke.Parent = card
+
+    local cardLayout = Instance.new("UIListLayout")
+    cardLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    cardLayout.Padding = UDim.new(0, 0)
+    cardLayout.Parent = card
+
+    local cardTopRow = Instance.new("Frame")
+    cardTopRow.Size = UDim2.new(1, 0, 0, 52)
+    cardTopRow.BackgroundTransparency = 1
+    cardTopRow.LayoutOrder = 1
+    cardTopRow.Parent = card
+
+    local cardTitle = Instance.new("TextLabel")
+    cardTitle.Size = UDim2.new(0, 220, 0, 20)
+    cardTitle.Position = UDim2.new(0, 16, 0, 10)
+    cardTitle.BackgroundTransparency = 1
+    cardTitle.Text = "Nyther UI Library"
+    cardTitle.TextColor3 = Theme.Text
+    cardTitle.TextSize = 14
+    cardTitle.Font = Enum.Font.GothamBlack
+    cardTitle.TextXAlignment = Enum.TextXAlignment.Left
+    cardTitle.Parent = cardTopRow
+
+    local cardSub = Instance.new("TextLabel")
+    cardSub.Size = UDim2.new(0, 280, 0, 16)
+    cardSub.Position = UDim2.new(0, 16, 0, 30)
+    cardSub.BackgroundTransparency = 1
+    cardSub.Text = "Cualquier Bug, Informarlo al Discord"
+    cardSub.TextColor3 = Theme.Dim
+    cardSub.TextSize = 11
+    cardSub.Font = Enum.Font.Gotham
+    cardSub.TextXAlignment = Enum.TextXAlignment.Left
+    cardSub.Parent = cardTopRow
+
+    local cardVer = Instance.new("TextLabel")
+    cardVer.Size = UDim2.new(0, 60, 0, 16)
+    cardVer.Position = UDim2.new(1, -80, 0, 18)
+    cardVer.BackgroundTransparency = 1
+    cardVer.Text = "v 2.0"
+    cardVer.TextColor3 = Theme.Accent
+    cardVer.TextSize = 9
+    cardVer.Font = Enum.Font.GothamBold
+    cardVer.TextXAlignment = Enum.TextXAlignment.Right
+    cardVer.Parent = cardTopRow
+    _regAcc(cardVer, "TextColor3")
+
+    local discordLink = config.discordLink or ""
+    if discordLink ~= "" then
+        local divider = Instance.new("Frame")
+        divider.Size = UDim2.new(1, -32, 0, 1)
+        divider.Position = UDim2.new(0, 16, 0, 0)
+        divider.BackgroundColor3 = Theme.Line
+        divider.BorderSizePixel = 0
+        divider.LayoutOrder = 2
+        divider.Parent = card
+
+        local discordRow = Instance.new("TextButton")
+        discordRow.Size = UDim2.new(1, 0, 0, 38)
+        discordRow.BackgroundTransparency = 1
+        discordRow.AutoButtonColor = false
+        discordRow.Text = "Test"
+        discordRow.LayoutOrder = 3
+        discordRow.Parent = card
+
+        local discordIcon = Instance.new("TextLabel")
+        discordIcon.Size = UDim2.new(0, 20, 0, 20)
+        discordIcon.Position = UDim2.new(0, 14, 0.5, -10)
+        discordIcon.BackgroundTransparency = 1
+        discordIcon.Text = "💬"
+        discordIcon.TextSize = 14
+        discordIcon.Font = Enum.Font.GothamBold
+        discordIcon.TextXAlignment = Enum.TextXAlignment.Center
+        discordIcon.TextYAlignment = Enum.TextYAlignment.Center
+        discordIcon.Parent = discordRow
+
+        local discordTitle = Instance.new("TextLabel")
+        discordTitle.Size = UDim2.new(0, 160, 0, 18)
+        discordTitle.Position = UDim2.new(0, 38, 0, 5)
+        discordTitle.BackgroundTransparency = 1
+        discordTitle.Text = config.discordTitle or "Discord"
+        discordTitle.TextColor3 = Theme.Text
+        discordTitle.TextSize = 12
+        discordTitle.Font = Enum.Font.GothamBold
+        discordTitle.TextXAlignment = Enum.TextXAlignment.Left
+        discordTitle.Parent = discordRow
+
+        local discordSubLabel = Instance.new("TextLabel")
+        discordSubLabel.Size = UDim2.new(0, 200, 0, 14)
+        discordSubLabel.Position = UDim2.new(0, 38, 0, 22)
+        discordSubLabel.BackgroundTransparency = 1
+        discordSubLabel.Text = discordLink
+        discordSubLabel.TextColor3 = Theme.Accent
+        discordSubLabel.TextSize = 9
+        discordSubLabel.Font = Enum.Font.Gotham
+        discordSubLabel.TextXAlignment = Enum.TextXAlignment.Left
+        discordSubLabel.TextTruncate = Enum.TextTruncate.AtEnd
+        discordSubLabel.Parent = discordRow
+        _regAcc(discordSubLabel, "TextColor3")
+
+        local copyHint = Instance.new("TextLabel")
+        copyHint.Size = UDim2.new(0, 70, 0, 14)
+        copyHint.Position = UDim2.new(1, -78, 0.5, -7)
+        copyHint.BackgroundTransparency = 1
+        copyHint.Text = "[ copiar ]"
+        copyHint.TextColor3 = Theme.Dim
+        copyHint.TextSize = 9
+        copyHint.Font = Enum.Font.Gotham
+        copyHint.TextXAlignment = Enum.TextXAlignment.Right
+        copyHint.Parent = discordRow
+
+        local copied = false
+        discordRow.MouseButton1Click:Connect(function()
+            if copied then return end
+            pcall(function() setclipboard(discordLink) end)
+            copied = true
+            local prev = copyHint.Text
+            copyHint.Text = "✓ copiado"
+            copyHint.TextColor3 = Theme.Good
+            discordSubLabel.TextColor3 = Theme.Good
+            task.delay(2, function()
+                if copyHint and copyHint.Parent then
+                    copyHint.Text = prev
+                    copyHint.TextColor3 = Theme.Dim
+                    discordSubLabel.TextColor3 = Theme.Accent
+                end
+                copied = false
+            end)
+        end)
+
+        discordRow.MouseEnter:Connect(function()
+            TweenService:Create(discordRow, TweenInfo.new(0.12), { BackgroundTransparency = 0.85 }):Play()
+            discordRow.BackgroundColor3 = Theme.Hover
+        end)
+        discordRow.MouseLeave:Connect(function()
+            TweenService:Create(discordRow, TweenInfo.new(0.12), { BackgroundTransparency = 1 }):Play()
+        end)
+    end
+
     if tabData then
         tabData.onTabSelected = function()
             contentLayout:ApplyLayout()
@@ -1367,6 +1487,9 @@ local function NewInfoTab(page, tabData)
     end
 
     return {
+        setPlayerName = function(name)
+            playerNameLabel.Text = name
+        end,
         destroy = function()
             for _, c in ipairs(activeConns) do pcall(function() c:Disconnect() end) end
         end
