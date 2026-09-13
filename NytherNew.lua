@@ -172,10 +172,10 @@ PillDotCorner.CornerRadius = UDim.new(1, 0)
 PillDotCorner.Parent = PillDot
 
 local PillText = Instance.new("TextLabel")
-PillText.Size                 = UDim2.new(1, -24, 1, 0)
+PillText.Size                 = UDim2.new(1, -20, 1, 0)
 PillText.Position             = UDim2.new(0, 22, 0, 0)
 PillText.BackgroundTransparency = 1
-PillText.Text                 = "Activate"
+PillText.Text                 = "Enable"
 PillText.TextColor3           = Theme.Text
 PillText.TextSize             = 11
 PillText.Font                 = Enum.Font.GothamBold
