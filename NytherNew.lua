@@ -76,7 +76,7 @@ local WINDOW_SIZE = UDim2.new(0, 480, 0, 420)
 local mainFrame = Instance.new("Frame")
 mainFrame.Name                   = "MainFrame"
 mainFrame.Size                   = UDim2.new(0, 0, 0, 0)
-mainFrame.AnchorPoint            = Vector2.new(0, 0)
+mainFrame.AnchorPoint            = Vector2.new(0.5, 0.5)
 mainFrame.Position               = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.BackgroundTransparency = 1
 mainFrame.BorderSizePixel        = 0
@@ -98,10 +98,8 @@ bgImage.ZIndex                 = 1
 bgImage.Parent                 = mainFrame
 
 local function CenterWindow()
-    local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
-    local w = WINDOW_SIZE.X.Offset
-    local h = WINDOW_SIZE.Y.Offset
-    mainFrame.Position = UDim2.new(0, (viewport.X - w) / 2, 0, (viewport.Y - h) / 3)
+    mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+    mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
     mainFrame.Size = WINDOW_SIZE
 end
 
