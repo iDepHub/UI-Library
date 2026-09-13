@@ -210,7 +210,10 @@ local closeBtn = Instance.new("TextButton")
 closeBtn.Size                   = UDim2.new(0, 28, 0, 28)
 closeBtn.Position               = UDim2.new(1, -42, 0, 13)
 closeBtn.BackgroundTransparency = 1
-closeBtn.Text                   = ""
+closeBtn.Text                   = "X"
+closeBtn.TextColor3             = Theme.Dim
+closeBtn.TextSize               = 15
+closeBtn.Font                   = Enum.Font.GothamBold
 closeBtn.AutoButtonColor        = false
 closeBtn.ZIndex                 = 8
 closeBtn.Parent                 = topBar
@@ -218,19 +221,11 @@ local closeCorner = Instance.new("UICorner")
 closeCorner.CornerRadius = UDim.new(0, 6)
 closeCorner.Parent = closeBtn
 
-local closeIconDH = Instance.new("ImageLabel")
-closeIconDH.Size                   = UDim2.new(1, 0, 1, 0)
-closeIconDH.BackgroundTransparency = 1
-closeIconDH.Image                  = "rbxassetid://81051720367511"
-closeIconDH.ScaleType              = Enum.ScaleType.Fit
-closeIconDH.ZIndex                 = 9
-closeIconDH.Parent                 = closeBtn
-
 closeBtn.MouseEnter:Connect(function()
-    TweenService:Create(closeIconDH, TweenInfo.new(0.15), { ImageTransparency = 0.4 }):Play()
+    TweenService:Create(closeBtn, TweenInfo.new(0.15), { TextColor3 = Color3.fromRGB(255, 50, 50) }):Play()
 end)
 closeBtn.MouseLeave:Connect(function()
-    TweenService:Create(closeIconDH, TweenInfo.new(0.15), { ImageTransparency = 0 }):Play()
+    TweenService:Create(closeBtn, TweenInfo.new(0.15), { TextColor3 = Theme.Dim }):Play()
 end)
 
 local Scan = Instance.new("Frame")
@@ -2459,7 +2454,7 @@ local function applyEyeVisibility(btn, stroke, hidden)
             end
         end
     else
-        btn.BackgroundTransparency = 0.15
+        btn.BackgroundTransparency = 1
         if stroke then stroke.Transparency = 0 end
         for _, c in ipairs(btn:GetChildren()) do
             if c:IsA("ImageLabel") then c.ImageTransparency = 0
@@ -2488,30 +2483,24 @@ local function createEyeIcon()
     sg.DisplayOrder   = 998
 
     local btn = Instance.new("TextButton")
-    btn.Name               = "iDepHubBtn"
-    btn.Size               = UDim2.new(0, 52, 0, 52)
-    btn.Position           = eyeLastPos
-    btn.AnchorPoint        = Vector2.new(0, 0)
-    btn.BackgroundColor3   = Theme.Raised
-    btn.BackgroundTransparency = 0.15
-    btn.BorderSizePixel    = 0
-    btn.Text               = ""
-    btn.AutoButtonColor    = false
-    btn.ZIndex             = 5
-    btn.Parent             = sg
-    Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 13)
+    btn.Name                   = "iDepHubBtn"
+    btn.Size                   = UDim2.new(0, 52, 0, 52)
+    btn.Position               = eyeLastPos
+    btn.AnchorPoint            = Vector2.new(0, 0)
+    btn.BackgroundTransparency = 1
+    btn.BorderSizePixel        = 0
+    btn.Text                   = ""
+    btn.AutoButtonColor        = false
+    btn.ZIndex                 = 5
+    btn.Parent                 = sg
 
-    local iconDHStroke = Instance.new("UIStroke")
-    iconDHStroke.Color     = Theme.Accent
-    iconDHStroke.Thickness = 1.5
-    iconDHStroke.Parent    = btn
-    table.insert(_accentObjs, {iconDHStroke, "Color"})
+    local iconDHStroke = nil
 
     local iconDHImg = Instance.new("ImageLabel")
     iconDHImg.Size                   = UDim2.new(0, 20, 0, 20)
     iconDHImg.Position               = UDim2.new(0.5, -10, 0.5, -10)
     iconDHImg.BackgroundTransparency = 1
-    iconDHImg.Image                  = "rbxassetid://81051720367511"
+    iconDHImg.Image                  = "rbxassetid://120909249875543"
     iconDHImg.ScaleType              = Enum.ScaleType.Fit
     iconDHImg.ZIndex                 = 6
     iconDHImg.Parent                 = btn
