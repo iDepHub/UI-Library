@@ -1294,7 +1294,7 @@ local function NewInfoTab(page, tabData, config)
 
     local cardTitle = Instance.new("TextLabel")
     cardTitle.Size = UDim2.new(0, 220, 0, 20)
-    cardTitle.Position = UDim2.new(0, 16, 0, 10)
+    cardTitle.Position = UDim2.new(0, 16, 0, 14)
     cardTitle.BackgroundTransparency = 1
     cardTitle.Text = "Nyther UI Library"
     cardTitle.TextColor3 = Theme.Text
@@ -1304,8 +1304,8 @@ local function NewInfoTab(page, tabData, config)
     cardTitle.Parent = cardTopRow
 
     local cardSub = Instance.new("TextLabel")
-    cardSub.Size = UDim2.new(0, 280, 0, 18)
-    cardSub.Position = UDim2.new(0, 16, 0, 34)
+    cardSub.Size = UDim2.new(0, 240, 0, 16)
+    cardSub.Position = UDim2.new(0, 16, 0, 38)
     cardSub.BackgroundTransparency = 1
     cardSub.Text = "Cualquier Bug, Informarlo al Discord"
     cardSub.TextColor3 = Theme.Dim
@@ -1326,18 +1326,17 @@ local function NewInfoTab(page, tabData, config)
     cardVer.Parent = cardTopRow
     _regAcc(cardVer, "TextColor3")
 
-    local discordLink = config.discordLink or "Hola"
+    local discordLink = config.discordLink or "https://discord.gg/idephub"
     if discordLink ~= "" then
         local divider = Instance.new("Frame")
-        divider.Size = UDim2.new(1, -32, 0, 1)
-        divider.Position = UDim2.new(0, 16, 0, 0)
+        divider.Size = UDim2.new(1, 0, 0, 1)
         divider.BackgroundColor3 = Theme.Line
         divider.BorderSizePixel = 0
         divider.LayoutOrder = 2
         divider.Parent = card
 
         local discordRow = Instance.new("TextButton")
-        discordRow.Size = UDim2.new(1, 0, 0, 40)
+        discordRow.Size = UDim2.new(1, 0, 0, 72)
         discordRow.BackgroundTransparency = 1
         discordRow.AutoButtonColor = false
         discordRow.Text = ""
@@ -1345,53 +1344,66 @@ local function NewInfoTab(page, tabData, config)
         discordRow.Parent = card
 
         local discordTitleLabel = Instance.new("TextLabel")
-        discordTitleLabel.Size = UDim2.new(0, 200, 0, 18)
-        discordTitleLabel.Position = UDim2.new(0, 16, 0, 6)
+        discordTitleLabel.Size = UDim2.new(1, -56, 0, 20)
+        discordTitleLabel.Position = UDim2.new(0, 16, 0, 14)
         discordTitleLabel.BackgroundTransparency = 1
         discordTitleLabel.Text = config.discordTitle or "Discord"
         discordTitleLabel.TextColor3 = Theme.Text
-        discordTitleLabel.TextSize = 12
-        discordTitleLabel.Font = Enum.Font.GothamBold
+        discordTitleLabel.TextSize = 14
+        discordTitleLabel.Font = Enum.Font.GothamBlack
         discordTitleLabel.TextXAlignment = Enum.TextXAlignment.Left
         discordTitleLabel.Parent = discordRow
 
         local discordSubLabel = Instance.new("TextLabel")
-        discordSubLabel.Size = UDim2.new(0, 200, 0, 14)
-        discordSubLabel.Position = UDim2.new(0, 16, 0, 23)
+        discordSubLabel.Size = UDim2.new(1, -56, 0, 16)
+        discordSubLabel.Position = UDim2.new(0, 16, 0, 38)
         discordSubLabel.BackgroundTransparency = 1
         discordSubLabel.Text = discordLink
         discordSubLabel.TextColor3 = Theme.Accent
-        discordSubLabel.TextSize = 10
+        discordSubLabel.TextSize = 11
         discordSubLabel.Font = Enum.Font.Gotham
         discordSubLabel.TextXAlignment = Enum.TextXAlignment.Left
         discordSubLabel.TextTruncate = Enum.TextTruncate.AtEnd
         discordSubLabel.Parent = discordRow
         _regAcc(discordSubLabel, "TextColor3")
 
-        local copyHint = Instance.new("TextLabel")
-        copyHint.Size = UDim2.new(0, 70, 0, 14)
-        copyHint.Position = UDim2.new(1, -78, 0.5, -7)
-        copyHint.BackgroundTransparency = 1
-        copyHint.Text = "[ copiar ]"
-        copyHint.TextColor3 = Theme.Dim
-        copyHint.TextSize = 9
-        copyHint.Font = Enum.Font.Gotham
-        copyHint.TextXAlignment = Enum.TextXAlignment.Right
-        copyHint.Parent = discordRow
+        local copyIconImg = Instance.new("ImageLabel")
+        copyIconImg.Size = UDim2.new(0, 18, 0, 18)
+        copyIconImg.Position = UDim2.new(1, -38, 0.5, -9)
+        copyIconImg.BackgroundTransparency = 1
+        copyIconImg.ImageColor3 = Theme.Dim
+        copyIconImg.ScaleType = Enum.ScaleType.Fit
+        copyIconImg.Parent = discordRow
+
+        local _copyAsset = getLucideAsset("copy", 32)
+        local _checkAsset = getLucideAsset("check", 32)
+        if _copyAsset then
+            copyIconImg.Image = _copyAsset.Url
+            copyIconImg.ImageRectSize = _copyAsset.ImageRectSize
+            copyIconImg.ImageRectOffset = _copyAsset.ImageRectOffset
+        end
 
         local copied = false
         discordRow.MouseButton1Click:Connect(function()
             if copied then return end
             pcall(function() setclipboard(discordLink) end)
             copied = true
-            copyHint.Text = "✓ copiado"
-            copyHint.TextColor3 = Theme.Good
-            discordSubLabel.TextColor3 = Theme.Good
+            if _checkAsset then
+                copyIconImg.Image = _checkAsset.Url
+                copyIconImg.ImageRectSize = _checkAsset.ImageRectSize
+                copyIconImg.ImageRectOffset = _checkAsset.ImageRectOffset
+            end
+            TweenService:Create(copyIconImg, TweenInfo.new(0.15), { ImageColor3 = Theme.Good }):Play()
+            TweenService:Create(discordSubLabel, TweenInfo.new(0.15), { TextColor3 = Theme.Good }):Play()
             task.delay(2, function()
-                if copyHint and copyHint.Parent then
-                    copyHint.Text = "[ copiar ]"
-                    copyHint.TextColor3 = Theme.Dim
-                    discordSubLabel.TextColor3 = Theme.Accent
+                if copyIconImg and copyIconImg.Parent then
+                    if _copyAsset then
+                        copyIconImg.Image = _copyAsset.Url
+                        copyIconImg.ImageRectSize = _copyAsset.ImageRectSize
+                        copyIconImg.ImageRectOffset = _copyAsset.ImageRectOffset
+                    end
+                    TweenService:Create(copyIconImg, TweenInfo.new(0.15), { ImageColor3 = Theme.Dim }):Play()
+                    TweenService:Create(discordSubLabel, TweenInfo.new(0.15), { TextColor3 = Theme.Accent }):Play()
                 end
                 copied = false
             end)
@@ -1400,9 +1412,15 @@ local function NewInfoTab(page, tabData, config)
         discordRow.MouseEnter:Connect(function()
             discordRow.BackgroundColor3 = Theme.Hover
             TweenService:Create(discordRow, TweenInfo.new(0.12), { BackgroundTransparency = 0.85 }):Play()
+            if not copied then
+                TweenService:Create(copyIconImg, TweenInfo.new(0.12), { ImageColor3 = Theme.Text }):Play()
+            end
         end)
         discordRow.MouseLeave:Connect(function()
             TweenService:Create(discordRow, TweenInfo.new(0.12), { BackgroundTransparency = 1 }):Play()
+            if not copied then
+                TweenService:Create(copyIconImg, TweenInfo.new(0.12), { ImageColor3 = Theme.Dim }):Play()
+            end
         end)
     end
 
