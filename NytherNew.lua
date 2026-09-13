@@ -1326,7 +1326,7 @@ local function NewInfoTab(page, tabData, config)
     cardVer.Parent = cardTopRow
     _regAcc(cardVer, "TextColor3")
 
-    local discordLink = config.discordLink or "https://discord.gg/idephub"
+    local discordLink = config.discordLink or "https://discord.gg/q6Ebn2FKq9"
     if discordLink ~= "" then
         local divider = Instance.new("Frame")
         divider.Size = UDim2.new(1, 0, 0, 1)
