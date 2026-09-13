@@ -1183,67 +1183,6 @@ local function NewInfoTab(page, tabData, config)
     dashTitle.Parent = page
     _regAcc(dashTitle, "TextColor3")
 
-    local paletteTitle = Instance.new("TextLabel")
-    paletteTitle.Size = UDim2.new(1, 0, 0, 20)
-    paletteTitle.BackgroundTransparency = 1
-    paletteTitle.Text = "PALETA RÁPIDA"
-    paletteTitle.TextColor3 = Theme.Accent
-    paletteTitle.TextSize = 10
-    paletteTitle.Font = Enum.Font.GothamBold
-    paletteTitle.TextXAlignment = Enum.TextXAlignment.Left
-    paletteTitle.Parent = page
-    _regAcc(paletteTitle, "TextColor3")
-
-    local paletteFrame = Instance.new("Frame")
-    paletteFrame.Size = UDim2.new(1, 0, 0, 48)
-    paletteFrame.BackgroundTransparency = 1
-    paletteFrame.Parent = page
-
-    local paletteLayout = Instance.new("UIListLayout")
-    paletteLayout.FillDirection = Enum.FillDirection.Horizontal
-    paletteLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    paletteLayout.Padding = UDim.new(0, 8)
-    paletteLayout.VerticalAlignment = Enum.VerticalAlignment.Center
-    paletteLayout.Parent = paletteFrame
-
-    local presets = {
-        Color3.fromRGB(41, 255, 244),
-        Color3.fromRGB(120, 80, 255),
-        Color3.fromRGB(255, 80, 120),
-        Color3.fromRGB(255, 160, 40),
-        Color3.fromRGB(80, 200, 120),
-        Color3.fromRGB(255, 255, 80),
-    }
-
-    for i, col in ipairs(presets) do
-        local dot = Instance.new("TextButton")
-        dot.Size = UDim2.new(0, 36, 0, 36)
-        dot.BackgroundColor3 = col
-        dot.BorderSizePixel = 0
-        dot.Text = ""
-        dot.AutoButtonColor = false
-        dot.LayoutOrder = i
-        dot.Parent = paletteFrame
-        Instance.new("UICorner", dot).CornerRadius = UDim.new(1, 0)
-
-        local dotStroke = Instance.new("UIStroke")
-        dotStroke.Color = Color3.fromRGB(60, 54, 48)
-        dotStroke.Thickness = 1.5
-        dotStroke.Parent = dot
-
-        dot.MouseEnter:Connect(function()
-            TweenService:Create(dot, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Size = UDim2.new(0, 40, 0, 40) }):Play()
-            TweenService:Create(dotStroke, TweenInfo.new(0.15), { Color = Theme.Text }):Play()
-        end)
-        dot.MouseLeave:Connect(function()
-            TweenService:Create(dot, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Size = UDim2.new(0, 36, 0, 36) }):Play()
-            TweenService:Create(dotStroke, TweenInfo.new(0.15), { Color = Color3.fromRGB(60, 54, 48) }):Play()
-        end)
-        dot.MouseButton1Click:Connect(function()
-            setAccentColor(col)
-        end)
-    end
-
     local headerFrame = Instance.new("Frame")
     headerFrame.Size = UDim2.new(1, 0, 0, 70)
     headerFrame.BackgroundTransparency = 1
@@ -1348,7 +1287,7 @@ local function NewInfoTab(page, tabData, config)
     cardLayout.Parent = card
 
     local cardTopRow = Instance.new("Frame")
-    cardTopRow.Size = UDim2.new(1, 0, 0, 52)
+    cardTopRow.Size = UDim2.new(1, 0, 0, 72)
     cardTopRow.BackgroundTransparency = 1
     cardTopRow.LayoutOrder = 1
     cardTopRow.Parent = card
@@ -1365,8 +1304,8 @@ local function NewInfoTab(page, tabData, config)
     cardTitle.Parent = cardTopRow
 
     local cardSub = Instance.new("TextLabel")
-    cardSub.Size = UDim2.new(0, 280, 0, 16)
-    cardSub.Position = UDim2.new(0, 16, 0, 30)
+    cardSub.Size = UDim2.new(0, 280, 0, 18)
+    cardSub.Position = UDim2.new(0, 16, 0, 34)
     cardSub.BackgroundTransparency = 1
     cardSub.Text = "Cualquier Bug, Informarlo al Discord"
     cardSub.TextColor3 = Theme.Dim
@@ -1377,7 +1316,7 @@ local function NewInfoTab(page, tabData, config)
 
     local cardVer = Instance.new("TextLabel")
     cardVer.Size = UDim2.new(0, 60, 0, 16)
-    cardVer.Position = UDim2.new(1, -80, 0, 18)
+    cardVer.Position = UDim2.new(1, -80, 0, 28)
     cardVer.BackgroundTransparency = 1
     cardVer.Text = "v 2.0"
     cardVer.TextColor3 = Theme.Accent
@@ -1387,7 +1326,7 @@ local function NewInfoTab(page, tabData, config)
     cardVer.Parent = cardTopRow
     _regAcc(cardVer, "TextColor3")
 
-    local discordLink = config.discordLink or ""
+    local discordLink = config.discordLink or "Hola"
     if discordLink ~= "" then
         local divider = Instance.new("Frame")
         divider.Size = UDim2.new(1, -32, 0, 1)
@@ -1398,42 +1337,31 @@ local function NewInfoTab(page, tabData, config)
         divider.Parent = card
 
         local discordRow = Instance.new("TextButton")
-        discordRow.Size = UDim2.new(1, 0, 0, 38)
+        discordRow.Size = UDim2.new(1, 0, 0, 40)
         discordRow.BackgroundTransparency = 1
         discordRow.AutoButtonColor = false
-        discordRow.Text = "Test"
+        discordRow.Text = ""
         discordRow.LayoutOrder = 3
         discordRow.Parent = card
 
-        local discordIcon = Instance.new("TextLabel")
-        discordIcon.Size = UDim2.new(0, 20, 0, 20)
-        discordIcon.Position = UDim2.new(0, 14, 0.5, -10)
-        discordIcon.BackgroundTransparency = 1
-        discordIcon.Text = "💬"
-        discordIcon.TextSize = 14
-        discordIcon.Font = Enum.Font.GothamBold
-        discordIcon.TextXAlignment = Enum.TextXAlignment.Center
-        discordIcon.TextYAlignment = Enum.TextYAlignment.Center
-        discordIcon.Parent = discordRow
-
-        local discordTitle = Instance.new("TextLabel")
-        discordTitle.Size = UDim2.new(0, 160, 0, 18)
-        discordTitle.Position = UDim2.new(0, 38, 0, 5)
-        discordTitle.BackgroundTransparency = 1
-        discordTitle.Text = config.discordTitle or "Discord"
-        discordTitle.TextColor3 = Theme.Text
-        discordTitle.TextSize = 12
-        discordTitle.Font = Enum.Font.GothamBold
-        discordTitle.TextXAlignment = Enum.TextXAlignment.Left
-        discordTitle.Parent = discordRow
+        local discordTitleLabel = Instance.new("TextLabel")
+        discordTitleLabel.Size = UDim2.new(0, 200, 0, 18)
+        discordTitleLabel.Position = UDim2.new(0, 16, 0, 6)
+        discordTitleLabel.BackgroundTransparency = 1
+        discordTitleLabel.Text = config.discordTitle or "Discord"
+        discordTitleLabel.TextColor3 = Theme.Text
+        discordTitleLabel.TextSize = 12
+        discordTitleLabel.Font = Enum.Font.GothamBold
+        discordTitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+        discordTitleLabel.Parent = discordRow
 
         local discordSubLabel = Instance.new("TextLabel")
         discordSubLabel.Size = UDim2.new(0, 200, 0, 14)
-        discordSubLabel.Position = UDim2.new(0, 38, 0, 22)
+        discordSubLabel.Position = UDim2.new(0, 16, 0, 23)
         discordSubLabel.BackgroundTransparency = 1
         discordSubLabel.Text = discordLink
         discordSubLabel.TextColor3 = Theme.Accent
-        discordSubLabel.TextSize = 9
+        discordSubLabel.TextSize = 10
         discordSubLabel.Font = Enum.Font.Gotham
         discordSubLabel.TextXAlignment = Enum.TextXAlignment.Left
         discordSubLabel.TextTruncate = Enum.TextTruncate.AtEnd
@@ -1456,13 +1384,12 @@ local function NewInfoTab(page, tabData, config)
             if copied then return end
             pcall(function() setclipboard(discordLink) end)
             copied = true
-            local prev = copyHint.Text
             copyHint.Text = "✓ copiado"
             copyHint.TextColor3 = Theme.Good
             discordSubLabel.TextColor3 = Theme.Good
             task.delay(2, function()
                 if copyHint and copyHint.Parent then
-                    copyHint.Text = prev
+                    copyHint.Text = "[ copiar ]"
                     copyHint.TextColor3 = Theme.Dim
                     discordSubLabel.TextColor3 = Theme.Accent
                 end
@@ -1471,11 +1398,72 @@ local function NewInfoTab(page, tabData, config)
         end)
 
         discordRow.MouseEnter:Connect(function()
-            TweenService:Create(discordRow, TweenInfo.new(0.12), { BackgroundTransparency = 0.85 }):Play()
             discordRow.BackgroundColor3 = Theme.Hover
+            TweenService:Create(discordRow, TweenInfo.new(0.12), { BackgroundTransparency = 0.85 }):Play()
         end)
         discordRow.MouseLeave:Connect(function()
             TweenService:Create(discordRow, TweenInfo.new(0.12), { BackgroundTransparency = 1 }):Play()
+        end)
+    end
+
+    local paletteTitle = Instance.new("TextLabel")
+    paletteTitle.Size = UDim2.new(1, 0, 0, 20)
+    paletteTitle.BackgroundTransparency = 1
+    paletteTitle.Text = "PALETA RÁPIDA"
+    paletteTitle.TextColor3 = Theme.Accent
+    paletteTitle.TextSize = 10
+    paletteTitle.Font = Enum.Font.GothamBold
+    paletteTitle.TextXAlignment = Enum.TextXAlignment.Left
+    paletteTitle.Parent = page
+    _regAcc(paletteTitle, "TextColor3")
+
+    local paletteFrame = Instance.new("Frame")
+    paletteFrame.Size = UDim2.new(1, 0, 0, 48)
+    paletteFrame.BackgroundTransparency = 1
+    paletteFrame.Parent = page
+
+    local paletteLayout = Instance.new("UIListLayout")
+    paletteLayout.FillDirection = Enum.FillDirection.Horizontal
+    paletteLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    paletteLayout.Padding = UDim.new(0, 8)
+    paletteLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+    paletteLayout.Parent = paletteFrame
+
+    local presets = {
+        Color3.fromRGB(41, 255, 244),
+        Color3.fromRGB(120, 80, 255),
+        Color3.fromRGB(255, 80, 120),
+        Color3.fromRGB(255, 160, 40),
+        Color3.fromRGB(80, 200, 120),
+        Color3.fromRGB(255, 255, 80),
+    }
+
+    for i, col in ipairs(presets) do
+        local dot = Instance.new("TextButton")
+        dot.Size = UDim2.new(0, 36, 0, 36)
+        dot.BackgroundColor3 = col
+        dot.BorderSizePixel = 0
+        dot.Text = ""
+        dot.AutoButtonColor = false
+        dot.LayoutOrder = i
+        dot.Parent = paletteFrame
+        Instance.new("UICorner", dot).CornerRadius = UDim.new(1, 0)
+
+        local dotStroke = Instance.new("UIStroke")
+        dotStroke.Color = Color3.fromRGB(60, 54, 48)
+        dotStroke.Thickness = 1.5
+        dotStroke.Parent = dot
+
+        dot.MouseEnter:Connect(function()
+            TweenService:Create(dot, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Size = UDim2.new(0, 40, 0, 40) }):Play()
+            TweenService:Create(dotStroke, TweenInfo.new(0.15), { Color = Theme.Text }):Play()
+        end)
+        dot.MouseLeave:Connect(function()
+            TweenService:Create(dot, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Size = UDim2.new(0, 36, 0, 36) }):Play()
+            TweenService:Create(dotStroke, TweenInfo.new(0.15), { Color = Color3.fromRGB(60, 54, 48) }):Play()
+        end)
+        dot.MouseButton1Click:Connect(function()
+            setAccentColor(col)
         end)
     end
 
