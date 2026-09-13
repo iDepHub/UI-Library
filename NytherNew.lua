@@ -74,28 +74,28 @@ screenGui.Parent         = playerGui
 local WINDOW_SIZE = UDim2.new(0, 480, 0, 420)
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Name              = "MainFrame"
-mainFrame.Size              = UDim2.new(0, 0, 0, 0)
-mainFrame.AnchorPoint = Vector2.new(0, 0)
-mainFrame.Position          = UDim2.new(0.5, 0, 0.5, 0)
+mainFrame.Name                   = "MainFrame"
+mainFrame.Size                   = UDim2.new(0, 0, 0, 0)
+mainFrame.AnchorPoint            = Vector2.new(0, 0)
+mainFrame.Position               = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.BackgroundTransparency = 1
-mainFrame.BorderSizePixel   = 0
-mainFrame.ClipsDescendants  = true
-mainFrame.Parent            = screenGui
-
-local bgImage = Instance.new("ImageLabel")
-bgImage.Name                = "Background"
-bgImage.Size                = UDim2.new(1, 0, 1, 0)
-bgImage.Position            = UDim2.new(0, 0, 0, 0)
-bgImage.BackgroundTransparency = 1
-bgImage.Image               = "rbxassetid://120909249875543" 
-bgImage.ScaleType           = Enum.ScaleType.Crop
-bgImage.ZIndex              = 1
-bgImage.Parent              = mainFrame
+mainFrame.BorderSizePixel        = 0
+mainFrame.ClipsDescendants       = true
+mainFrame.Parent                 = screenGui
 
 local mainCorner = Instance.new("UICorner")
 mainCorner.CornerRadius = UDim.new(0, 8)
 mainCorner.Parent = mainFrame
+
+local bgImage = Instance.new("ImageLabel")
+bgImage.Name                   = "Background"
+bgImage.Size                   = UDim2.new(1, 0, 1, 0)
+bgImage.Position               = UDim2.new(0, 0, 0, 0)
+bgImage.BackgroundTransparency = 1
+bgImage.Image                  = "rbxassetid://81051720367511"
+bgImage.ScaleType              = Enum.ScaleType.Crop
+bgImage.ZIndex                 = 1
+bgImage.Parent                 = mainFrame
 
 local function CenterWindow()
     local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
@@ -122,43 +122,18 @@ topLine.ZIndex           = 6
 topLine.Parent           = topBar
 
 local LogoWrap = Instance.new("Frame")
-LogoWrap.Size             = UDim2.new(0, 20, 0, 20)
-LogoWrap.Position         = UDim2.new(0, 20, 0, 17)
-LogoWrap.Rotation         = 45
+LogoWrap.Size                   = UDim2.new(0, 28, 0, 28)
+LogoWrap.Position               = UDim2.new(0, 14, 0, 13)
 LogoWrap.BackgroundTransparency = 1
-LogoWrap.Parent           = topBar
+LogoWrap.Parent                 = topBar
 
-local Logo = Instance.new("Frame")
-Logo.Size             = UDim2.new(1, 0, 1, 0)
-Logo.BorderSizePixel  = 0
-Logo.Parent           = LogoWrap
-local LogoCorner = Instance.new("UICorner")
-LogoCorner.CornerRadius = UDim.new(0, 5)
-LogoCorner.Parent = Logo
-
-local LogoGrad = Instance.new("UIGradient")
-LogoGrad.Color    = ColorSequence.new(Theme.Accent, Theme.Accent)
-LogoGrad.Rotation = 45
-LogoGrad.Parent   = Logo
-table.insert(_customAccentCallbacks, function(c)
-    LogoGrad.Color = ColorSequence.new(c, c)
-end)
-
-local LogoCore = Instance.new("Frame")
-LogoCore.Size             = UDim2.new(0, 8, 0, 8)
-LogoCore.Position         = UDim2.new(0.5, -4, 0.5, -4)
-LogoCore.BackgroundColor3 = Theme.Base
-LogoCore.BorderSizePixel  = 0
-LogoCore.Parent           = Logo
-local LogoCoreCorner = Instance.new("UICorner")
-LogoCoreCorner.CornerRadius = UDim.new(0, 2)
-LogoCoreCorner.Parent = LogoCore
-
-RunService.RenderStepped:Connect(function(dt)
-    if LogoWrap and LogoWrap.Parent then
-        LogoWrap.Rotation = (LogoWrap.Rotation + dt * 48) % 360
-    end
-end)
+local iconDH = Instance.new("ImageLabel")
+iconDH.Size                   = UDim2.new(1, 0, 1, 0)
+iconDH.BackgroundTransparency = 1
+iconDH.Image                  = "rbxassetid://81051720367511"
+iconDH.ScaleType              = Enum.ScaleType.Fit
+iconDH.ZIndex                 = 6
+iconDH.Parent                 = LogoWrap
 
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size               = UDim2.new(0, 260, 0, 20)
@@ -232,25 +207,30 @@ task.spawn(function()
 end)
 
 local closeBtn = Instance.new("TextButton")
-closeBtn.Size             = UDim2.new(0, 28, 0, 28)
-closeBtn.Position         = UDim2.new(1, -42, 0, 13)
+closeBtn.Size                   = UDim2.new(0, 28, 0, 28)
+closeBtn.Position               = UDim2.new(1, -42, 0, 13)
 closeBtn.BackgroundTransparency = 1
-closeBtn.Text             = "X"
-closeBtn.TextColor3       = Theme.Dim
-closeBtn.TextSize         = 15
-closeBtn.Font             = Enum.Font.GothamBold
-closeBtn.AutoButtonColor  = false
-closeBtn.ZIndex           = 8
-closeBtn.Parent           = topBar
+closeBtn.Text                   = ""
+closeBtn.AutoButtonColor        = false
+closeBtn.ZIndex                 = 8
+closeBtn.Parent                 = topBar
 local closeCorner = Instance.new("UICorner")
 closeCorner.CornerRadius = UDim.new(0, 6)
 closeCorner.Parent = closeBtn
 
+local closeIconDH = Instance.new("ImageLabel")
+closeIconDH.Size                   = UDim2.new(1, 0, 1, 0)
+closeIconDH.BackgroundTransparency = 1
+closeIconDH.Image                  = "rbxassetid://81051720367511"
+closeIconDH.ScaleType              = Enum.ScaleType.Fit
+closeIconDH.ZIndex                 = 9
+closeIconDH.Parent                 = closeBtn
+
 closeBtn.MouseEnter:Connect(function()
-    TweenService:Create(closeBtn, TweenInfo.new(0.15), { TextColor3 = Color3.fromRGB(255, 50, 50) }):Play()
+    TweenService:Create(closeIconDH, TweenInfo.new(0.15), { ImageTransparency = 0.4 }):Play()
 end)
 closeBtn.MouseLeave:Connect(function()
-    TweenService:Create(closeBtn, TweenInfo.new(0.15), { TextColor3 = Theme.Dim }):Play()
+    TweenService:Create(closeIconDH, TweenInfo.new(0.15), { ImageTransparency = 0 }):Play()
 end)
 
 local Scan = Instance.new("Frame")
@@ -2492,7 +2472,7 @@ end
 local function setEyeHidden(v)
     eyeHidden = v
     if not eyeGui then return end
-    local btn = eyeGui:FindFirstChild("EyeBtn")
+    local btn = eyeGui:FindFirstChild("iDepHubBtn")
     if not btn then return end
     local stroke = btn:FindFirstChildWhichIsA("UIStroke")
     applyEyeVisibility(btn, stroke, eyeHidden)
@@ -2502,13 +2482,13 @@ local function createEyeIcon()
     if eyeGui then eyeGui:Destroy() end
 
     local sg = Instance.new("ScreenGui")
-    sg.Name           = "NytherEyeIcon"
+    sg.Name           = "iDepHubIcon"
     sg.ResetOnSpawn   = false
     sg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     sg.DisplayOrder   = 998
 
     local btn = Instance.new("TextButton")
-    btn.Name               = "EyeBtn"
+    btn.Name               = "iDepHubBtn"
     btn.Size               = UDim2.new(0, 52, 0, 52)
     btn.Position           = eyeLastPos
     btn.AnchorPoint        = Vector2.new(0, 0)
@@ -2521,38 +2501,20 @@ local function createEyeIcon()
     btn.Parent             = sg
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 13)
 
-    local eyeStroke = Instance.new("UIStroke")
-    eyeStroke.Color     = Theme.Accent
-    eyeStroke.Thickness = 1.5
-    eyeStroke.Parent    = btn
-    table.insert(_accentObjs, {eyeStroke, "Color"})
+    local iconDHStroke = Instance.new("UIStroke")
+    iconDHStroke.Color     = Theme.Accent
+    iconDHStroke.Thickness = 1.5
+    iconDHStroke.Parent    = btn
+    table.insert(_accentObjs, {iconDHStroke, "Color"})
 
-    local eyeAsset = getLucideAsset("eye", 48)
-    if eyeAsset then
-        local img = Instance.new("ImageLabel")
-        img.Size              = UDim2.new(0, 26, 0, 26)
-        img.Position          = UDim2.new(0.5, -13, 0.5, -13)
-        img.BackgroundTransparency = 1
-        img.Image             = eyeAsset.Url
-        img.ImageRectSize     = eyeAsset.ImageRectSize
-        img.ImageRectOffset   = eyeAsset.ImageRectOffset
-        img.ScaleType         = Enum.ScaleType.Fit
-        img.ImageColor3       = Theme.Accent
-        img.ZIndex            = 6
-        img.Parent            = btn
-        table.insert(_accentObjs, {img, "ImageColor3"})
-    else
-        local lbl = Instance.new("TextLabel")
-        lbl.Size                 = UDim2.new(1, 0, 1, 0)
-        lbl.BackgroundTransparency = 1
-        lbl.Text                 = "👁"
-        lbl.TextSize             = 22
-        lbl.Font                 = Enum.Font.GothamBold
-        lbl.TextXAlignment       = Enum.TextXAlignment.Center
-        lbl.TextYAlignment       = Enum.TextYAlignment.Center
-        lbl.ZIndex               = 6
-        lbl.Parent               = btn
-    end
+    local iconDHImg = Instance.new("ImageLabel")
+    iconDHImg.Size                   = UDim2.new(0, 20, 0, 20)
+    iconDHImg.Position               = UDim2.new(0.5, -10, 0.5, -10)
+    iconDHImg.BackgroundTransparency = 1
+    iconDHImg.Image                  = "rbxassetid://81051720367511"
+    iconDHImg.ScaleType              = Enum.ScaleType.Fit
+    iconDHImg.ZIndex                 = 6
+    iconDHImg.Parent                 = btn
 
     local dragging, dragStart, startPos = false, nil, nil
 
@@ -2595,7 +2557,7 @@ local function createEyeIcon()
     if not ok then sg.Parent = playerGui end
     eyeGui = sg
 
-    applyEyeVisibility(btn, eyeStroke, eyeHidden)
+    applyEyeVisibility(btn, iconDHStroke, eyeHidden)
 end
 
 
