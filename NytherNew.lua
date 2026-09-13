@@ -106,12 +106,12 @@ local function CenterWindow()
 end
 
 local topBar = Instance.new("Frame")
-topBar.Name             = "TopBar"
-topBar.Size             = UDim2.new(1, 0, 0, 54)
-topBar.BackgroundColor3 = Theme.Panel
-topBar.BorderSizePixel  = 0
-topBar.ZIndex           = 5
-topBar.Parent           = mainFrame
+topBar.Name                   = "TopBar"
+topBar.Size                   = UDim2.new(1, 0, 0, 54)
+topBar.BackgroundTransparency = 1
+topBar.BorderSizePixel        = 0
+topBar.ZIndex                 = 5
+topBar.Parent                 = mainFrame
 
 local topLine = Instance.new("Frame")
 topLine.Size             = UDim2.new(1, 0, 0, 1)
@@ -260,11 +260,11 @@ bodyFrame.BorderSizePixel   = 0
 bodyFrame.Parent            = mainFrame
 
 local sidebar = Instance.new("Frame")
-sidebar.Name             = "Sidebar"
-sidebar.Size             = UDim2.new(0, 146, 1, 0)
-sidebar.BackgroundColor3 = Theme.Base
-sidebar.BorderSizePixel  = 0
-sidebar.Parent           = bodyFrame
+sidebar.Name                   = "Sidebar"
+sidebar.Size                   = UDim2.new(0, 146, 1, 0)
+sidebar.BackgroundTransparency = 1
+sidebar.BorderSizePixel        = 0
+sidebar.Parent                 = bodyFrame
 
 local sidebarLine = Instance.new("Frame")
 sidebarLine.Size             = UDim2.new(0, 1, 1, 0)
@@ -274,11 +274,11 @@ sidebarLine.BorderSizePixel  = 0
 sidebarLine.Parent           = bodyFrame
 
 local sidebarFill = Instance.new("Frame")
-sidebarFill.Size             = UDim2.new(0, 15, 1, 0)
-sidebarFill.Position         = UDim2.new(0, 132, 0, 0)
-sidebarFill.BackgroundColor3 = Theme.Base
-sidebarFill.BorderSizePixel  = 0
-sidebarFill.Parent           = sidebar
+sidebarFill.Size                   = UDim2.new(0, 15, 1, 0)
+sidebarFill.Position               = UDim2.new(0, 132, 0, 0)
+sidebarFill.BackgroundTransparency = 1
+sidebarFill.BorderSizePixel        = 0
+sidebarFill.Parent                 = sidebar
 
 local DividerScan = Instance.new("Frame")
 DividerScan.Size             = UDim2.new(0, 2, 0, 90)
@@ -342,13 +342,13 @@ tabPad.PaddingBottom = UDim.new(0, 8)
 tabPad.Parent        = tabScroll
 
 local contentFrame = Instance.new("Frame")
-contentFrame.Name             = "Content"
-contentFrame.Size             = UDim2.new(1, -146, 1, 0)
-contentFrame.Position         = UDim2.new(0, 146, 0, 0)
-contentFrame.BackgroundColor3 = Theme.Base
-contentFrame.BorderSizePixel  = 0
-contentFrame.ClipsDescendants = true
-contentFrame.Parent           = bodyFrame
+contentFrame.Name                   = "Content"
+contentFrame.Size                   = UDim2.new(1, -146, 1, 0)
+contentFrame.Position               = UDim2.new(0, 146, 0, 0)
+contentFrame.BackgroundTransparency = 1
+contentFrame.BorderSizePixel        = 0
+contentFrame.ClipsDescendants       = true
+contentFrame.Parent                 = bodyFrame
 
 local contentScroll = Instance.new("ScrollingFrame")
 contentScroll.Size                 = UDim2.new(1, 0, 1, 0)
@@ -2483,10 +2483,10 @@ local function createEyeIcon()
     local iconDHStroke = nil
 
     local iconDHImg = Instance.new("ImageLabel")
-    iconDHImg.Size                   = UDim2.new(0, 45, 0, 45)
+    iconDHImg.Size                   = UDim2.new(0, 34, 0, 34)
     iconDHImg.Position               = UDim2.new(0.5, -17, 0.5, -17)
     iconDHImg.BackgroundTransparency = 1
-    iconDHImg.Image                  = "rbxassetid://99173242168462"
+    iconDHImg.Image                  = "rbxassetid://81051720367511"
     iconDHImg.ScaleType              = Enum.ScaleType.Fit
     iconDHImg.ZIndex                 = 6
     iconDHImg.Parent                 = btn
