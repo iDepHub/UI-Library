@@ -150,7 +150,7 @@ local _executorName = (identifyexecutor and identifyexecutor()) or (syn and "Syn
 
 local Pill = Instance.new("Frame")
 Pill.Size = UDim2.new(0, 70, 0, 18)
-Pill.Position = UDim2.new(1, -160, 0, 18)
+Pill.Position = UDim2.new(1, -200, 0, 18)
 Pill.BackgroundColor3 = Theme.Raised
 Pill.BorderSizePixel  = 0
 Pill.Parent           = topBar
