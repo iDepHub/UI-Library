@@ -57,9 +57,6 @@ local function setAccentColor(color)
             if td.iconImg then
                 TweenService:Create(td.iconImg, TweenInfo.new(0.12), { ImageColor3 = color }):Play()
             end
-            if td.stroke then
-                TweenService:Create(td.stroke, TweenInfo.new(0.12), { Color = color }):Play()
-            end
         end
     end
 end
@@ -383,18 +380,12 @@ local function SelectTab(target)
         if td.iconImg then
             TweenService:Create(td.iconImg, TweenInfo.new(0.12), {ImageColor3 = Theme.Dim}):Play()
         end
-        if td.stroke then
-            TweenService:Create(td.stroke, TweenInfo.new(0.12), {Color = Theme.Line}):Play()
-        end
         if td.customPanel then td.customPanel.Visible = false end
     end
     target.accent.Visible = true
     TweenService:Create(target.btn,     TweenInfo.new(0.12), {BackgroundColor3 = Theme.Hover, TextColor3 = Theme.Accent}):Play()
     if target.iconImg then
         TweenService:Create(target.iconImg, TweenInfo.new(0.12), {ImageColor3 = Theme.Accent}):Play()
-    end
-    if target.stroke then
-        TweenService:Create(target.stroke, TweenInfo.new(0.12), {Color = Theme.Accent}):Play()
     end
     if target.customPanel then
         target.page.Visible        = false
@@ -424,10 +415,6 @@ local function NewTab(name, icon, order)
     local btnCorner = Instance.new("UICorner")
     btnCorner.CornerRadius = UDim.new(0, 6)
     btnCorner.Parent = btn
-    local btnStroke = Instance.new("UIStroke")
-    btnStroke.Color     = Theme.Line
-    btnStroke.Thickness = 0.5
-    btnStroke.Parent    = btn
 
     local accentBar = Instance.new("Frame")
     accentBar.Name             = "Accent"
@@ -516,14 +503,13 @@ local function NewTab(name, icon, order)
     pagePad.PaddingRight  = UDim.new(0, 16)
     pagePad.Parent        = page
 
-    local tabData = {btn = btn, accent = accentBar, page = page, iconImg = iconImg, customPanel = nil, onTabSelected = nil, stroke = btnStroke}
+    local tabData = {btn = btn, accent = accentBar, page = page, iconImg = iconImg, customPanel = nil, onTabSelected = nil}
     table.insert(registeredTabs, tabData)
 
     btn.MouseButton1Click:Connect(function() SelectTab(tabData) end)
     btn.MouseEnter:Connect(function()
         if page.Visible or (tabData.customPanel and tabData.customPanel.Visible) then return end
         TweenService:Create(btn, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Hover, TextColor3 = Theme.Text}):Play()
-        TweenService:Create(btnStroke, TweenInfo.new(0.1), {Color = Theme.Accent}):Play()
         if iconImg then
             TweenService:Create(iconImg, TweenInfo.new(0.1), {ImageColor3 = Theme.Text}):Play()
         end
@@ -531,7 +517,6 @@ local function NewTab(name, icon, order)
     btn.MouseLeave:Connect(function()
         if page.Visible or (tabData.customPanel and tabData.customPanel.Visible) then return end
         TweenService:Create(btn, TweenInfo.new(0.1), {BackgroundColor3 = Theme.Raised, TextColor3 = Theme.Dim}):Play()
-        TweenService:Create(btnStroke, TweenInfo.new(0.1), {Color = Theme.Line}):Play()
         if iconImg then
             TweenService:Create(iconImg, TweenInfo.new(0.1), {ImageColor3 = Theme.Dim}):Play()
         end
@@ -567,7 +552,8 @@ local function ElemBase(parent, h)
     f.LayoutOrder            = nextOrd()
     f.Parent                 = parent
     Corner(f, 6)
-    return f, nil
+    local s = Stroke(f, Theme.Line, 0.5)
+    return f, s
 end
 
 local function NewSection(parent, title, iconName)
@@ -683,7 +669,7 @@ local function NewToggle(parent, label, sub, default, callback, iconName)
     container.LayoutOrder = nextOrd()
     container.Parent = parent
     Corner(container, 6)
-    local stroke = nil
+    local stroke = Stroke(container, Theme.Line, 0.5)
 
     local labelOffset = 10
     if iconName then
@@ -840,7 +826,7 @@ local function NewSlider(parent, label, sub, minVal, maxVal, default, callback, 
     container.LayoutOrder = nextOrd()
     container.Parent = parent
     Corner(container, 6)
-    local stroke = nil
+    local stroke = Stroke(container, Theme.Line, 0.5)
 
     local labelOffset = 10
     if iconName then
@@ -969,7 +955,7 @@ local function NewButton(parent, label, sub, callback, iconName)
     container.LayoutOrder = nextOrd()
     container.Parent = parent
     Corner(container, 6)
-    local stroke = nil
+    local stroke = Stroke(container, Theme.Line, 0.5)
 
     local labelOffset = 10
     if iconName then
@@ -1048,7 +1034,7 @@ local function NewKeybind(parent, label, sub, defaultKey, callback, iconName)
     container.LayoutOrder = nextOrd()
     container.Parent = parent
     Corner(container, 6)
-    local stroke = nil
+    local stroke = Stroke(container, Theme.Line, 0.5)
 
     local labelOffset = 10
     if iconName then
