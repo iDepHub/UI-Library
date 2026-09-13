@@ -2398,13 +2398,21 @@ local isDragging, dragStart, frameStart = false, nil, nil
 
 topBar.InputBegan:Connect(function(inp)
     if inp.UserInputType == Enum.UserInputType.MouseButton1 or inp.UserInputType == Enum.UserInputType.Touch then
+        -- Convertir a AnchorPoint (0,0) con posición absoluta equivalente ANTES de guardar frameStart
+        -- Así el drag siempre trabaja en offset puro sin saltos
+        local vp = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
+        local absX = mainFrame.Position.X.Scale * vp.X + mainFrame.Position.X.Offset
+        local absY = mainFrame.Position.Y.Scale * vp.Y + mainFrame.Position.Y.Offset
+        -- Con AnchorPoint 0.5,0.5 el offset absoluto es el centro del frame
+        -- Con AnchorPoint 0,0 la esquina superior izquierda sería centro - tamaño/2
+        local cornerX = absX - mainFrame.AbsoluteSize.X / 2
+        local cornerY = absY - mainFrame.AbsoluteSize.Y / 2
+        mainFrame.AnchorPoint = Vector2.new(0, 0)
+        mainFrame.Position = UDim2.new(0, cornerX, 0, cornerY)
+
         isDragging = true
         dragStart = inp.Position
-        -- Guardar la posición absoluta del centro del frame al momento de tomar
-        local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(1920, 1080)
-        local absX = mainFrame.Position.X.Scale * viewport.X + mainFrame.Position.X.Offset
-        local absY = mainFrame.Position.Y.Scale * viewport.Y + mainFrame.Position.Y.Offset
-        frameStart = Vector2.new(absX, absY)
+        frameStart = Vector2.new(cornerX, cornerY)
     end
 end)
 
