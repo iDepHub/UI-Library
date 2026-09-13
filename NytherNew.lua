@@ -2483,7 +2483,7 @@ local function createEyeIcon()
     local iconDHStroke = nil
 
     local iconDHImg = Instance.new("ImageLabel")
-    iconDHImg.Size                   = UDim2.new(0, 45, 0, 45)
+    iconDHImg.Size                   = UDim2.new(0, 50, 0, 50)
     iconDHImg.Position               = UDim2.new(0.5, -17, 0.5, -17)
     iconDHImg.BackgroundTransparency = 1
     iconDHImg.Image                  = "rbxassetid://99173242168462"
