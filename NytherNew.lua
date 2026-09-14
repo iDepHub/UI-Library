@@ -1222,8 +1222,8 @@ local function NewInfoTab(page, tabData, config)
     sub.Position = UDim2.new(0, 0, 0, 50)
     sub.BackgroundTransparency = 1
     sub.Text = "Lo que necesitas solo en iDepHub"
-    sub.TextColor3 = Theme.Dim
-    sub.TextSize = 14
+    sub.TextColor3 = Theme.Accent
+    sub.TextSize = 12
     sub.Font = Enum.Font.Gotham
     sub.TextXAlignment = Enum.TextXAlignment.Left
     sub.Parent = leftContainer
@@ -1311,7 +1311,7 @@ local function NewInfoTab(page, tabData, config)
     cardSub.BackgroundTransparency = 1
     cardSub.Text = "Cualquier Bug, Informarlo al Discord"
     cardSub.TextColor3 = Theme.Dim
-    cardSub.TextSize = 14
+    cardSub.TextSize = 12
     cardSub.Font = Enum.Font.Gotham
     cardSub.TextXAlignment = Enum.TextXAlignment.Left
     cardSub.Parent = cardTopRow
@@ -1431,7 +1431,7 @@ local function NewInfoTab(page, tabData, config)
     paletteTitle.BackgroundTransparency = 1
     paletteTitle.Text = "PALETA RÁPIDA"
     paletteTitle.TextColor3 = Theme.Accent
-    paletteTitle.TextSize = 14
+    paletteTitle.TextSize = 11
     paletteTitle.Font = Enum.Font.GothamBold
     paletteTitle.TextXAlignment = Enum.TextXAlignment.Left
     paletteTitle.Parent = page
