@@ -1221,7 +1221,6 @@ local function NewInfoTab(page, tabData, config)
     sub.Size = UDim2.new(1, 0, 0, 18)
     sub.Position = UDim2.new(0, 0, 0, 50)
     sub.BackgroundTransparency = 1
-    sub.TextColor3 = Theme.Accent
     sub.Text = "Lo que necesitas solo en iDepHub"
     sub.TextColor3 = Theme.Dim
     sub.TextSize = 12
@@ -1433,7 +1432,7 @@ local function NewInfoTab(page, tabData, config)
     paletteTitle.BackgroundTransparency = 1
     paletteTitle.Text = "PALETA RÁPIDA"
     paletteTitle.TextColor3 = Theme.Accent
-    paletteTitle.TextSize = 11
+    paletteTitle.TextSize = 8
     paletteTitle.Font = Enum.Font.GothamBold
     paletteTitle.TextXAlignment = Enum.TextXAlignment.Left
     paletteTitle.Parent = page
