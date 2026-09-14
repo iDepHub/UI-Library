@@ -1199,8 +1199,8 @@ local function NewInfoTab(page, tabData, config)
     greetingSmall.Position = UDim2.new(0, 0, 0, 2)
     greetingSmall.BackgroundTransparency = 1
     greetingSmall.Text = "Hola"
-    greetingSmall.TextColor3 = Theme.Dim
-    greetingSmall.TextSize = 12
+    greetingSmall.TextColor3 = Theme.Text
+    greetingSmall.TextSize = 14
     greetingSmall.Font = Enum.Font.Gotham
     greetingSmall.TextXAlignment = Enum.TextXAlignment.Left
     greetingSmall.Parent = leftContainer
@@ -1223,7 +1223,7 @@ local function NewInfoTab(page, tabData, config)
     sub.BackgroundTransparency = 1
     sub.Text = "Lo que necesitas solo en iDepHub"
     sub.TextColor3 = Theme.Dim
-    sub.TextSize = 11
+    sub.TextSize = 14
     sub.Font = Enum.Font.Gotham
     sub.TextXAlignment = Enum.TextXAlignment.Left
     sub.Parent = leftContainer
@@ -1243,51 +1243,32 @@ local function NewInfoTab(page, tabData, config)
     avatarImage.Parent = avatarContainer
     Instance.new("UICorner", avatarImage).CornerRadius = UDim.new(1, 0)
 
-   local orbitContainer = Instance.new("Frame")
-    orbitContainer.Size = UDim2.new(1, 16, 1, 16)
-    orbitContainer.AnchorPoint = Vector2.new(0.5, 0.5)
-    orbitContainer.Position = UDim2.new(0.5, 0, 0.5, 0)
-    orbitContainer.BackgroundTransparency = 1
-    orbitContainer.BorderSizePixel = 0
-    orbitContainer.ZIndex = 7
-    orbitContainer.Parent = avatarContainer
-
-    local orbitArc = Instance.new("Frame")
-    orbitArc.Size = UDim2.new(0.6, 0, 0, 2)
-    orbitArc.AnchorPoint = Vector2.new(0.5, 0.5)
-    orbitArc.Position = UDim2.new(0.5, 0, 0, 1)
-    orbitArc.BackgroundColor3 = Theme.Accent
-    orbitArc.BorderSizePixel = 0
-    orbitArc.ZIndex = 8
-    orbitArc.Parent = orbitContainer
+    local orbitStroke = Instance.new("UIStroke")
+    orbitStroke.Color = Theme.Accent
+    orbitStroke.Thickness = 1.5
+    orbitStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    orbitStroke.Parent = avatarImage
+    _regAcc(orbitStroke, "Color")
 
     local orbitGrad = Instance.new("UIGradient")
-    orbitGrad.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0,   Theme.Accent),
-    ColorSequenceKeypoint.new(0.5, Theme.Accent),
-    ColorSequenceKeypoint.new(1,   Theme.Accent),
-    })
+    orbitGrad.Color = ColorSequence.new(Theme.Accent, Theme.Accent)
     orbitGrad.Transparency = NumberSequence.new({
-    NumberSequenceKeypoint.new(0,   1),
-    NumberSequenceKeypoint.new(0.5, 0),
-    NumberSequenceKeypoint.new(1,   1),
+        NumberSequenceKeypoint.new(0, 1),
+        NumberSequenceKeypoint.new(0.04, 0),
+        NumberSequenceKeypoint.new(0.1, 0),
+        NumberSequenceKeypoint.new(0.14, 1),
+        NumberSequenceKeypoint.new(1, 1),
     })
-    orbitGrad.Parent = orbitArc
-
+    orbitGrad.Rotation = 0
+    orbitGrad.Parent = orbitStroke
     table.insert(_customAccentCallbacks, function(c)
-    orbitArc.BackgroundColor3 = c
-    orbitGrad.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0,   c),
-        ColorSequenceKeypoint.new(0.5, c),
-        ColorSequenceKeypoint.new(1,   c),
-    })
+        orbitGrad.Color = ColorSequence.new(c, c)
     end)
-
     table.insert(activeConns, RunService.RenderStepped:Connect(function(dt)
-    if orbitContainer and orbitContainer.Parent then
-        orbitContainer.Rotation = (orbitContainer.Rotation + dt * 90) % 360
-    end
-end))
+        if orbitGrad and orbitStroke and orbitStroke.Parent then
+            orbitGrad.Rotation = (orbitGrad.Rotation + dt * 90) % 360
+        end
+    end))
 
     local card = Instance.new("Frame")
     card.Size = UDim2.new(1, 0, 0, 0)
@@ -1330,7 +1311,7 @@ end))
     cardSub.BackgroundTransparency = 1
     cardSub.Text = "Cualquier Bug, Informarlo al Discord"
     cardSub.TextColor3 = Theme.Dim
-    cardSub.TextSize = 11
+    cardSub.TextSize = 14
     cardSub.Font = Enum.Font.Gotham
     cardSub.TextXAlignment = Enum.TextXAlignment.Left
     cardSub.Parent = cardTopRow
@@ -1381,7 +1362,7 @@ end))
         discordSubLabel.BackgroundTransparency = 1
         discordSubLabel.Text = discordLink
         discordSubLabel.TextColor3 = Theme.Accent
-        discordSubLabel.TextSize = 11
+        discordSubLabel.TextSize = 14
         discordSubLabel.Font = Enum.Font.Gotham
         discordSubLabel.TextXAlignment = Enum.TextXAlignment.Left
         discordSubLabel.TextTruncate = Enum.TextTruncate.AtEnd
@@ -1450,7 +1431,7 @@ end))
     paletteTitle.BackgroundTransparency = 1
     paletteTitle.Text = "PALETA RÁPIDA"
     paletteTitle.TextColor3 = Theme.Accent
-    paletteTitle.TextSize = 10
+    paletteTitle.TextSize = 14
     paletteTitle.Font = Enum.Font.GothamBold
     paletteTitle.TextXAlignment = Enum.TextXAlignment.Left
     paletteTitle.Parent = page
