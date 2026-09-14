@@ -1244,16 +1244,18 @@ local function NewInfoTab(page, tabData, config)
     Instance.new("UICorner", avatarImage).CornerRadius = UDim.new(1, 0)
 
    local orbitContainer = Instance.new("Frame")
-    orbitContainer.Size = UDim2.new(1, 0, 1, 0)
+    orbitContainer.Size = UDim2.new(1, 16, 1, 16)
+    orbitContainer.AnchorPoint = Vector2.new(0.5, 0.5)
+    orbitContainer.Position = UDim2.new(0.5, 0, 0.5, 0)
     orbitContainer.BackgroundTransparency = 1
     orbitContainer.BorderSizePixel = 0
     orbitContainer.ZIndex = 7
     orbitContainer.Parent = avatarContainer
 
     local orbitArc = Instance.new("Frame")
-    orbitArc.Size = UDim2.new(1, 0, 0, 2)
+    orbitArc.Size = UDim2.new(0.6, 0, 0, 2)
     orbitArc.AnchorPoint = Vector2.new(0.5, 0.5)
-    orbitArc.Position = UDim2.new(0.5, 0, 0.5, 0)
+    orbitArc.Position = UDim2.new(0.5, 0, 0, 1)
     orbitArc.BackgroundColor3 = Theme.Accent
     orbitArc.BorderSizePixel = 0
     orbitArc.ZIndex = 8
@@ -1278,14 +1280,14 @@ local function NewInfoTab(page, tabData, config)
         ColorSequenceKeypoint.new(0,   c),
         ColorSequenceKeypoint.new(0.5, c),
         ColorSequenceKeypoint.new(1,   c),
-        })
+    })
     end)
 
     table.insert(activeConns, RunService.RenderStepped:Connect(function(dt)
     if orbitContainer and orbitContainer.Parent then
         orbitContainer.Rotation = (orbitContainer.Rotation + dt * 90) % 360
-        end
-    end))
+    end
+end))
 
     local card = Instance.new("Frame")
     card.Size = UDim2.new(1, 0, 0, 0)
