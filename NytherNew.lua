@@ -1352,7 +1352,7 @@ local function NewInfoTab(page, tabData, config)
         discordTitleLabel.BackgroundTransparency = 1
         discordTitleLabel.Text = config.discordTitle or "Discord"
         discordTitleLabel.TextColor3 = Theme.Text
-        discordTitleLabel.TextSize = 14
+        discordTitleLabel.TextSize = 12
         discordTitleLabel.Font = Enum.Font.GothamBlack
         discordTitleLabel.TextXAlignment = Enum.TextXAlignment.Left
         discordTitleLabel.Parent = discordRow
@@ -1432,7 +1432,7 @@ local function NewInfoTab(page, tabData, config)
     paletteTitle.BackgroundTransparency = 1
     paletteTitle.Text = "PALETA RÁPIDA"
     paletteTitle.TextColor3 = Theme.Accent
-    paletteTitle.TextSize = 8
+    paletteTitle.TextSize = 10
     paletteTitle.Font = Enum.Font.GothamBold
     paletteTitle.TextXAlignment = Enum.TextXAlignment.Left
     paletteTitle.Parent = page
