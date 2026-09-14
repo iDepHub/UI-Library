@@ -1221,12 +1221,14 @@ local function NewInfoTab(page, tabData, config)
     sub.Size = UDim2.new(1, 0, 0, 18)
     sub.Position = UDim2.new(0, 0, 0, 50)
     sub.BackgroundTransparency = 1
-    sub.Text = "Lo que necesitas solo en iDepHub"
     sub.TextColor3 = Theme.Accent
+    sub.Text = "Lo que necesitas solo en iDepHub"
+    sub.TextColor3 = Theme.Dim
     sub.TextSize = 12
     sub.Font = Enum.Font.Gotham
     sub.TextXAlignment = Enum.TextXAlignment.Left
     sub.Parent = leftContainer
+    _regAcc(sub, "TextColor3")
 
     local avatarContainer = Instance.new("Frame")
     avatarContainer.Size = UDim2.new(0, 72, 0, 72)
