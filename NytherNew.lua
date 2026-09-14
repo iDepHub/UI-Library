@@ -1243,30 +1243,47 @@ local function NewInfoTab(page, tabData, config)
     avatarImage.Parent = avatarContainer
     Instance.new("UICorner", avatarImage).CornerRadius = UDim.new(1, 0)
 
-    local orbitStroke = Instance.new("UIStroke")
-    orbitStroke.Color = Theme.Accent
-    orbitStroke.Thickness = 1.5
-    orbitStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    orbitStroke.Parent = avatarImage
-    _regAcc(orbitStroke, "Color")
+   local orbitContainer = Instance.new("Frame")
+    orbitContainer.Size = UDim2.new(1, 0, 1, 0)
+    orbitContainer.BackgroundTransparency = 1
+    orbitContainer.BorderSizePixel = 0
+    orbitContainer.ZIndex = 7
+    orbitContainer.Parent = avatarContainer
+
+    local orbitArc = Instance.new("Frame")
+    orbitArc.Size = UDim2.new(1, 0, 0, 2)
+    orbitArc.AnchorPoint = Vector2.new(0.5, 0.5)
+    orbitArc.Position = UDim2.new(0.5, 0, 0.5, 0)
+    orbitArc.BackgroundColor3 = Theme.Accent
+    orbitArc.BorderSizePixel = 0
+    orbitArc.ZIndex = 8
+    orbitArc.Parent = orbitContainer
 
     local orbitGrad = Instance.new("UIGradient")
-    orbitGrad.Color = ColorSequence.new(Theme.Accent, Theme.Accent)
-    orbitGrad.Transparency = NumberSequence.new({
-        NumberSequenceKeypoint.new(0, 1),
-        NumberSequenceKeypoint.new(0.04, 0),
-        NumberSequenceKeypoint.new(0.1, 0),
-        NumberSequenceKeypoint.new(0.14, 1),
-        NumberSequenceKeypoint.new(1, 1),
+    orbitGrad.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0,   Theme.Accent),
+    ColorSequenceKeypoint.new(0.5, Theme.Accent),
+    ColorSequenceKeypoint.new(1,   Theme.Accent),
     })
-    orbitGrad.Rotation = 0
-    orbitGrad.Parent = orbitStroke
+    orbitGrad.Transparency = NumberSequence.new({
+    NumberSequenceKeypoint.new(0,   1),
+    NumberSequenceKeypoint.new(0.5, 0),
+    NumberSequenceKeypoint.new(1,   1),
+    })
+    orbitGrad.Parent = orbitArc
+
     table.insert(_customAccentCallbacks, function(c)
-        orbitGrad.Color = ColorSequence.new(c, c)
+    orbitArc.BackgroundColor3 = c
+    orbitGrad.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0,   c),
+        ColorSequenceKeypoint.new(0.5, c),
+        ColorSequenceKeypoint.new(1,   c),
+        })
     end)
+
     table.insert(activeConns, RunService.RenderStepped:Connect(function(dt)
-        if orbitGrad and orbitStroke and orbitStroke.Parent then
-            orbitGrad.Rotation = (orbitGrad.Rotation + dt * 90) % 360
+    if orbitContainer and orbitContainer.Parent then
+        orbitContainer.Rotation = (orbitContainer.Rotation + dt * 90) % 360
         end
     end))
 
