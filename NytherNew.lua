@@ -534,6 +534,7 @@ local function Stroke(parent, color, thickness)
     local s = Instance.new("UIStroke")
     s.Color = color or Theme.Line
     s.Thickness = thickness or 0.5
+    s.Transparency = 1
     s.Parent = parent
     return s
 end
