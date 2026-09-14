@@ -1280,6 +1280,7 @@ local function NewInfoTab(page, tabData, config)
     local cardStroke = Instance.new("UIStroke")
     cardStroke.Color = Theme.Line
     cardStroke.Thickness = 0.5
+    cardStroke.Transparency = 1
     cardStroke.Parent = card
 
     local cardLayout = Instance.new("UIListLayout")
