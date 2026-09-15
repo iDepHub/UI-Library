@@ -2308,7 +2308,7 @@ local function createEyeIcon()
     iconDHImg.Size                   = UDim2.new(0, 50, 0, 55)
     iconDHImg.Position               = UDim2.new(0.5, -17, 0.5, -17)
     iconDHImg.BackgroundTransparency = 1
-    iconDHImg.Image                  = "rbxassetid://102308247044230"
+    iconDHImg.Image                  = "rbxassetid://123441076471534"
     iconDHImg.ScaleType              = Enum.ScaleType.Fit
     iconDHImg.ZIndex                 = 6
     iconDHImg.Parent                 = btn
